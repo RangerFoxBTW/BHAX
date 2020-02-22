@@ -26,6 +26,7 @@
             </otheraddr>
         </address>
     </author>   
+
     <author>
         <personname>       
             <surname>Bátfai</surname>
@@ -73,4 +74,26 @@
             </address>
         </affiliation>               
     </author>  
+
+    <author>
+            <personname>
+                <surname>Szabó</surname>
+                <firstname>Dániel József</firstname>        
+            </personname>    
+            <affiliation>
+                <shortaffil>hallgató</shortaffil>
+                <jobtitle>Egyetemi hallgató</jobtitle>
+                <orgname>Debreceni Egyetem</orgname>
+                <orgdiv>Informatika Kar Programtervező Informatikus</orgdiv>
+                <address>
+                    <email>daniszabobtw@gmail.com</email>
+                </address>
+            </affiliation>
+            <address>
+                <street>Sámsoni út 141/A 3.12</street>
+                <city>Debrecen</city>
+                <postcode>4033</postcode>
+                <country>Magyarország</country>
+            </address>
+        </author>   
 </authorgroup>
