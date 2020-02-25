@@ -24,7 +24,7 @@
             Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="Turing/vegtelen1.c">
+            Megoldás forrása: <link xlink:href="src/Turing/vegtelen1.c">
                 <filename>vegtelen1</filename>
             </link>
         </para> 
@@ -46,7 +46,7 @@ int main()
             Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="Turing/vegtelen2.c">
+            Megoldás forrása: <link xlink:href="src/Turing/vegtelen2.c">
                 <filename>vegtelen2</filename>
             </link>
         </para>        
@@ -66,7 +66,7 @@ int main()
             Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="Turing/vegtelen3.c">
+            Megoldás forrása: <link xlink:href="src/Turing/vegtelen3.c">
                 <filename>vegtelen3</filename>
             </link>
         </para>
