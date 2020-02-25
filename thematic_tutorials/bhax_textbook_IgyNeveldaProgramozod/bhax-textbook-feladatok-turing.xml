@@ -25,7 +25,7 @@
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/vegtelen1.c">
-                <filename>vegtelen1</filename>
+                <filename>vegtelen1.c</filename>
             </link>
         </para> 
         <programlisting language="c"><![CDATA[
@@ -39,6 +39,14 @@ int main()
             Ebben a formában a kód minden C szabvánnyal lefordul. Sokat nem lehet róla mondani. Mivel a ciklusfejben nincs semmilyen feltétel megadva,
             így addig fog futni, amíg manuálisan le nem állítjuk.
         </para>            
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="img/Turing/1mag100.png" scale="100"/>
+            </imageobject>
+            <caption>
+                <para>1 mag 100%</para>
+            </caption>
+        </mediaobject>
         <para>
             Egy mag 0 százalékban:               
         </para>
@@ -58,7 +66,11 @@ int main()
     sleep(1);
 }
 ]]>
-        </programlisting>        
+        </programlisting>    
+        <para>
+            Ehhez a feladathoz az első programkódot csak egy kicsit kellett megváltoztatnunk. Először is include-olni kell az unistd.h nevű header fájlt, hogy 
+            használhassuk a sleep() eljárást. Miután meghívjuk, lassítja az iterálás sebességét, így a processzor sose lesz 100%-os kihasználtságon.
+        </para>    
         <para>
             Minden mag 100 százalékban:               
         </para>
@@ -67,10 +79,9 @@ int main()
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/vegtelen3.c">
-                <filename>vegtelen3</filename>
+                <filename>vegtelen3.c</filename>
             </link>
         </para>
-
         <programlisting language="c"><![CDATA[
 #include <omp.h>
 int main()
@@ -83,10 +94,18 @@ int main()
 ]]>
         </programlisting>        
         <para>
-            A <command>gcc infty-f.c -o infty-f -fopenmp</command> parancssorral készítve a futtathatót, majd futtatva,               
-            közben egy másik terminálban a <command>top</command> parancsot kiadva tanulmányozzuk, mennyi CPU-t használunk:            
+           Ehhez a feladathoz a végtelen ciklusunkat több szálon, párhuzamosan kell futtatnunk. Erre megoldást nyújthat az OpenMP, melynek használatához include-oljuk 
+           az omp.h headert. Dióhéjban úgy működik, hogy azt az utasítást, amit a #pragma omp parallel-el megjelölünk, rákényszeríti, hogy minden szálon, egymástól 
+           függetlenül hajtódjon végre. Mivel ez a ciklus sose ér véget, így elérjük, hogy a programunk 100%-on kihasználja a CPU-t.
         </para>
-        <screen></screen>  
+         <mediaobject>
+            <imageobject>
+                <imagedata fileref="img/Turing/minden100.png" scale="50"/>
+            </imageobject>
+            <caption>
+                <para>Minden mag 100%</para>
+            </caption>
+        </mediaobject>
                                 
         <tip>
             <title>Werkfilm</title>
@@ -106,8 +125,8 @@ int main()
             Mutasd meg, hogy nem lehet olyan programot írni, amely bármely más programról eldönti, hogy le fog-e fagyni vagy sem!
         </para>
         <para>
-            Tegyük fel, hogy akkora haxorok vagyunk, hogy meg tudjuk írni a <function>Lefagy</function>
-            függvényt, amely tetszőleges programról el tudja dönteni, hogy van-e benne vlgtelen ciklus:              
+            Tegyük fel, hogy  meg tudjuk írni a <function>Lefagy</function>
+            függvényt, amely tetszőleges programról el tudja dönteni, hogy van-e benne végtelen ciklus:              
         </para>
         <programlisting language="c"><![CDATA[Program T100
 {
@@ -126,8 +145,8 @@ int main()
 	}
 }]]></programlisting>            
         <para>
-            A program futtatása, például akár az előző <filename>v.c</filename> ilyen pszeudókódjára:
-            <screen><![CDATA[T100(t.c.pseudo)
+            A program futtatása az előző végtelen ciklust tartalmazó programunkra:
+            <screen><![CDATA[T100(vegtelen1.c)
 true]]></screen>            
             akár önmagára
             <screen><![CDATA[T100(T100)
@@ -179,7 +198,7 @@ false]]></screen>
             függvényt, azaz a T100 program nem is létezik.                
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            
         </para>
     </section>        
                 
