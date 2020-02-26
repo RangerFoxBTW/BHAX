@@ -198,7 +198,9 @@ false]]></screen>
             függvényt, azaz a T100 program nem is létezik.                
         </para>
         <para>
-            
+            Habár a fenti indirekt bizonyításból is egyértelműen látszik, előttünk már Turing is bebizonyította azt, hogy nem létezik ilyen algoritmus. 
+            Ennek megállási probléma a neve. Lényege, hogy  ha egy végtelenségig futó programot kap meg tesztelésre ez a nem létező algoritmus, akkor az ugyanúgy a 
+            végtelenségig fogja tesztelni a bemenetet, így ő maga is le fog fagyni előbb utóbb. Így könnyen beláthatjuk, hogy nem létezik ilyen program.
         </para>
     </section>        
                 
@@ -209,13 +211,35 @@ false]]></screen>
             nasználata nélkül!
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://bhaxor.blog.hu/2018/08/28/10_begin_goto_20_avagy_elindulunk">https://bhaxor.blog.hu/2018/08/28/10_begin_goto_20_avagy_elindulunk</link>
+            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
-            Megoldás forrása:  
+            Megoldás forrása: <link xlink:href="src/Turing/valtozo.c">
+                <filename>valtozo.c</filename>
+            </link>
+        </para>
+        <programlisting language="C"><![CDATA[
+#include<stdio.h>
+int main()
+{
+    int a = 4;
+    int b = 6;
+
+    a = b - a;
+    b -= a;
+    a = b + a;
+
+    printf("%d, %d", a, b);
+}        
+]]></programlisting>
+        <para>
+            Egy rendkívül egyszerű, mégis praktikus matematikai megoldást alkalmazva felcserélhetjük két változó értékét segédváltozó bevezetése nélkül. A fenti 
+            példámban az "a" változó értéke 4, a "b" változóé pedig 6. Első lépésnek az "a" értékét megváltoztatjuk (b-a = 2)-re. Ezután "b"-ből kivonjuk az "a"-t, 
+            így 4 lesz az értéke. Végül a "b"-hez hozzáadjuk az "a" értékét (4+2 = 6), majd ezt hozzárendeljük az "a"-hoz. És voilá, megcseréltük a két változó értékét.
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+        Természetesen az ilyen egyszerű és triviális feladatok elvégzését a magas szintű programozási nyelvek elintézik a programozó helyett. Például C++-ban a swpa(a, b)
+        függvény segítségével egyszerűen cserélhetjük meg két változó értékét, igaz, a háttérben egy csereváltozó segítségével.
         </para>
     </section>                     
 
@@ -227,10 +251,12 @@ false]]></screen>
             pattogtatás alatt, alább láthatod a videókon.)
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://bhaxor.blog.hu/2018/08/28/labdapattogas">https://bhaxor.blog.hu/2018/08/28/labdapattogas</link>
+            Megoldás videó: 
         </para>
         <para>
-            Megoldás forrása:  
+            Megoldás forrása: <link xlink:href="src/Turing/labdaif.c">
+                <filename>labdaif.c</filename>
+            </link>
         </para>
         <para>
             Tanulságok, tapasztalatok, magyarázat...
