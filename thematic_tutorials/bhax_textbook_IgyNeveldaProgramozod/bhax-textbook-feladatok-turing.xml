@@ -251,15 +251,116 @@ int main()
             pattogtatás alatt, alább láthatod a videókon.)
         </para>
         <para>
-            Megoldás videó: 
+            Labdapattogás if-ekkel:
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/labdaif.c">
                 <filename>labdaif.c</filename>
             </link>
         </para>
+         <programlisting language="C"><![CDATA[
+#include <stdio.h>
+#include <curses.h>
+#include <unistd.h>
+
+int main()
+{
+    int x, y, x_meret, y_meret;
+    x = y = 0; 
+    int sor = 1;
+    int oszlop = 1;
+
+    WINDOW *terminal;
+    terminal = initscr();
+
+    for(;;)
+    {
+        getmaxyx(terminal, y_meret ,x_meret);
+        mvprintw(y, x, "HEYO!");
+        refresh();          
+        usleep(100000);     
+        clear();            
+        x += sor;
+        y += oszlop;
+
+        if (x <= 0)         //bal oldal
+            sor *= -1;
+        if (x >= max_x-1)   //jobb oldal
+            sor *= -1;
+        if (y >= max_y-1)   //alja
+            oszlop *= -1;
+        if (y <= 0)         //teteje
+            oszlop *= -1;
+    }
+}
+]]></programlisting>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            A feladat elvégzéséhez igénybe kell vennünk a curses.h headert, valamint az stdio.h/unistd.h-t is. Az ncurses könyvtárral Console Application-ök írásakor
+            tudjuk kihasználni a terminál adta lehetőségeket, különféle színezést, grafikai elem megjelenítését teszi lehetővé. If elágazásokkal nem nehéz feladat, 
+            hiszen csak meg kell vizsgálnunk, hogy a labda mikor ütközik "falhoz" (a terminal ablak széléhez), majd onnan milyen irányba fog visszapattanni. Mivel 4 
+            oldala van, így négy elágazást írunk, ezeket egy végtelen ciklusba rakjuk. A ciklus előtt deklaráljuk a szükséges változókat, az x/y koordinátákat, melyeknek
+            a kezdőértéke 0, az x_meret/y_meret a getmaxyx() függvényhez szükséges (a curses.h tartalmazza), mely a kurzor helyét határozza meg a terminálon, valamint k
+            ell egy sor/oszlop változó, melyekkel szabályozhatjuk, hogy milyen lépésközönként jelenjen meg a labda a terminálablakban. Az alábbi 
+        <programlisting language="C"><![CDATA[
+WINDOW *terminal;
+terminal = initscr();]]></programlisting>
+            kódrészlet a terminál ablak méretét számolja ki. A refresh() folyamatosan frissíti a képernyőt, a usleep() a labdapattogás gyorsaságát határozza meg 
+            (jelenleg a másodperc egytizede). A clear() "kitörli" az előző labdát, így mindig csak az aktuálisan kirajzoltat látjuk a képernyőn (valójában nem törli ki, csak
+            nem jeleníti meg). A többi részét a forráskódba ágyazott kommentekkel szerintem kellőképpen megmagyaráztam. 
+        </para>
+        <para>
+            Labdapattogás if-ek nélkül: (A programot Dr. Bátfai Norbert Tanár Úr készítette, apró módosítás található csak benne.)
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href=""></link>
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Turing/labdaifnelkul.c">
+                <filename>labdaifnelkul.c</filename>
+            </link>
+        </para>
+        <programlisting language="C"><![CDATA[
+#include <stdio.h>
+#include <stdlib.h>
+#include <curses.h>
+#include <unistd.h>
+
+int main()
+{
+    int xj = 0, xk = 0, yj = 0, yk = 0;
+    int mx = 80 * 2, my = 24 * 2;
+
+    WINDOW *terminal;
+    terminal = initscr();
+    noecho();
+    cbreak();
+    nodelay(terminal, true);
+
+    for (;;)
+    {
+        xj = (xj - 1) % mx;
+        xk = (xk + 1) % mx;
+
+        yj = (yj - 1) % my;
+        yk = (yk + 1) % my;
+        clear ();
+        mvprintw (0, 0,
+                  "--------------------------------------------------------------------------------");
+        mvprintw (24, 0,
+                  "--------------------------------------------------------------------------------");
+        mvprintw (abs ((yj + (my - yk)) / 2),
+                  abs ((xj + (mx - xk)) / 2), "X"); 
+        refresh();
+        usleep (100000);
+    }
+}]]></programlisting>
+        <para>
+            Egy rendkívül ötletes megoldást láthatunk fentebb. Lényege, hogy a labda mozgásútjához két számsort tartunk számon, az egyik csökken, a másik növekszik. Ezen 
+            számsokor összemosásával megkapjuk a labda mozgásának pályáját (a függőleges és vízszintes koordinátákat). Ahhoz, hogy a labda a határon belül maradjon a 
+            maradékos osztás (%) műveletét vesszük igénybe. 
         </para>
     </section>                     
 
@@ -270,18 +371,75 @@ int main()
             Használd ugyanazt a while ciklus fejet, amit Linus Torvalds a BogoMIPS rutinjában! 
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/9KnMqrkj_kU">https://youtu.be/9KnMqrkj_kU</link>, 
-            <link xlink:href="https://youtu.be/KRZlt1ZJ3qk">https://youtu.be/KRZlt1ZJ3qk</link>, 
-            <link xlink:href=""></link>.
-        </para>
-        <para>
             Megoldás forrása: <link xlink:href="Turing/bogomips.c">
-                <filename>bhax/thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/Turing/bogomips.c</filename>
+                <filename>bogomips.c</filename>
             </link>
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat... 
+            Megoldás videó: <link xlink:href=""></link>, 
         </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Turing/int1.cpp">
+                <filename>int1.cpp</filename>
+            </link>
+        </para>
+        <para>
+<programlisting language="C++"><![CDATA[
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int a = 1;
+    int osszeg = 0;
+
+    while (a <<= 1)
+        osszeg++;
+    cout << osszeg+1 << endl;
+}]]></programlisting>
+        </para>
+        <para>
+           Megoldás forrása: <link xlink:href="src/Turing/int2.cpp">
+                <filename>int2.cpp</filename>
+            </link> 
+        </para>
+        <para>
+            <programlisting language="C++"><![CDATA[
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int a = 1;
+    int osszeg = 0; 
+    do
+    {
+        osszeg++;
+    } while(a <<= 1);
+    cout << osszeg << endl;
+}]]></programlisting>
+        </para>
+        <para>
+            Két megoldást készítettem, az egyik elöltesztelő, a másik hátultesztelő ciklust használ. Sokat nem lehet róluk mondani, egy <type>int</type> típusú változó 
+            bitshift műveleteket hajtanak végre, a lépések számát pedig kiírják az alapértelmezett outputra. Így ténylegesen megszámolja, hogy az <type>int</type> típus 
+            32 bit hosszú. Érdekesség, hogy a sizeof(int) beépített függvény ugyanígy visszaadja az <type>int</type> méretét, csak bájtban. Ezt a mennyiséget ha 8-cal 
+            megszorozzuk, akkor megkapjuk ugyanazt az eredményt, mint amit a fent látható két program ad eredményül.
+        </para>
+        <para>
+            A MIPS rövidítése: microprocessor without Interlocked Pipeline Stages. A CPU sebességének egy kitalált mértékegysége. A fentebb linkelt algoritmussal úgy 
+            próbálják megsaccolni a processzorok sebességét, hogy rendszerindításkor a benne lévő ciklus mennyi ideig fut. Mivel nem tényleges sebességet mér,
+            csupán egyfajta következtetés leszűrésére alkalmas, milyen gyors is a számítógépünkben található központi feldolgozóegység.
+        </para>
+         <mediaobject>
+            <imageobject>
+                <imagedata fileref="img/Turing/bogo.png"/>
+            </imageobject>
+            <caption>
+                <para>Saját BogoMIPS eredményem (Windows alatt 920)</para>
+            </caption>
+        </mediaobject>
     </section>                     
 
     <section>
@@ -294,10 +452,13 @@ int main()
             Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>
+            Megoldás forrása: <link xlink:href="src/Turing/google.c"></link>
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            
+        </para>
+        <para>
+            
         </para>
     </section>
                                                                                                                                                                                                                                                                                                                                                         
@@ -307,13 +468,45 @@ int main()
             Írj R szimulációt a Monty Hall problémára!
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://bhaxor.blog.hu/2019/01/03/erdos_pal_mit_keresett_a_nagykonyvben_a_monty_hall-paradoxon_kapcsan">https://bhaxor.blog.hu/2019/01/03/erdos_pal_mit_keresett_a_nagykonyvben_a_monty_hall-paradoxon_kapcsan</link>
+            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/MontyHall_R">https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/MontyHall_R</link>
+            Megoldás forrása: <link xlink:href="src/Turing/monty.r">
+            <filename>monty.r</filename>
+            </link>
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            <programlisting language="R"><![CDATA[
+kiserletek_szama = 100
+kiserlet = sample(1:3, kiserletek_szama, replace = T) 
+jatekos = sample(1:3, kiserletek_szama, replace = T) 
+musorvezeto = vector(length = kiserletek_szama)
+for (i in 1:kiserletek_szama) {
+if (kiserlet[i]==jatekos[i]){
+ajtok = setdiff(c(1,2,3), kiserlet[i])
+}else{
+ajtok = setdiff(c(1,2,3), c(kiserlet[i], jatekos[i]))
+}
+musorvezeto[i] = ajtok[sample(1:length(mibol),1)]
+}
+nemvaltoztatesnyer = which(kiserlet == jatekos) 
+valtoztat = vector(length = kiserletek_szama)
+
+for (i in 1:kiserletek_szama) {
+	holvaltoztat = setdiff(c(1,2,3), c(musorvezeto[i], jatekos[i])) 
+	valtoztat[i] = holvaltoztat[sample(1:length(holvaltoztat),1)]
+}
+
+valtoztatesnyer = which(kiserlet == valtoztat)
+sprintf("Kiserletek szama: %i", kiserletek_szama) 
+length(nemvaltoztatesnyer) 
+length(valtoztatesnyer) 
+length(nemvaltoztatesnyer) / length(valtoztatesnyer) 
+length(nemvaltoztatesnyer) + length(valtoztatesnyer)
+]]></programlisting>
+        </para>
+        <para>
+            
         </para>
     </section>
 
