@@ -238,8 +238,8 @@ int main()
             így 4 lesz az értéke. Végül a "b"-hez hozzáadjuk az "a" értékét (4+2 = 6), majd ezt hozzárendeljük az "a"-hoz. És voilá, megcseréltük a két változó értékét.
         </para>
         <para>
-        Természetesen az ilyen egyszerű és triviális feladatok elvégzését a magas szintű programozási nyelvek elintézik a programozó helyett. Például C++-ban a swpa(a, b)
-        függvény segítségével egyszerűen cserélhetjük meg két változó értékét, igaz, a háttérben egy csereváltozó segítségével.
+        Természetesen az ilyen egyszerű és triviális feladatok elvégzését a magas szintű programozási nyelvek elintézik a programozó helyett. Például C++-ban a swap(a, b)
+        függvény segítségével egyszerűen cserélhetjük meg két változó értékét, igaz, ez a háttérben egy csereváltozó segítségével hajtódik végre.
         </para>
     </section>                     
 
