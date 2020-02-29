@@ -477,7 +477,7 @@ int main()
         </para>
         <para>
             <programlisting language="R"><![CDATA[
-kiserletek_szama = 100
+kiserletek_szama = 10000
 kiserlet = sample(1:3, kiserletek_szama, replace = T) 
 jatekos = sample(1:3, kiserletek_szama, replace = T) 
 musorvezeto = vector(length = kiserletek_szama)
@@ -487,7 +487,7 @@ ajtok = setdiff(c(1,2,3), kiserlet[i])
 }else{
 ajtok = setdiff(c(1,2,3), c(kiserlet[i], jatekos[i]))
 }
-musorvezeto[i] = ajtok[sample(1:length(mibol),1)]
+musorvezeto[i] = ajtok[sample(1:length(ajtok),1)]
 }
 nemvaltoztatesnyer = which(kiserlet == jatekos) 
 valtoztat = vector(length = kiserletek_szama)
@@ -506,8 +506,50 @@ length(nemvaltoztatesnyer) + length(valtoztatesnyer)
 ]]></programlisting>
         </para>
         <para>
-            
+            A Monty Hall probléma kifejezetten érdekes jelenség, valószínűleg sose gondoltam volna rá. Képzeljük el, hogy egy vetélkedőshow keretein belül választanunk
+            kell 3 ajtó közül. Az egyik mögött ott rejlik az értékes nyeremény, de a másik kettő mögött nincs semmi. Mivel nem tudjuk, hogy melyik mögött van a díj, 
+            ezért random választunk a három közül egyet. Ekkor szimplán 1/3-ad matematikai esélyünk van arra, hogy eltaláltuk a helyes ajtót. Ezután a műsorvezető 
+            kinyitja az egyik ajtót, ami mögött nincs semmi. Ekkor két lehetőségünk van: Vagy maradunk az eredeti döntésünk mellett, vagy megmásítjuk azt, és a másik 
+            ajtót választjuk.
         </para>
+        <para>
+            Valószínűleg egy olyan ember, aki nincs tisztában a címben említett jelenséggel, rögtön rávágja, hogy mindegy, hogy megmásítjuk-e a döntésünket, hiszen nem
+            változtat a nyerési esélyeinken. Viszont ha jobban belegondolunk, akkor könnyen beláthatjuk, hogy míg az első választási lehetőségnél 3 ajtó közül 
+            választhattunk (így 1/3 esélyünk volt arra, hogy jól tippeltünk), ám a második lehetőségnél már csak kettő ajtó közül kell választanunk úgy, hogy a 
+            harmadikról már tudjuk, hogy nem jó (tehát ha megmásítjuk a választásunkat, akkor 2/3 valószínűsége lesz annak, hogy a helyeset választjuk). Ettől 
+            függetlenül persze ha megmásítjuk a választásunkat, az nem lesz garancia arra, hogy eltaláljuk a helyes ajtót, de matematikailag nagyobb esélyünk lesz rá. 
+        </para>
+        <para>
+            A fenti R program erre a szcenárióra ad egy szimulációt. Az első sorban létrehoztunk egy változót, ami eltárolja, hogy hány kísérletet szeretnénk végrehajtani. 
+            Ezután létrehozunk két vektort, amik 1-től 3-ig vehetnek fel értékeket. Az első az ajtókat reprezentálja, a második a játékos döntését. Mindegyik annyiszor
+            vehet fel értékeket, amennyi a kísérletek száma, valamint többször is felvehetik ugyanazt az értéket. Ezután a játékvezető döntéséről gondoskodunk. A vektor
+            hossza akkora lesz, amennyi a kísérletek száma, ezután egy range-based for ciklussal végigmegyünk a kísérleteken, és a játékos döntésétől függően megadja a 
+            műsorvezető választását. 
+        </para>
+        <para>
+            Ha a kísérletben a játékos által választott ajtó megegyezik a nyereményt rejtő ajtóval, akkor a c(1,2,3)-ból kiveszi a kísérlet számát, és az ajtok-ban a 
+            másik kettő szám marad - ezek közül az egyiket kapja meg a műsorvezető. Viszont ha a játékos által választott mögött nincs nyeremény, akkor kizárásos alapon 
+            a műsorvezetőnek muszáj a másik, egyértelmű ajtót választania, ami mögött szintén nincs semmi. Így az ajtok vektor ezt a számot kapja meg, amit aztán a 
+            műsorvezető is. 
+        </para>
+        <para>
+            Ezután megnézzük, hogy hányszor nyer a játékos, ha megváltoztatja az első választását. Ehhez szintén létrehozunk egy vektort, ami a kísérletek számával lesz
+            megegyező nagyságú, és hasonló módon, egy for ciklussal végigmegy a kísérleteken. Ilyenkor csak azt az ajtót választhatja, amelyiket se a műsorvezető, se ő 
+            nem választott elsőre. A változtat és nyer vektorba belepakoljuk ezeket az eseteket. Vagyis azokat az eseteket, amikor a másodjára választott ajtó megegyezik 
+            azzal, amelyik mögött a nyeremény van. 
+        </para>
+        <para>
+            A végén kiírjuk a képernyőre a kísérletek számát, valamint azoknak az eseteknek a számát, amikor a játékos megváltoztatatta a döntését és nyert, illetve 
+            azokat, amikor nem. Láthatjuk, hogy az előbbiből lényegesen több van.
+        </para>
+        <mediaobject>
+        <imageobject>
+            <imagedata fileref="img/Turing/monty.png" scale="50"/>
+        </imageobject>
+            <caption>
+                <para>10000 kísérletre az eredmény</para>
+            </caption>
+        </mediaobject>
     </section>
 
     <section xml:id="Brun">
