@@ -55,7 +55,7 @@ int main()
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/vegtelen2.c">
-                <filename>vegtelen2</filename>
+                <filename>vegtelen2.c</filename>
             </link>
         </para>        
         <programlisting language="c"><![CDATA[
@@ -184,7 +184,7 @@ false]]></screen>
 }]]></programlisting>            
         <programlisting><![CDATA[]]></programlisting>            
         <para>
-            Mit for kiírni erre a <computeroutput>T1000(T1000)</computeroutput> futtatásra?
+            Mit fog kiírni erre a <computeroutput>T1000(T1000)</computeroutput> futtatásra?
                                 
             <itemizedlist>
                 <listitem>
@@ -199,7 +199,7 @@ false]]></screen>
         </para>
         <para>
             Habár a fenti indirekt bizonyításból is egyértelműen látszik, előttünk már Turing is bebizonyította azt, hogy nem létezik ilyen algoritmus. 
-            Ennek megállási probléma a neve. Lényege, hogy  ha egy végtelenségig futó programot kap meg tesztelésre ez a nem létező algoritmus, akkor az ugyanúgy a 
+            Ennek megállási probléma a neve. Lényege, hogy ha egy végtelenségig futó programot kap meg tesztelésre ez a nem létező algoritmus, akkor az ugyanúgy a 
             végtelenségig fogja tesztelni a bemenetet, így ő maga is le fog fagyni előbb utóbb. Így könnyen beláthatjuk, hogy nem létezik ilyen program.
         </para>
     </section>        
@@ -238,8 +238,8 @@ int main()
             így 4 lesz az értéke. Végül a "b"-hez hozzáadjuk az "a" értékét (4+2 = 6), majd ezt hozzárendeljük az "a"-hoz. És voilá, megcseréltük a két változó értékét.
         </para>
         <para>
-        Természetesen az ilyen egyszerű és triviális feladatok elvégzését a magas szintű programozási nyelvek elintézik a programozó helyett. Például C++-ban a swap(a, b)
-        függvény segítségével egyszerűen cserélhetjük meg két változó értékét, igaz, ez a háttérben egy csereváltozó segítségével hajtódik végre.
+            Természetesen az ilyen egyszerű és triviális feladatok elvégzését a magas szintű programozási nyelvek elintézik a programozó helyett. Például C++-ban a 
+            swap(a, b) függvény segítségével egyszerűen cserélhetjük meg két változó értékét, igaz, ez a háttérben egy csereváltozó segítségével hajtódik végre.
         </para>
     </section>                     
 
@@ -299,17 +299,17 @@ int main()
 ]]></programlisting>
         <para>
             A feladat elvégzéséhez igénybe kell vennünk a curses.h headert, valamint az stdio.h/unistd.h-t is. Az ncurses könyvtárral Console Application-ök írásakor
-            tudjuk kihasználni a terminál adta lehetőségeket, különféle színezést, grafikai elem megjelenítését teszi lehetővé. If elágazásokkal nem nehéz feladat, 
+            tudjuk kihasználni a terminál adta lehetőségeket, különféle színezést, grafikai elemek megjelenítését teszi lehetővé. If elágazásokkal nem nehéz feladat, 
             hiszen csak meg kell vizsgálnunk, hogy a labda mikor ütközik "falhoz" (a terminal ablak széléhez), majd onnan milyen irányba fog visszapattanni. Mivel 4 
             oldala van, így négy elágazást írunk, ezeket egy végtelen ciklusba rakjuk. A ciklus előtt deklaráljuk a szükséges változókat, az x/y koordinátákat, melyeknek
-            a kezdőértéke 0, az x_meret/y_meret a getmaxyx() függvényhez szükséges (a curses.h tartalmazza), mely a kurzor helyét határozza meg a terminálon, valamint k
-            ell egy sor/oszlop változó, melyekkel szabályozhatjuk, hogy milyen lépésközönként jelenjen meg a labda a terminálablakban. Az alábbi 
+            a kezdőértéke 0, az x_meret/y_meret a getmaxyx() függvényhez szükséges (a curses.h tartalmazza), mely a kurzor helyét határozza meg a terminálon, valamint 
+            kell egy sor/oszlop változó, melyekkel szabályozhatjuk, hogy milyen lépésközönként jelenjen meg a labda a terminálablakban. Az alábbi 
         <programlisting language="C"><![CDATA[
 WINDOW *terminal;
 terminal = initscr();]]></programlisting>
             kódrészlet a terminál ablak méretét számolja ki. A refresh() folyamatosan frissíti a képernyőt, a usleep() a labdapattogás gyorsaságát határozza meg 
-            (jelenleg a másodperc egytizede). A clear() "kitörli" az előző labdát, így mindig csak az aktuálisan kirajzoltat látjuk a képernyőn (valójában nem törli ki, csak
-            nem jeleníti meg). A többi részét a forráskódba ágyazott kommentekkel szerintem kellőképpen megmagyaráztam. 
+            (jelenleg a másodperc egytizede). A clear() "kitörli" az előző labdát, így mindig csak az aktuálisan kirajzoltat látjuk a képernyőn (valójában nem törli ki, 
+            csak nem jeleníti meg). A többi részét a forráskódba ágyazott kommentekkel szerintem kellőképpen megmagyaráztam. 
         </para>
         <para>
             Labdapattogás if-ek nélkül: (A programot Dr. Bátfai Norbert Tanár Úr készítette, apró módosítás található csak benne.)
@@ -359,7 +359,7 @@ int main()
 }]]></programlisting>
         <para>
             Egy rendkívül ötletes megoldást láthatunk fentebb. Lényege, hogy a labda mozgásútjához két számsort tartunk számon, az egyik csökken, a másik növekszik. Ezen 
-            számsokor összemosásával megkapjuk a labda mozgásának pályáját (a függőleges és vízszintes koordinátákat). Ahhoz, hogy a labda a határon belül maradjon a 
+            számsorok összemosásával megkapjuk a labda mozgásának pályáját (a függőleges és vízszintes koordinátákat). Ahhoz, hogy a labda a határon belül maradjon, a 
             maradékos osztás (%) műveletét vesszük igénybe. 
         </para>
     </section>                     
@@ -422,15 +422,15 @@ int main()
 }]]></programlisting>
         </para>
         <para>
-            Két megoldást készítettem, az egyik elöltesztelő, a másik hátultesztelő ciklust használ. Sokat nem lehet róluk mondani, egy <type>int</type> típusú változó 
+            Két megoldást készítettem, az egyik elöltesztelő, a másik hátultesztelő ciklust használ. Sokat nem lehet róluk mondani, egy <type>int</type> típusú változón 
             bitshift műveleteket hajtanak végre, a lépések számát pedig kiírják az alapértelmezett outputra. Így ténylegesen megszámolja, hogy az <type>int</type> típus 
             32 bit hosszú. Érdekesség, hogy a sizeof(int) beépített függvény ugyanígy visszaadja az <type>int</type> méretét, csak bájtban. Ezt a mennyiséget ha 8-cal 
             megszorozzuk, akkor megkapjuk ugyanazt az eredményt, mint amit a fent látható két program ad eredményül.
         </para>
         <para>
-            A MIPS rövidítése: microprocessor without Interlocked Pipeline Stages. A CPU sebességének egy kitalált mértékegysége. A fentebb linkelt algoritmussal úgy 
-            próbálják megsaccolni a processzorok sebességét, hogy rendszerindításkor a benne lévő ciklus mennyi ideig fut. Mivel nem tényleges sebességet mér,
-            csupán egyfajta következtetés leszűrésére alkalmas, milyen gyors is a számítógépünkben található központi feldolgozóegység.
+            A MIPS rövidítése: Microprocessor without Interlocked Pipeline Stages. A CPU sebességének egy kitalált mértékegysége. A fentebb linkelt algoritmussal úgy 
+            próbálják megsaccolni a processzorok sebességét, hogy megnézik, rendszerindításkor a benne lévő ciklus mennyi ideig fut. Mivel nem tényleges sebességet mér,
+            így csupán egyfajta következtetés leszűrésére alkalmas, milyen gyors is a számítógépünkben található központi feldolgozóegység.
         </para>
          <mediaobject>
             <imageobject>
@@ -508,7 +508,7 @@ length(nemvaltoztatesnyer) + length(valtoztatesnyer)
         <para>
             A Monty Hall probléma kifejezetten érdekes jelenség, valószínűleg sose gondoltam volna rá. Képzeljük el, hogy egy vetélkedőshow keretein belül választanunk
             kell 3 ajtó közül. Az egyik mögött ott rejlik az értékes nyeremény, de a másik kettő mögött nincs semmi. Mivel nem tudjuk, hogy melyik mögött van a díj, 
-            ezért random választunk a három közül egyet. Ekkor szimplán 1/3-ad matematikai esélyünk van arra, hogy eltaláltuk a helyes ajtót. Ezután a műsorvezető 
+            ezért random választunk a három közül egyet. Ekkor szimplán 1/3 matematikai esélyünk van arra, hogy eltaláltuk a helyes ajtót. Ezután a műsorvezető 
             kinyitja az egyik ajtót, ami mögött nincs semmi. Ekkor két lehetőségünk van: Vagy maradunk az eredeti döntésünk mellett, vagy megmásítjuk azt, és a másik 
             ajtót választjuk.
         </para>
@@ -533,10 +533,10 @@ length(nemvaltoztatesnyer) + length(valtoztatesnyer)
             műsorvezető is. 
         </para>
         <para>
-            Ezután megnézzük, hogy hányszor nyer a játékos, ha megváltoztatja az első választását. Ehhez szintén létrehozunk egy vektort, ami a kísérletek számával lesz
-            megegyező nagyságú, és hasonló módon, egy for ciklussal végigmegy a kísérleteken. Ilyenkor csak azt az ajtót választhatja, amelyiket se a műsorvezető, se ő 
-            nem választott elsőre. A változtat és nyer vektorba belepakoljuk ezeket az eseteket. Vagyis azokat az eseteket, amikor a másodjára választott ajtó megegyezik 
-            azzal, amelyik mögött a nyeremény van. 
+            Ezután megnézzük, hogy hányszor nyer a játékos, ha megváltoztatja az első döntését. Ehhez szintén létrehozunk egy vektort, ami a kísérletek számával lesz
+            megegyező nagyságú, és hasonló módon, egy for ciklussal végigmegy a kísérleteken. Ilyenkor csak azt az ajtót választhatja, amelyiket se a műsorvezető, se a 
+            játékos nem választott elsőre. A változtat és nyer vektorba belepakoljuk ezeket az eseteket. Vagyis azokat az eseteket, amikor a másodjára választott ajtó 
+            megegyezik azzal, amelyik mögött a nyeremény van. 
         </para>
         <para>
             A végén kiírjuk a képernyőre a kísérletek számát, valamint azoknak az eseteknek a számát, amikor a játékos megváltoztatatta a döntését és nyert, illetve 
