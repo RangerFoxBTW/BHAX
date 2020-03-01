@@ -669,7 +669,7 @@ stp <- function(x){
 }
 
 x=seq(13, 1000000, by=10000)
-y=sapply(x, FUN = stp)
+y = sapply(x, FUN = stp)
 plot(x,y,type="b")
 ]]>
         </programlisting>        
@@ -787,7 +787,13 @@ plot(x,y,type="b")]]>
                     <phrase>A B<subscript>2</subscript> konstans közelítése</phrase>
                 </textobject>
             </mediaobject>
-        </figure>                             
+        </figure>
+        <para>
+            Saját tapasztalatok: 
+        </para>      
+        <para>
+
+        </para>                       
         <tip>
             <title>Werkfilm</title>
             <itemizedlist>
@@ -803,6 +809,13 @@ plot(x,y,type="b")]]>
                 </listitem>                
             </itemizedlist>                
         </tip>
+    </section>
+
+    <section>
+        <title>Minecraft MALMÖ (csiga)</title>
+        <para>
+            Megoldás videó: <link xlink:href="https://www.youtube.com/watch?v=ytZRUCVykvw">https://www.youtube.com/watch?v=ytZRUCVykvw</link>
+        </para>
     </section>
 
 </chapter>                
