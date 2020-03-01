@@ -15,7 +15,7 @@ int main()
     for(;;)
     {
         getmaxyx(terminal, y_meret, x_meret);
-        mvprintw(y, x, "HEYO!");
+        mvprintw(y, x, "O");
         refresh();
         usleep(100000);
         clear();
@@ -24,9 +24,9 @@ int main()
 
         if (x <= 0)         //bal oldal
             sor *= -1;
-        if (x >= max_x-1)   //jobb oldal
+        if (x >= x_meret-1)   //jobb oldal
             sor *= -1;
-        if (y >= max_y-1)   //alja
+        if (y >= y_meret-1)   //alja
             oszlop *= -1;
         if (y <= 0)         //teteje
             oszlop *= -1;

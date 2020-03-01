@@ -12,6 +12,9 @@
             100 százalékban minden magot!
         </para>
         <para>
+            Megoldás videó: <link xlink:href="https://youtu.be/enltfeOhGCA">https://youtu.be/enltfeOhGCA</link>
+        </para>
+        <para>
             A ciklusok, vagy más néven iterációk a programozók egyik leghasznosabb eszközei. Alapjáraton a végtelen ciklus egy HIBA, kivéve, 
             ha a programozó direkt végtelen ciklust szeretne létrehozni. Ezt számos módon megteheti, valamint számos oka lehet erre. Például egy 
             szerveren bizonyos folyamatnak/szolgáltatásnak állandóan futnia kell, ennek a kivitelezésére pedig a végtelen ciklus egy tökéletes 
@@ -19,9 +22,6 @@
         </para>                    
         <para>
             Egy mag 100 százalékban:               
-        </para>
-         <para>
-            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/vegtelen1.c">
@@ -51,9 +51,6 @@ int main()
             Egy mag 0 százalékban:               
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
-        </para>
-        <para>
             Megoldás forrása: <link xlink:href="src/Turing/vegtelen2.c">
                 <filename>vegtelen2.c</filename>
             </link>
@@ -71,11 +68,16 @@ int main()
             Ehhez a feladathoz az első programkódot csak egy kicsit kellett megváltoztatnunk. Először is include-olni kell az unistd.h nevű header fájlt, hogy 
             használhassuk a sleep() eljárást. Miután meghívjuk, lassítja az iterálás sebességét, így a processzor sose lesz 100%-os kihasználtságon.
         </para>    
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="img/Turing/1mag0.png" scale="80"/>
+            </imageobject>
+            <caption>
+                <para>1 mag 100%</para>
+            </caption>
+        </mediaobject>
         <para>
             Minden mag 100 százalékban:               
-        </para>
-        <para>
-            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/vegtelen3.c">
@@ -211,7 +213,7 @@ false]]></screen>
             nasználata nélkül!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/Sd71L1OWhdY">https://youtu.be/Sd71L1OWhdY</link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/valtozo.c">
@@ -254,7 +256,7 @@ int main()
             Labdapattogás if-ekkel:
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/6-C7KNiR2Ig">https://youtu.be/6-C7KNiR2Ig</link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/labdaif.c">
@@ -288,9 +290,9 @@ int main()
 
         if (x <= 0)         //bal oldal
             sor *= -1;
-        if (x >= max_x-1)   //jobb oldal
+        if (x >= x_meret-1)   //jobb oldal
             sor *= -1;
-        if (y >= max_y-1)   //alja
+        if (y >= y_meret-1)   //alja
             oszlop *= -1;
         if (y <= 0)         //teteje
             oszlop *= -1;
@@ -313,9 +315,6 @@ terminal = initscr();]]></programlisting>
         </para>
         <para>
             Labdapattogás if-ek nélkül: (A programot Dr. Bátfai Norbert Tanár Úr készítette, apró módosítás található csak benne.)
-        </para>
-        <para>
-            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/labdaifnelkul.c">
@@ -352,7 +351,7 @@ int main()
         mvprintw (24, 0,
                   "--------------------------------------------------------------------------------");
         mvprintw (abs ((yj + (my - yk)) / 2),
-                  abs ((xj + (mx - xk)) / 2), "X"); 
+                  abs ((xj + (mx - xk)) / 2), "O"); 
         refresh();
         usleep (100000);
     }
@@ -376,7 +375,7 @@ int main()
             </link>
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>, 
+            Megoldás videó: <link xlink:href="https://youtu.be/JJjiYUrCnh0">https://youtu.be/JJjiYUrCnh0</link>, 
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/int1.cpp">
@@ -449,7 +448,7 @@ int main()
             értékét!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/jz71g8WpwFY">https://youtu.be/jz71g8WpwFY</link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/google.c"></link>
@@ -535,7 +534,7 @@ int main()
             Írj R szimulációt a Monty Hall problémára!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/bzbUcWo8W2M">https://youtu.be/bzbUcWo8W2M</link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Turing/monty.r">

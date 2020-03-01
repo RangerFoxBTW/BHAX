@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <math.h>
 
-void kiir (double tomb[], int db){
-    for (int i = 0; i < db; i++)
-    printf("PageRank [%d]: %lf\n", i, tomb[i]);
+void kiir(double tomb[], int db){
+    for(int i = 0; i < db; i++)
+        printf("PageRank [%d]: %lf\n", i, tomb[i]);
 }
 
-double tavolsag (double PR[], double PRv[], int n){
+double tavolsag(double PR[], double PRv[], int n){
     double osszeg = 0.0;
     for (int i = 0; i < n; ++i)
-    osszeg += (PRv[i] - PR[i]) * (PRv[i] - PR[i]);
+        osszeg += (PRv[i] - PR[i]) * (PRv[i] - PR[i]);
 
     return sqrt(osszeg);
 }
