@@ -455,10 +455,77 @@ int main()
             Megoldás forrása: <link xlink:href="src/Turing/google.c"></link>
         </para>
         <para>
-            
+            A PageRank a Google keresőmotor egyik legfontosabb összetevője. Lényegében a weblapokhoz rendel egy névleges értéket (számot), ami a weboldalak fontosságát 
+            reprezentálja. Larry Page és Sergey Brin, a Google alapítói találták ki, és a Google mind a mai napig használják ezt a módszert. A feltételezés az, hogy egy 
+            a készítő csak olyan hivatkozásokat helyez el egy oldalra, amiket megbízhatónak, fontosnak és relevánsnak talál. Ezzel úgymond szavazatot ad a hivatkozott
+            oldalra, az algoritmus pedig azt veszi figyelembe, hogy az adott oldalra hány helyen "szavaztak" még. 
         </para>
         <para>
-            
+            <programlisting language="C"><![CDATA[
+#include <stdio.h>
+#include <math.h>
+
+void kiir(double tomb[], int db){
+    for(int i = 0; i < db; i++)
+        printf("PageRank [%d]: %lf\n", i, tomb[i]);
+}
+
+double tavolsag(double PR[], double PRv[], int n){
+    double osszeg = 0.0;
+    for (int i = 0; i < n; ++i)
+        osszeg += (PRv[i] - PR[i]) * (PRv[i] - PR[i]);
+
+    return sqrt(osszeg);
+}
+
+int main()
+{
+    int i, j;
+    double T[4][4] = {
+    {0.0, 0.0, 1.0 / 3.0, 0.0},
+    {1.0, 1.0 / 2.0, 1.0 / 3.0, 1.0},
+    {0.0, 1.0 / 2.0, 0.0, 0.0},
+    {0.0, 0.0, 1.0 / 3.0, 0.0}};
+
+    double PR[4] = {0.0, 0.0, 0.0, 0.0};
+    double PR_elozo[4] = {1.0 / 4.0, 1.0 / 4.0, 1.0 / 4.0, 1.0 / 4.0};
+
+    for(;;)
+    {
+        for(i = 0; i < 4; i++)
+        {
+            PR[i] = 0.0;
+            for(j = 0; j < 4; j++)
+                PR[i] += (T[i][j] * PR_elozo[j]);
+        }
+        if (tavolsag(PR, PR_elozo, 4) < 0.00000001)
+            break;
+        for(i = 0; i < 4; i++)
+            PR_elozo[i] = PR[i];      
+    }
+
+    kiir(PR, 4);}]]></programlisting>
+        </para>
+        <para>
+            Mivel a PageRank értékek 0 és 1 közötti nem egész számok, így a double típust használjuk. Include-oljuk a math.h könyvtárat, hiszen szükség lesz az sqrt()
+            függvény használatára. Létrehozunk egy mátrixot, ami az oldalak hierarchiáját szemlélteti. Ezen felül létrehozunk két másik tömböt. A PR nevűben tartjuk 
+            számon az oldal aktuális PageRank értékét, a PR_elozo nevűben pedig az előzőleg kiszámolt értékeket tárolja.  
+        </para>
+        <para>
+            A végtelen ciklusunk tartalmaz két egymásba ágyazott for ciklust. Az elsőben kinullázzuk a PR tömb i-edik sorát, és miközben végigmegy a soron, hozzáadja az 
+            éppen aktuális tömbelem értékét megszorozva az adott oszlophoz tartozó oldal PR értékével. Végül egy feltétel segítségével megmondjuk, ha a 0.00000001 
+            tetszőleges értéknél kisebb értéket ad vissza a tavolsag függvényünk, akkor megszakítja a végtelen ciklust, addig pedig a PR tartalmát átmásoljuk a PR_elozo 
+            tömbbe. Végül kiírjuk az eredményt a kiir() eljárás meghívásával.
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/Turing/google.png" scale="100"/>
+                </imageobject>
+                <caption>
+                    <para>4 Weblap PageRank értéke</para>
+                </caption>
+            </mediaobject>
         </para>
     </section>
                                                                                                                                                                                                                                                                                                                                                         
@@ -558,9 +625,11 @@ length(nemvaltoztatesnyer) + length(valtoztatesnyer)
             Írj R szimulációt a Brun tétel demonstrálására!
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/xbYhp9G6VqQ">https://youtu.be/xbYhp9G6VqQ</link>
+            Megoldás videó: <link xlink:href="https://youtu.be/DjGwYuIwe2A">https://youtu.be/DjGwYuIwe2A</link>
         </para>
         <para>
+            (A programot Dr. Bátfai Norbert Tanár Úr készítette, apró módosítás található csak benne.)
+            Megoldás forrása: <link xlink:href="/src/Turing/brun.r">brun.r</link>
             Megoldás forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/blob/master/attention_raising/Primek_R">https://gitlab.com/nbatfai/bhax/blob/master/attention_raising/Primek_R</link>
         </para>
 
@@ -787,13 +856,7 @@ plot(x,y,type="b")]]>
                     <phrase>A B<subscript>2</subscript> konstans közelítése</phrase>
                 </textobject>
             </mediaobject>
-        </figure>
-        <para>
-            Saját tapasztalatok: 
-        </para>      
-        <para>
-
-        </para>                       
+        </figure>                     
         <tip>
             <title>Werkfilm</title>
             <itemizedlist>
