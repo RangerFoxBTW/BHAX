@@ -457,7 +457,8 @@ int main()
             A PageRank a Google keresőmotor egyik legfontosabb összetevője. Lényegében a weblapokhoz rendel egy névleges értéket (számot), ami a weboldalak fontosságát 
             reprezentálja. Larry Page és Sergey Brin, a Google alapítói találták ki, és a Google mind a mai napig használják ezt a módszert. A feltételezés az, hogy egy 
             a készítő csak olyan hivatkozásokat helyez el egy oldalra, amiket megbízhatónak, fontosnak és relevánsnak talál. Ezzel úgymond szavazatot ad a hivatkozott
-            oldalra, az algoritmus pedig azt veszi figyelembe, hogy az adott oldalra hány helyen "szavaztak" még. 
+            oldalra, az algoritmus pedig azt veszi figyelembe, hogy az adott oldalra hány helyen "szavaztak" még. További érdekes tényeket olvashatunk a PageRank, 
+            valamint a Google megalapításáról a "How Google works" című könyvben.
         </para>
         <para>
             <programlisting language="C"><![CDATA[
