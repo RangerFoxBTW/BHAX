@@ -73,7 +73,7 @@ int main()
                 <imagedata fileref="img/Turing/1mag0.png" scale="80"/>
             </imageobject>
             <caption>
-                <para>1 mag 100%</para>
+                <para>1 mag 0%</para>
             </caption>
         </mediaobject>
         <para>
