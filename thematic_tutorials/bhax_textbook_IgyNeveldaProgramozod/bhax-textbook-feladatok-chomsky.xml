@@ -17,7 +17,51 @@
             Megoldás forrása: <link xlink:href="src/Chomsky/unaris.cpp">unaris.cpp</link>               
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            Az unáris (egyes) számrendszer a legegyszerűbb számrendszer. Lényegében az ujjunkon való számoláskor is ezt használjuk. Amekkora számot akarunk kifejezni 
+            így, annyi 1-est írunk le. Például a decimális 6-os számot úgy konvertáljuk unárisba, hogy hatszor leírunk egy 1-est: 111111.
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/Chomsky/Turing.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            A fenti állapotgráf egy "végtelen szalagos és memóriás" Turing gépet mutat be, ahogy decimálisból unáris számrendszerbe vált át. Ehhez azt csinálja, hogy 
+            a számból addig von ki 1-et, amíg az 0 nem lesz, és ezeket az egyeseket a művelet közben a tárba írja ki. A művelet az utolsó számjegyen kezdődik, ha az 0-ás,
+            akkor 9-cel megy tovább, ha ettől eltérő, akkor mindig eggyel kevesebbel megy a zölddel jelölt állapotba. Ez addig folytatódik, amíg újra 0-ást kapunk, 
+            ezután a következő számjegyre tér át, és végrehajtja ugyanezeket a folyamatokat, míg a végén a szám első számjegyénél is 0-ást kap. 
+        </para>
+        <para>
+            <programlisting language="C++"><![CDATA[%{
+#include <iostream>
+
+using namespace std;
+
+void konvertal(int szam)
+{
+    cout << endl;
+    for(int i = 0; i < szam; i++)
+    {
+        cout << "1";
+    }
+    cout << endl;
+}
+
+int main()
+{
+    int szam;
+    
+    cout << "Adj meg egy szamot!" << endl;
+    cin >> szam;
+    
+    konvertal(szam);
+}]]></programlisting>
+        </para>
+        <para>
+            Készítettem egy nagyon egyszerű átváltó C++ programot. Tényleg nagyon egyszerű, ezért nem szeretném túlmagyarázni. A main-ben bekérek a felhasználótól egy 
+            számot, ezután meghívom a konvertal eljárást erre a számra, ami egy for ciklus segítségével annyi 1-est ír az alapértelmezett outputra, amekkora a szám volt.
         </para>
     </section>        
         
@@ -27,13 +71,29 @@
             Mutass be legalább két környezetfüggő generatív grammatikát, amely ezt a nyelvet generálja!
         </para>
         <para>
-            Megoldás videó:
+            Megoldás forrása: A fejezetbe ágyazva.                
         </para>
         <para>
-            Megoldás forrása:                
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="" scale="50"/>
+                </imageobject>
+            </mediaobject>
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="" scale="50"/>
+                </imageobject>
+            </mediaobject>           
+        </para>
+        <para>
+            Noam Chomsky, egy amerikai nyelvész nevéhez nem csak a fejezet címe, hanem a generatív grammatika, valamint a Chomsky-hierarchia is köthető. Utóbbival 
+            formális nyelveket szoktak lehet osztályozni. Úgy működik, hogy nyelv részeit kifejezőerő alapján osztályozza, és az erősebb osztályok elemei képesek 
+            megalkotni a gyengébb oszáltyok elemeit. Az alsóbb osztályokat a levezetési szabályok alkalmazásával állíthatjuk elő. Addig kell ezeket a szabályokat 
+            alkalmazni, míg a kifejezés csak konstansokból nem fog állni. Fentebb látható két általam levezetett példa, az első az 
+            a<superscript>2</superscript>b<superscript>2</superscript>c<superscript>2</superscript> nyelvet generálja a levezetésben, a második az 
+            a<superscript>4</superscript>b<superscript>4</superscript>c<superscript>4</superscript> nyelvet.
         </para>
     </section>        
                 
@@ -51,7 +111,7 @@
             Megoldás forrása:  
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            
         </para>
     </section>                     
 
@@ -88,7 +148,7 @@ main ()
 }
 ]]></programlisting>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            
         </para>
     </section>                     
 
@@ -105,7 +165,8 @@ main ()
                 <filename>bhax/thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/Chomsky/l337d1c7.l</filename>
             </link>  
         </para>
-        <programlisting language="c"><![CDATA[%{
+        <programlisting language="c"><![CDATA[
+%{
   #include <stdio.h>
   #include <stdlib.h>
   #include <time.h>
@@ -346,34 +407,73 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
         <itemizedlist>
             <listitem>
                 <programlisting><![CDATA[int a;]]></programlisting>            
+            <para>
+                Egy a-val jelölt egész típusú változót.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int *b = &a;]]></programlisting>            
+            <para>
+                Egy "b"-vel jelölt egészre mutató pointert, ami az "a" változó címét tartalmazza.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int &r = a;]]></programlisting>            
+            <para>
+                Egy "r"-rel jelölt egész típusú referencia, ami az "a" értékét veszi föl.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int c[5];]]></programlisting>            
+            <para>
+                Egy "c"-vel jelölt 5 elemű, egészeket tartalmazó tömb.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int (&tr)[5] = c;]]></programlisting>            
+            <para>
+                Egy 5 elemű egész számokat tartalmazó tömbre mutató pointer, ami a "c" tömbre mutat. Vagyis egy egész számokat tartalmazó tömb referenciája.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int *d[5];]]></programlisting>            
+            <para>
+                Egy "d"-vel jelölt 5 elemű egészekre mutató pointereket tartalmazó tömb.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int *h ();]]></programlisting>            
+            <para>
+               Egy egészre mutató pointert visszaadó függvény.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int *(*l) ();]]></programlisting>            
+            <para>
+                Egy függvényre mutató pointer, aminek a visszatérési értéke egy egészre mutató pointer.
+            </para>
             </listitem>
+            
             <listitem>
                 <programlisting><![CDATA[int (*v (int c)) (int a, int b)]]></programlisting>            
-            </listitem>            
+            <para>
+                Egy egész számot kérő function ami egy pointert ad vissza egy function-re, ami két egészet kér, és egy egészet ad vissza.
+            </para> 
+            </listitem>  
+                     
             <listitem>
                 <programlisting><![CDATA[int (*(*z) (int)) (int, int);]]></programlisting>            
-            </listitem>            
+            <para>  
+                Egy egészet kérő function-re mutató pointer, ami egy pointert ad vissza egy function-re, ami két egészet kér, és egy egészt ad vissza.
+            </para> 
+            </listitem>  
         </itemizedlist>       
 
 
@@ -391,24 +491,22 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
             </link>,
             <link xlink:href="Chomsky/fptr2.c">
                 <filename>bhax/thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/Chomsky/fptr2.c</filename>.
-            </link>  
-            
+            </link>    
         </para>
-        <programlisting><![CDATA[#include <stdio.h>
+        <programlisting><![CDATA[
+#include <stdio.h>
 
-int
-sum (int a, int b)
+int sum(int a, int b)
 {
     return a + b;
 }
 
-int
-mul (int a, int b)
+int mul(int a, int b)
 {
     return a * b;
 }
 
-int (*sumormul (int c)) (int a, int b)
+int(*sumormul (int c)) (int a, int b)
 {
     if (c)
         return mul;
@@ -417,8 +515,7 @@ int (*sumormul (int c)) (int a, int b)
 
 }
 
-int
-main ()
+int main()
 {
 
     int (*f) (int, int);
@@ -437,19 +534,18 @@ main ()
 
     return 0;
 }]]></programlisting>            
-        <programlisting><![CDATA[#include <stdio.h>
+        <programlisting><![CDATA[
+#include <stdio.h>
 
 typedef int (*F) (int, int);
 typedef int (*(*G) (int)) (int, int);
 
-int
-sum (int a, int b)
+int sum(int a, int b)
 {
     return a + b;
 }
 
-int
-mul (int a, int b)
+int mul(int a, int b)
 {
     return a * b;
 }
@@ -462,8 +558,7 @@ F sumormul (int c)
         return sum;
 }
 
-int
-main ()
+int main()
 {
 
     F f = sum;
@@ -477,8 +572,7 @@ main ()
     printf ("%d\n", f (2, 3));
 
     return 0;
-}
-]]></programlisting>            
+}]]></programlisting>            
         <para>
             Tanulságok, tapasztalatok, magyarázat...
         </para>
