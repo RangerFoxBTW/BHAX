@@ -11,10 +11,10 @@
             Állapotátmenet gráfjával megadva írd meg ezt a gépet!
         </para>
         <para>
-            Megoldás videó:
+            Megoldás videó: <link xlink:href="https://youtu.be/zKQyQKWMNPU">https://youtu.be/zKQyQKWMNPU</link>
         </para>
         <para>
-            Megoldás forrása:                
+            Megoldás forrása: <link xlink:href="src/Chomsky/unaris.cpp">unaris.cpp</link>               
         </para>
         <para>
             Tanulságok, tapasztalatok, magyarázat...
@@ -484,5 +484,10 @@ main ()
         </para>
     </section>                     
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    <section>
+        <title>Minecraft MALMÖ (csiga diszkrét)</title>
+        <para>
+            Megoldás videó: <link xlink:href=""></link>
+        </para>
+    </section>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 </chapter>                
