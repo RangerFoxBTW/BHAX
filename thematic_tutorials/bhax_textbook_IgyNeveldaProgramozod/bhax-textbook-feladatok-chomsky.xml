@@ -389,28 +389,30 @@ $(\exists y \forall x (x \text{ prím}) \supset (x<y)) $
 $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
 ]]></programlisting>        
         <para>
-            Megoldás forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/blob/master/attention_raising/MatLog_LaTeX">https://gitlab.com/nbatfai/bhax/blob/master/attention_raising/MatLog_LaTeX</link>
+            Megoldás forrása: A fejezetbe ágyazva.
         </para>
-
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/ZexiPy3ZxsA">https://youtu.be/ZexiPy3ZxsA</link>, <link xlink:href="https://youtu.be/AJSXOQFF_wk">https://youtu.be/AJSXOQFF_wk</link>
+            Legnagyobb örömömre előkerestem a logika jegyzetemet, az ott tanultak alapján pedig megoldottam a feladatot.
         </para>
-
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref=""/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>                                                                                                                                                                            
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     <section>
-        <title>Deklaráció</title>
-            
+        <title>Deklaráció</title> 
+
         <para>
             Vezesd be egy programba (forduljon le) a következőket: 
         </para>
 
         <itemizedlist>
             <listitem>
-                <para>egész</para>                        
+                <para>egész</para>                     
             </listitem>
             <listitem>
                 <para>egészre mutató mutató</para>                        
@@ -613,9 +615,6 @@ int main()
 
     return 0;
 }]]></programlisting>            
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
     </section>                     
 
     <section>
