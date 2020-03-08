@@ -105,13 +105,51 @@ int main()
             Majd mutass be olyan kódcsipeteket, amelyek adott szabvánnyal nem fordulnak (például C89), mással (például C99) igen.
         </para>
         <para>
-            Megoldás videó: 
+            Megoldás videó: <link xlink:href="https://youtu.be/lBeq2_AnbSQ">https://youtu.be/lBeq2_AnbSQ</link>
         </para>
         <para>
-            Megoldás forrása:  
+            Megoldás forrása:  <link xlink:href="src/Chomsky/hiba.c">hiba.c</link>
         </para>
         <para>
-            
+            A Backus-Naur-Form egy nyelvek szintaxisának leírására szolgáló eszköz. A működését <link xlink:href="https://www.youtube.com/watch?v=vdtAxiEXIBo">ebből</link> 
+            a videóból tanultam meg, ezután nem volt bonyolult megalkotni a C utasítást így.
+        </para>
+        <para>
+            <programlisting language="c"><![CDATA[
+<utasítás>
+<címkézett_ utasítás> ::= <azonosító> | <case> | <default>
+<kifejezés_utasítás> ::= <kifejezés>
+<összetett_utasítás> ::= <deklarációs_lista> | <utasítás_lista>
+<deklarációs_lista> ::= <deklaráció> | <deklarációs_lista deklaráció>
+<utasítás_lista> ::= <utasítás> | <utasítás_lista utasítás>
+<kiválasztó_utasítás> ::= if | if else | switch
+<iterációs_utasítás> ::= while | do while | for
+<vezérlésátadó_ utasítás> ::= goto | continue | break | return]]></programlisting>
+        </para>
+        <para>
+            Néhány példa olyan utasításokra, amik bizonyos verziójú C fordítóknál hibát adnak:
+        </para>
+        <para>
+            <programlisting language="c"><![CDATA[
+#include <stdio.h>
+
+int main()
+{
+    //komment                    //-rel nem lehet kommentelni, csak /**/-rel jó
+
+    for (int i = 0; i < 5; i++) //nem lehet for cikluson belül deklarálni
+    {
+        long long int a = 2;    //nem támogatott típus
+    }
+    gets(a);                    //warning, c11-gyel már hiba
+}]]></programlisting>
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Chomsky/hiba.png"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>                     
 
@@ -123,7 +161,10 @@ int main()
             a feladat lényege, hogy lexert használjunk, azaz óriások vállán álljunk és ne kispályázzunk!
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/9KnMqrkj_kU">https://youtu.be/9KnMqrkj_kU</link> (15:01-től).
+            dr. Bátfai Norbert megoldása: <link xlink:href="https://youtu.be/9KnMqrkj_kU">https://youtu.be/9KnMqrkj_kU</link> (15:01-től).
+        </para>
+        <para>
+            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="Chomsky/realnumber.l">
@@ -471,11 +512,10 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
             <listitem>
                 <programlisting><![CDATA[int (*(*z) (int)) (int, int);]]></programlisting>            
             <para>  
-                Egy egészet kérő function-re mutató pointer, ami egy pointert ad vissza egy function-re, ami két egészet kér, és egy egészt ad vissza.
+                Egy egészet kérő function-re mutató pointer, ami egy pointert ad vissza egy function-re, ami két egészet kér, és egy egészet ad vissza.
             </para> 
             </listitem>  
         </itemizedlist>       
-
 
         <para>
             Megoldás videó: 
