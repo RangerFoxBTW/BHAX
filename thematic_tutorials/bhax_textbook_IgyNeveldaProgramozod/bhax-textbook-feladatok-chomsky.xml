@@ -164,14 +164,13 @@ int main()
             dr. Bátfai Norbert megoldása: <link xlink:href="https://youtu.be/9KnMqrkj_kU">https://youtu.be/9KnMqrkj_kU</link> (15:01-től).
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/BXsm8xHXSus">https://youtu.be/BXsm8xHXSus</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="Chomsky/realnumber.l">
-                <filename>bhax/thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/Chomsky/realnumber.l</filename>
-            </link> 
+            Megoldás forrása:  <link xlink:href="/src/Chomsky/lex.l">lex.l</link>
         </para>
-        <programlisting language="c"><![CDATA[%{
+        <programlisting language="c"><![CDATA[
+%{
 #include <stdio.h>
 int realnumbers = 0;
 %}
@@ -180,16 +179,23 @@ digit	[0-9]
 {digit}*(\.{digit}+)?	{++realnumbers; 
     printf("[realnum=%s %f]", yytext, atof(yytext));}
 %%
-int
-main ()
+int main()
 {
- yylex ();
+ yylex();
  printf("The number of real numbers is %d\n", realnumbers);
- return 0;
-}
-]]></programlisting>
+}]]></programlisting>
         <para>
-            
+            A kód 3 részből áll, ezek dupla % jellel vannak elválasztva. Ez egy lexer, ami C programokat ír helyettünk. Az elején include-oljuk az stdio.h könyvtárat, 
+            valamint deklarálunk egy realnumbers nevű egész típusú változót. Ezután jön a definíció. A digit [0-9] a 0-tól 9-ig tartó számjegyekből álló karaktercsokrot 
+            fogja definiálni. A következő részben a fordítási szabályok találhatóak. Úgy kell értelmezni, hogy a digitből bármennyi (akár 0 is) lehet (ezt a *-gal 
+            definiálja), aztán a „.” jelet írjuk mellé, ami a tizedesvesszőt (pontot) jelöli, aztán még egy digit jön, de ennek a végén már egy + jel van, ami azt 
+            jelenti, hogy akárhány darab számjegy lehet utána, de legalább egynek lennie kell. A végén az egész kérdőjelben van, vagyis opcionális (nem muszáj 
+            tizedesvesszővel elválasztani egy számot). 
+        </para>
+        <para>
+            Ezután megnöveljük a változó értékét eggyel, majd kiíratjuk stringként az eddig feldolgozott adatokat, majd a számot is [] zárójelek között. Az atof() 
+            függvény stringből konvertál lebegőpontos (double számokat). Ezután a mainben elindítjuk a lexikális elemzőt, majd a végén kiírjuk, hogy hány darab szám volt 
+            a beolvasott adatban.
         </para>
     </section>                     
 
@@ -199,12 +205,16 @@ main ()
             Lexelj össze egy l33t ciphert!
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/06C_PqDpD_k">https://youtu.be/06C_PqDpD_k</link>
+            dr. Bátfai Norbert megoldása: <link xlink:href="https://youtu.be/06C_PqDpD_k">https://youtu.be/06C_PqDpD_k</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="Chomsky/l337d1c7.l">
-                <filename>bhax/thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/Chomsky/l337d1c7.l</filename>
-            </link>  
+            Megoldás videó: <link xlink:href="https://youtu.be/B7Crc8x8lQE">https://youtu.be/B7Crc8x8lQE</link>
+        </para>
+        <para>
+
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Chomsky/leet.l">leet.l</link>
         </para>
         <programlisting language="c"><![CDATA[
 %{
@@ -300,10 +310,28 @@ main()
   srand(time(NULL)+getpid());
   yylex();
   return 0;
-}
-]]></programlisting>
+}]]></programlisting>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            A program lényegében azt csinálja, hogy a beírt szöveget karakterenként átírja egy meghatározott szótár segítségével, ezáltal „titkosítva” azt. Az előző 
+            feladathoz hasonlóan ez a program is 3 részből áll. Az elején include-oljuk a szükséges könyvtárakat, valamint létrehozunk egy struktúrát, ami tartalmaz egy 
+            char-t, amiben az aktuális betű van, amit beírunk, aztán egy mutató tömböt, ami a beírt karakterhez tartozó cserelehetőségeket tartalmazza, valamint egy 
+            tömböt, ami tartalmazza a „szótárat”, vagyis a karaktereket, valamint a hozzájuk tartozó cseréket. Ennek a tömbnek nincs meghatározva a mérete, ugyanis a 
+            fordító elvégzi ezt a számolást helyettünk. 
+        </para>
+        <para>
+            A második részében definiáljuk a szabályokat, ami egy szimpla „.”. Ez annyit tesz, hogy a beolvasott szöveget karakterenként hasonlítjuk össze a tömbben 
+            lévő szótárral, és ha talált egyezést, akkor egy randomizált folyamat végén a 4 lehetőség közül egyre kicseréli a beírt karaktert. A harmadikban van a main, 
+            amiben inicializáljuk a randomizálást, valamint elindítjuk a lexikális elemzőt. 
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Chomsky/leet.png"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Működik, minden szava igaz!</phrase>
+                </textobject>
+            </mediaobject>
         </para>
     </section>                     
 
@@ -618,7 +646,7 @@ int main()
     </section>                     
 
     <section>
-        <title>Minecraft MALMÖ (csiga diszkrét)</title>
+        <title>9. Minecraft MALMÖ (csiga diszkrét)</title>
         <para>
             Megoldás videó: <link xlink:href=""></link>
         </para>
