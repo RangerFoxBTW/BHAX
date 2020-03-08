@@ -34,7 +34,7 @@
             ezután a következő számjegyre tér át, és végrehajtja ugyanezeket a folyamatokat, míg a végén a szám első számjegyénél is 0-ást kap. 
         </para>
         <para>
-            <programlisting language="C++"><![CDATA[%{
+            <programlisting language="C++"><![CDATA[
 #include <iostream>
 
 using namespace std;
@@ -76,14 +76,14 @@ int main()
         <para>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="" scale="50"/>
+                    <imagedata fileref="img/Chomsky/logika1.jpg" scale="50"/>
                 </imageobject>
             </mediaobject>
         </para>
         <para>
             <mediaobject>
                 <imageobject>
-                    <imagedata fileref="" scale="50"/>
+                    <imagedata fileref="img/Chomsky/logika2.jpg" scale="50"/>
                 </imageobject>
             </mediaobject>           
         </para>
