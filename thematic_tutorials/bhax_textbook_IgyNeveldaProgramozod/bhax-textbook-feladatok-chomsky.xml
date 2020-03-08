@@ -360,47 +360,69 @@ main()
             <listitem>                                    
                 <programlisting><![CDATA[if(signal(SIGINT, SIG_IGN)!=SIG_IGN)
     signal(SIGINT, jelkezelo);]]></programlisting>
+                <para>
+                    Ha a SIGNT nem volt figyelmen kívül hagyva, akkor ezentúl kezelje őt a jelkezelő. Ellenkező esetben maradjon ignorálva.
+                </para>
             </listitem>
             <listitem>                                    
                 <programlisting><![CDATA[for(i=0; i<5; ++i)]]></programlisting>            
+                <para>
+                    Ez egy for cilus, a ciklusfejben az i változót 0-val tesszük egyenlővé, majd megnézzük, hogy i értéke kisebb-e, mint 5. Ha igen, akkor megnöveljük 
+                    az i értékét, majd végrehajtódnak a ciklusmagban megadott utasítások, majd a vezérlés visszakerül a fejbe, ahol újra megnézi az i értékét. Ha i nem 
+                    kisebb 5-nél, akkor a ciklus utáni utasítással folytatódik tovább a program. A ++i előbb megnöveli i értékét eggyel, majd felhasználja az i-t. 
+                </para>
             </listitem>
             <listitem>                                    
-
                 <programlisting><![CDATA[for(i=0; i<5; i++)]]></programlisting>            
+                <para>
+                    Funkciójában megegyezik a fentebbi példával. Az i++ előbb felhasználja az i-t, majd utána növeli meg az értékét 1-gyel, de ez nem befolyásolja a 
+                    ciklus működését. 
+                </para>
             </listitem>
             <listitem>                                    
-
                 <programlisting><![CDATA[for(i=0; i<5; tomb[i] = i++)]]></programlisting>            
+                <para>
+                    Az i értékét 0-val egyenlővé tesszük, majd ellenőrzi, hogy i kisebb-e, mint 5. Ha igen, akkor lefut a ciklusmag, majd a tomb i-edik elemét egyenlővé 
+                    tesszük i-vel. Ezután i értékét megnöveljük eggyel, majd újra kiértékelődik a ciklusfej. Ha i nem kisebb 5-nél, akkor a ciklus utáni utasítással 
+                    folytatódik tovább a program.
+                </para>
             </listitem>
             <listitem>                                    
-
                 <programlisting><![CDATA[for(i=0; i<n && (*d++ = *s++); ++i)]]></programlisting>            
+                <para>
+                    Egy for ciklus ami addig megy amíg i kisebb mint n és (*d++) visszatérés értéke érvényes. A d és s pointerek, és a tömbök első elemére mutatnak. 
+                    Ebben a formában csak úgy működik, ha előtte már létrehoztuk ilyen néven a pointereket.
+                </para>
             </listitem>
             <listitem>                                    
-
                 <programlisting><![CDATA[printf("%d %d", f(a, ++a), f(++a, a));]]></programlisting>            
+                <para>
+                    A printf()-nél a függvényargumentumok kiértékelési sorrendje nincs meghatározva, vagyis ugyan kiértékelődnek a fent megadott argumentumok, de nem 
+                    tudjuk, milyen sorrendben. 
+                </para>
             </listitem>
             <listitem>                                    
-
                 <programlisting><![CDATA[printf("%d %d", f(a), a);]]></programlisting>            
+                <para>
+                    Kiírjuk az f(a) és a értékét az alapértelmezett kimenetre. Mivel az a értéke nem változik, ezért mindegy, hogy milyen sorrendben értékelődnek ki az 
+                    argumentumok. 
+                </para>
             </listitem>
             <listitem>                                    
-
                 <programlisting><![CDATA[printf("%d %d", f(&a), a);]]></programlisting>            
+                <para>
+                    Ha az a értéke módosul az f függvényben, akkor ez hiba, hiszen mivel nincs meghatározva a kiértékelési sorrend, így a értéke lehet az eredeti, vagy a 
+                    módosított is.
+                </para>
             </listitem>
         </orderedlist>
-        <para>
-            Megoldás forrása:  
-        </para>
 
         <para>
-            Megoldás videó: 
+            Megoldás forrása:  A fejezetbe ágyazva.
         </para>
-
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            Megoldás videó: Mivel a megoldás a könyvben van, így nem érzem szükségességét a videónak (a forrásfájl maga a könyv, ezen nincs mit bemutatni videóban).
         </para>
-
     </section>                     
 
     <section>
@@ -433,6 +455,12 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     <section>
         <title>Deklaráció</title> 
+        <para>
+            Megoldás videó: 
+        </para>
+        <para>
+            Megoldás forrása:  
+        </para>
 
         <para>
             Vezesd be egy programba (forduljon le) a következőket: 
@@ -440,34 +468,44 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
 
         <itemizedlist>
             <listitem>
-                <para>egész</para>                     
+                <para>egész</para> 
+                <programlisting language="c"><![CDATA[]]></programlisting>                    
             </listitem>
             <listitem>
-                <para>egészre mutató mutató</para>                        
+                <para>egészre mutató mutató</para>   
+                <programlisting language="c"><![CDATA[]]></programlisting>                     
             </listitem>
             <listitem>
-                <para>egész referenciája</para>                        
+                <para>egész referenciája</para>   
+                <programlisting language="c"><![CDATA[]]></programlisting>                     
             </listitem>
             <listitem>
-                <para>egészek tömbje</para>                        
+                <para>egészek tömbje</para>      
+                <programlisting language="c"><![CDATA[]]></programlisting>                  
             </listitem>
             <listitem>
-                <para>egészek tömbjének referenciája (nem az első elemé)</para>                        
+                <para>egészek tömbjének referenciája (nem az első elemé)</para>    
+                <programlisting language="c"><![CDATA[]]></programlisting>                    
             </listitem>
             <listitem>
-                <para>egészre mutató mutatók tömbje</para>                        
+                <para>egészre mutató mutatók tömbje</para>      
+                <programlisting language="c"><![CDATA[]]></programlisting>                  
             </listitem>
             <listitem>
-                <para>egészre mutató mutatót visszaadó függvény</para>                        
+                <para>egészre mutató mutatót visszaadó függvény</para>   
+                <programlisting language="c"><![CDATA[]]></programlisting>                     
             </listitem>
             <listitem>
-                <para>egészre mutató mutatót visszaadó függvényre mutató mutató</para>                        
+                <para>egészre mutató mutatót visszaadó függvényre mutató mutató</para>     
+                <programlisting language="c"><![CDATA[]]></programlisting>                   
             </listitem>
             <listitem>
-                <para>egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvény</para>                        
+                <para>egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvény</para>    
+                <programlisting language="c"><![CDATA[]]></programlisting>                    
             </listitem>            
             <listitem>
-                <para>függvénymutató egy egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvényre</para>                        
+                <para>függvénymutató egy egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvényre</para> 
+                <programlisting language="c"><![CDATA[]]></programlisting>                       
             </listitem>            
         </itemizedlist>            
 
@@ -547,12 +585,6 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
             </listitem>  
         </itemizedlist>       
 
-        <para>
-            Megoldás videó: 
-        </para>
-        <para>
-            Megoldás forrása:  
-        </para>
         <para>
             Az utolsó két deklarációs példa demonstrálására két olyan kódot
             írtunk, amelyek összahasonlítása azt mutatja meg, hogy miért 
@@ -646,7 +678,7 @@ int main()
     </section>                     
 
     <section>
-        <title>9. Minecraft MALMÖ (csiga diszkrét)</title>
+        <title>Minecraft MALMÖ (csiga diszkrét)</title>
         <para>
             Megoldás videó: <link xlink:href=""></link>
         </para>
