@@ -703,8 +703,7 @@ int main()
 }]]></programlisting>    
     <para>
         Sokat nem lehet róluk mondani, azt teszik, amit a feladatok követeltek, a létrehozott C++ program is hibamentesen lefordult és lefutott. A feladat második felében
-        elég nehéz, átláthatatlan és szinte követhetetlen borzalmakat kért, ilyeneket nem is nagyon használunk ilyen okokból kifolyólag. Habár az utolsó kettő kiváló 
-        lehet háborús bűnösök vallatására...
+        elég nehéz, átláthatatlan és szinte követhetetlen dolgokat kért, ilyeneket nem is nagyon használunk ilyen okokból kifolyólag.
     </para>        
     </section>                     
 
