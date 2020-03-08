@@ -1,49 +1,35 @@
-int *getptr(int *t_ptr);
-typedef int(*R)(int, int);
-int get_int(int a, int b);
-R getptr(int);
+int *fn(){
+    int a = 1;
+    int *ptr = &a;
 
-int *getptr(int *t){
-    return t;
-}
-
-int get_int(int a, int b){
-    return -10;
-}
-
-R get_init(int wishGranter){
-    retrun get_int;
+    return ptr;
 }
 
 int main()
 {
     //egész
-    int a = 10;
+    int a = 1;
 
     //egészre mutató mutató
-    int *ptr = &a;
+    int b = 1;
+    int *ptr = &b;
 
     //egész referenciája
-    int &ref = a; 
+    int c = 1;
+    int &ref = c;
 
     //egészek tömbje
-    int t[10];
+    int t[5] = {1, 2, 3, 4, 5};
 
     //egészek tömbjének referenciája (nem az első elemé)
-    int (&t)[10];
+    int (&t_ref)[5] = t;
 
     //egészre mutató mutatók tömbje
-    int *t_ptr[10];
+    int *ptr2[5];
 
     //egészre mutató mutatót visszaadó függvény
-    int *ptr2  getptr(t_ptr);
+    int *(*ptr3)() = fn;
 
     //egészre mutató mutatót visszaadó függvényre mutató mutató
-    int *ptr3 (int *) = getptr;
-
-    //egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvény
-    R get_int = getptr(10);
-
-    //függvénymutató egy egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvényre
-    
+    void*(fn);
 }

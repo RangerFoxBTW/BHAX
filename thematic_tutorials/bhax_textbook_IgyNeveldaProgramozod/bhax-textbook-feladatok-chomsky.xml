@@ -447,7 +447,7 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
         <para>
             <mediaobject>
                 <imageobject>
-                        <imagedata fileref=""/>
+                        <imagedata fileref="img/Chomsky/logika3.jpg"/>
                 </imageobject>
             </mediaobject>
         </para>
@@ -456,10 +456,10 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
     <section>
         <title>Deklaráció</title> 
         <para>
-            Megoldás videó: 
+            Megoldás videó: <link xlink:href="https://youtu.be/Mi4at5BDptI">https://youtu.be/Mi4at5BDptI</link>
         </para>
         <para>
-            Megoldás forrása:  
+            Megoldás forrása:  <link xlink:href="src/Chomsky/deklaracio.cpp"></link>
         </para>
 
         <para>
@@ -469,43 +469,69 @@ $(\exists y \forall x (y<x) \supset \neg (x \text{ prím}))$
         <itemizedlist>
             <listitem>
                 <para>egész</para> 
-                <programlisting language="c"><![CDATA[]]></programlisting>                    
+                <programlisting language="c"><![CDATA[int a = 1;]]></programlisting>                    
             </listitem>
             <listitem>
                 <para>egészre mutató mutató</para>   
-                <programlisting language="c"><![CDATA[]]></programlisting>                     
+                <programlisting language="c"><![CDATA[
+int b = 1;
+int *ptr = &b;]]></programlisting>                     
             </listitem>
             <listitem>
                 <para>egész referenciája</para>   
-                <programlisting language="c"><![CDATA[]]></programlisting>                     
+                <programlisting language="c"><![CDATA[
+int c = 1;
+int &ref = c;]]></programlisting>                     
             </listitem>
             <listitem>
                 <para>egészek tömbje</para>      
-                <programlisting language="c"><![CDATA[]]></programlisting>                  
+                <programlisting language="c"><![CDATA[int t[5] = {1, 2, 3, 4, 5};]]></programlisting>                  
             </listitem>
             <listitem>
                 <para>egészek tömbjének referenciája (nem az első elemé)</para>    
-                <programlisting language="c"><![CDATA[]]></programlisting>                    
+                <programlisting language="c"><![CDATA[int (&t_ref)[5] = t;]]></programlisting>                    
             </listitem>
             <listitem>
                 <para>egészre mutató mutatók tömbje</para>      
-                <programlisting language="c"><![CDATA[]]></programlisting>                  
+                <programlisting language="c"><![CDATA[int *ptr2[5];]]></programlisting>                  
             </listitem>
             <listitem>
                 <para>egészre mutató mutatót visszaadó függvény</para>   
-                <programlisting language="c"><![CDATA[]]></programlisting>                     
+                <programlisting language="c"><![CDATA[
+int *fn(){
+    int a = 1;
+    int *ptr = &a;
+
+    return ptr;
+}
+
+int main()
+{
+    int *(*ptr3)() = fn;
+}]]></programlisting>                     
             </listitem>
             <listitem>
                 <para>egészre mutató mutatót visszaadó függvényre mutató mutató</para>     
-                <programlisting language="c"><![CDATA[]]></programlisting>                   
+                <programlisting language="c"><![CDATA[
+int *fn(){
+    int a = 1;
+    int *ptr = &a;
+
+    return ptr;
+}
+
+int main()
+{
+    void*(fn);
+}]]></programlisting>                   
             </listitem>
             <listitem>
                 <para>egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvény</para>    
-                <programlisting language="c"><![CDATA[]]></programlisting>                    
+                <para>Lásd a feladat végén</para>                  
             </listitem>            
             <listitem>
                 <para>függvénymutató egy egészet visszaadó és két egészet kapó függvényre mutató mutatót visszaadó, egészet kapó függvényre</para> 
-                <programlisting language="c"><![CDATA[]]></programlisting>                       
+                <para>Lásd a feladat végén</para>                         
             </listitem>            
         </itemizedlist>            
 
@@ -674,7 +700,12 @@ int main()
     printf ("%d\n", f (2, 3));
 
     return 0;
-}]]></programlisting>            
+}]]></programlisting>    
+    <para>
+        Sokat nem lehet róluk mondani, azt teszik, amit a feladatok követeltek, a létrehozott C++ program is hibamentesen lefordult és lefutott. A feladat második felében
+        elég nehéz, átláthatatlan és szinte követhetetlen borzalmakat kért, ilyeneket nem is nagyon használunk ilyen okokból kifolyólag. Habár az utolsó kettő kiváló 
+        lehet háborús bűnösök vallatására...
+    </para>        
     </section>                     
 
     <section>
