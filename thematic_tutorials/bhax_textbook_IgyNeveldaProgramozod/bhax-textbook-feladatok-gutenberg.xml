@@ -10,12 +10,14 @@
             </para>
         </cover>
     </info>
+
     <section>
         <title>Programozási alapfogalmak</title>
         <para>         
             <citation>PICI</citation>       
         </para>
-    </section>        
+    </section>    
+
     <section>
         <title>Programozás bevezetés</title>
         <para>                
@@ -25,10 +27,11 @@
             Megoldás videó: <link xlink:href="https://youtu.be/zmfT9miB-jY">https://youtu.be/zmfT9miB-jY</link>
         </para>        
     </section>        
+
     <section>
         <title>Programozás</title>
         <para>                
             <citation>BMECPP</citation>
         </para>
-    </section>        
+    </section>   
 </chapter>                

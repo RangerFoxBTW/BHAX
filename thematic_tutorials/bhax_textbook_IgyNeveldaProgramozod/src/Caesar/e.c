@@ -21,7 +21,7 @@ main (int argc, char **argv)
   while ((olvasott_bajtok = read (0, (void *) buffer, BUFFER_MERET)))
     {
 
-      for (int i = 0; i < olvasott_bajtok; ++i)
+      for (int i = 0; i < olvasott_bajtok; i++)
 	{
 
 	  buffer[i] = buffer[i] ^ kulcs[kulcs_index];

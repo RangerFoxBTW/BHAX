@@ -85,26 +85,35 @@ main ()
             </mediaobject>
         </figure>                             
         <para>
-            A háromszögmátrixok négyzetes mátrixok. A felső háromszögmátrixokban a főátló alatt csupa 0-s érték található, az alsó háromszögmátrixokban pedig a főátló felett találhatóak 
-            csupa 0-s értékek. 
+            A háromszögmátrixok négyzetes mátrixok. A felső háromszögmátrixokban a főátló alatt csupa 0-s érték található, az alsó háromszögmátrixokban pedig a főátló 
+            felett találhatóak csupa 0-s értékek. 
         </para>          
         <para>
-            A programban elsőnek meghatározzuk, hogy 5 sora legyen. Ezután a **tm segítségével lefoglalunk a memóriában egy területet, majd a malloc segítségével ellenőrizzük, hogy a 
-            program rendelkezésére áll-e a kívánt mennyiségű memória. Ha nem, akkor Null értéket visszaadva leáll a program. A malloc void*-t adna vissza eredményül, de a programban 
-            meghatározzuk neki, hogy double** típust adjon vissza. 
+            A programban elsőnek meghatározzuk, hogy 5 sora legyen. Ezután a **tm segítségével lefoglalunk a memóriában egy területet, majd a malloc segítségével 
+            ellenőrizzük, hogy a program rendelkezésére áll-e a kívánt mennyiségű memória. Ha nem, akkor Null értéket visszaadva leáll a program. A malloc void*-t adna 
+            vissza eredményül, de a programban meghatározzuk neki, hogy double** típust adjon vissza. 
         </para>  
         <para>
-            Ezek után szükség van egy for ciklusra, ami megnézi, hogy elegendő memória áll-e a rendelkezésre a megadott számú soroknak (ebben az esetben 5 sor van, így 5*40 Bájtra van 
-            szüksége, vagyis 200-ra.). Ha a pointer Null értéket kap, akkor leáll a program. 
+            Ezek után szükség van egy for ciklusra, ami megnézi, hogy elegendő memória áll-e a rendelkezésre a megadott számú soroknak (ebben az esetben 5 sor van, így 
+            5*40 Bájtra van szüksége, vagyis 200-ra). Ha a pointer Null értéket kap, akkor leáll a program. 
         </para>
         <para>
-            Majd egymásba ágyazott for ciklusokkal feltöltjük a mátrixot elemekkel (az i a sorokat, j az oszlopokat jelöli), majd szintén for ciklussal kiíratjuk az elemeit.
+            Majd egymásba ágyazott for ciklusokkal feltöltjük a mátrixot elemekkel (az i a sorokat, j az oszlopokat jelöli), majd szintén for ciklussal kiíratjuk az 
+            elemeit.
         </para>
         <para>
             Az utolsó rész demonstrálja, hogy másképp is ki lehet íratni az elemeket (a program a 3. sor elemeit írja ki másként), végül a free() eljárással 
             felszabadítja a double* és a double** által lefoglalt memóriát.
         </para>
+        <para>  
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/Caesar/tm.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>
     </section>        
+
     <section>
         <title>C EXOR titkosító</title>
         <para>
@@ -141,7 +150,7 @@ main (int argc, char **argv)
   while ((olvasott_bajtok = read (0, (void *) buffer, BUFFER_MERET)))
     {
 
-      for (int i = 0; i < olvasott_bajtok; ++i)
+      for (int i = 0; i < olvasott_bajtok; i++)
 	{
 
 	  buffer[i] = buffer[i] ^ kulcs[kulcs_index];
@@ -155,9 +164,25 @@ main (int argc, char **argv)
 }]]></programlisting>
         </para>  
         <para>
-            
-        </para>          
-    </section>        
+            Egyszerű titkosító programot lehet megvalósítani a XOR (kizáró vagy/EXOR) logikai művelet segítségével. A C programunk elején include-oljuk a szükséges könyvtárakat, valamint a 
+            #define parancs segítségével definiálunk két konstanst: a MAX_KULCS-ot, valamint a BUFFER_MERET-et (a nevük magukért beszélnek szerintem). 
+        </para> 
+        <para>
+            Ezután a main argumnetumai az argc és az argv parancssori argumentumokat. Az argc (ARGument Count) egy int típusú argumentum, és eltárolja, hogy hány darab argumentum lett 
+            átadva a felhasználó által, beleértve a program nevét. Az argv (ARGumentum Vector) egy char pointereket tartalmazó tömb, ami felsorolja az összes parancssori argumentumot.
+        </para>    
+        <para>
+            Majd létrehozunk két char típusú tömböt, a kulcsot (100 karakter), illetve a buffert (256). Továbbá létrehozzuk a kulcs indexét, valamint az olvasott Bájtok számát eltároló 
+            változókat, amelyeknek kezdőértékük 0. Ezután deklaráljuk a kulcs méretét, aminek értéke megegyezik az argv 2. elemének a nagyságával. Ezután az strncpy függvénnyel átmásoljuk 
+            a kulcs változóba az argv[1]-et.  
+        </para>
+        <para>
+            A program további részében egy while ciklussal addig olvasunk be egy fájlt (Bájtonként), amíg a buffer engedi (256-os maximumot adtunk meg neki a program elején). A beolvasott 
+            Bájtok mindegyikén elvégezzük a XOR műveletet a kulcs KULCS_INDEX-edik elemével, majd ezt az indexet megnöveljük 1-gyel, majd elosztjuk a kulcs méretével. Ezután ez az érték lesz 
+            az új kulcs. Végül egy fájlba kiíratjuk a már titkosított szöveget. 
+        </para>     
+    </section>  
+
     <section>
         <title>Java EXOR titkosító</title>
         <para>
@@ -215,9 +240,16 @@ public class main{
 }]]></programlisting>
         </para>     
         <para>
-            
-        </para>       
-    </section>        
+            A Java egy magas szintű programozási nyelv, sokkal szofisztikáltabb, mint a C. Ettől függetlenül az EXOR titkosító elvi szinten hasonlóképp működik itt is. Először egy elegáns 
+            try-catch-csel megnézzük, hogy a program kapott-e argumentumot. Ha nem, akkor a standard outputra kiírjuk a felhasználónak, hogy adjon meg egy kulcsot. Ha van argumentum, akkor 
+            az encode a hívás során megkapja ezeket, valamint a kulcsot és a standrad input/output streameket is. 
+        </para>      
+        <para>
+            Ugyanúgy, mint a C-s programunkban a kapott kulcsot Bájtokra bontja, valamint deklaráljuk a szükséges char tömböket és int típusú változókat. Amíg az inputról érkezik Bájt, 
+            addig azokon elvégzi a XOR műveletet a kulcs megfelelő karakterével, majd a végén kiíratjuk a tömb elemeit, vagyis a titkosított szöveget. 
+        </para> 
+    </section>  
+
     <section xml:id="bhax-textbook-feladatok-caesar.EXOR-toro">
         <title>C EXOR törő</title>
         <para>
@@ -353,25 +385,85 @@ main (void)
                 </textobject>
             </mediaobject>
         </para>       
-    </section>        
+    </section>  
+
     <section>
         <title>Neurális OR, AND és EXOR kapu</title>
         <para>
             R
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/Koyw6IH5ScQ">https://youtu.be/Koyw6IH5ScQ</link>
+            Megoldás videó: <link xlink:href="https://youtu.be/bwXYCu6027Y">https://youtu.be/bwXYCu6027Y</link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Caesar/neural.r">neural.r</link>               
         </para>
         <para>
+            <programlisting language="r"><![CDATA[
+library(neuralnet)
 
+a1    <- c(0,1,0,1)
+a2    <- c(0,0,1,1)
+OR    <- c(0,1,1,1)
+
+or.data <- data.frame(a1, a2, OR)
+
+nn.or <- neuralnet(OR~a1+a2, or.data, hidden=0, linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.or)
+
+compute(nn.or, or.data[,1:2])
+
+
+a1    <- c(0,1,0,1)
+a2    <- c(0,0,1,1)
+OR    <- c(0,1,1,1)
+AND   <- c(0,0,0,1)
+
+orand.data <- data.frame(a1, a2, OR, AND)
+
+nn.orand <- neuralnet(OR+AND~a1+a2, orand.data, hidden=0, linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.orand)
+
+compute(nn.orand, orand.data[,1:2])
+
+
+
+a1      <- c(0,1,0,1)
+a2      <- c(0,0,1,1)
+EXOR    <- c(0,1,1,0)
+
+exor.data <- data.frame(a1, a2, EXOR)
+
+nn.exor <- neuralnet(EXOR~a1+a2, exor.data, hidden=0, linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.exor)
+
+compute(nn.exor, exor.data[,1:2])
+
+
+
+a1      <- c(0,1,0,1)
+a2      <- c(0,0,1,1)
+EXOR    <- c(0,1,1,0)
+
+exor.data <- data.frame(a1, a2, EXOR)
+
+nn.exor <- neuralnet(EXOR~a1+a2, exor.data, hidden=c(6, 4, 6), linear.output=FALSE, stepmax = 1e+07, threshold = 0.000001)
+
+plot(nn.exor)
+
+compute(nn.exor, exor.data[,1:2])]]></programlisting>
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            Dr. Bátfai Norbert Tanár Úr programja. 
         </para>            
+        <para>
+
+        </para>
     </section>        
+
     <section>
         <title>Hiba-visszaterjesztéses perceptron</title>
         <para>
@@ -381,10 +473,13 @@ main (void)
             Megoldás videó: <link xlink:href="https://youtu.be/XpBnR31BRJY">https://youtu.be/XpBnR31BRJY</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="https://github.com/nbatfai/nahshon/blob/master/ql.hpp#L64">https://github.com/nbatfai/nahshon/blob/master/ql.hpp#L64</link>               
+            Teljes kód forrása: <link xlink:href="src/Caesar/ql.hpp">ql.hpp</link>  
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            Videóban látható kód forrása: <link xlink:href="src/Caeasar/main.cpp">main.cpp</link>             
+        </para>
+        <para>
+            
         </para>            
     </section>        
 
