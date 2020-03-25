@@ -85,8 +85,25 @@ main ()
             </mediaobject>
         </figure>                             
         <para>
-            
-        </para>            
+            A háromszögmátrixok négyzetes mátrixok. A felső háromszögmátrixokban a főátló alatt csupa 0-s érték található, az alsó háromszögmátrixokban pedig a főátló felett találhatóak 
+            csupa 0-s értékek. 
+        </para>          
+        <para>
+            A programban elsőnek meghatározzuk, hogy 5 sora legyen. Ezután a **tm segítségével lefoglalunk a memóriában egy területet, majd a malloc segítségével ellenőrizzük, hogy a 
+            program rendelkezésére áll-e a kívánt mennyiségű memória. Ha nem, akkor Null értéket visszaadva leáll a program. A malloc void*-t adna vissza eredményül, de a programban 
+            meghatározzuk neki, hogy double** típust adjon vissza. 
+        </para>  
+        <para>
+            Ezek után szükség van egy for ciklusra, ami megnézi, hogy elegendő memória áll-e a rendelkezésre a megadott számú soroknak (ebben az esetben 5 sor van, így 5*40 Bájtra van 
+            szüksége, vagyis 200-ra.). Ha a pointer Null értéket kap, akkor leáll a program. 
+        </para>
+        <para>
+            Majd egymásba ágyazott for ciklusokkal feltöltjük a mátrixot elemekkel (az i a sorokat, j az oszlopokat jelöli), majd szintén for ciklussal kiíratjuk az elemeit.
+        </para>
+        <para>
+            Az utolsó rész demonstrálja, hogy másképp is ki lehet íratni az elemeket (a program a 3. sor elemeit írja ki másként), végül a free() eljárással 
+            felszabadítja a double* és a double** által lefoglalt memóriát.
+        </para>
     </section>        
     <section>
         <title>C EXOR titkosító</title>
@@ -98,9 +115,6 @@ main ()
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Caesar/e.c">e.c</link>               
-        </para>
-        <para>
-            Tutoriált: Takács Balázs
         </para>
         <para>
             <programlisting language="c"><![CDATA[
@@ -141,7 +155,7 @@ main (int argc, char **argv)
 }]]></programlisting>
         </para>  
         <para>
-
+            
         </para>          
     </section>        
     <section>
@@ -150,14 +164,59 @@ main (int argc, char **argv)
             Írj egy EXOR titkosítót Java-ban!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/0GZS1491xP0">https://youtu.be/0GZS1491xP0</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/ch01.html#exor_titkosito">https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/ch01.html#exor_titkosito</link>               
+            Megoldás forrása: <link xlink:href="src/Caesar/main.java">main.java</link>              
         </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public class main{
+    public static void encode(String key, InputStream in, OutputStream out)
+    throws java.io.IOException
+    {
+        byte[] thekey = key.getBytes();
+        byte[] inputBuffer = new byte[256];
+        int keyIndex = 0;
+        int readBytes = 0;
+
+        while((readBytes = in.read(inputBuffer)) != -1)
+        {
+            for(int i=0; i<readBytes; i++)
+            {
+                inputBuffer[i] = (byte)(inputBuffer[i] ^ thekey[keyIndex]);
+                keyIndex = (keyIndex + 1) % key.length();
+            }
+            out.write(inputBuffer, 0, readBytes);
+        }
+    }
+
+    public static void main(String[] args){
+        if(args[0] != "")
+        {
+            try
+            {
+                encode(args[0], System.in, System.out);
+            }
+            catch(java.io.IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            System.out.println("Adj meg egy kulcsot!");
+            System.out.println("java main <key>");
+        }
+    }
+}]]></programlisting>
+        </para>     
         <para>
             
-        </para>            
+        </para>       
     </section>        
     <section xml:id="bhax-textbook-feladatok-caesar.EXOR-toro">
         <title>C EXOR törő</title>
@@ -165,14 +224,135 @@ main (int argc, char **argv)
             Írj egy olyan C programot, amely megtöri az első feladatban előállított titkos szövegeket!
         </para>
         <para>
-            Megoldás videó:
+            Megoldás videó: <link xlink:href="https://youtu.be/8IgHTJ7XZCs">https://youtu.be/8IgHTJ7XZCs</link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Caesar/kodtor50000.c">kodtoro50000.c</link>               
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>            
+            Tutoriált: Takács Balázs
+        </para>
+        <para>
+            <programlisting language="c"><![CDATA[
+#define MAX_TITKOS 4096
+#define OLVASAS_BUFFER 256
+#define KULCS_MERET 4
+#define _GNU_SOURCE
+
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+
+double
+atlagos_szohossz (const char *titkos, int titkos_meret)
+{
+    int sz = 0;
+    for (int i = 0; i < titkos_meret; ++i)
+        if (titkos[i] == ' ')
+            ++sz;
+
+    return (double) titkos_meret / sz;
+}
+
+int
+tiszta_lehet (const char *titkos, int titkos_meret)
+{
+    // a tiszta szoveg valszeg tartalmazza a gyakori magyar szavakat
+    // illetve az átlagos szóhossz vizsgálatával csökkentjük a
+    // potenciális töréseket
+
+    double szohossz = atlagos_szohossz (titkos, titkos_meret);
+
+    return szohossz > 6.0 && szohossz < 9.0;/*
+           && strcasestr (titkos, "hogy") && strcasestr (titkos, "nem")
+           && strcasestr (titkos, "az") && strcasestr (titkos, "ha");*/
+
+}
+
+void
+exor (const char kulcs[], int kulcs_meret, char titkos[], int titkos_meret)
+{
+
+    int kulcs_index = 0;
+
+    for (int i = 0; i < titkos_meret; ++i)
+    {
+
+        titkos[i] = titkos[i] ^ kulcs[kulcs_index];
+        kulcs_index = (kulcs_index + 1) % kulcs_meret;
+
+    }
+
+}
+
+int
+exor_tores (const char kulcs[], int kulcs_meret, char titkos[],
+            int titkos_meret)
+{
+
+    exor (kulcs, kulcs_meret, titkos, titkos_meret);
+
+    return tiszta_lehet (titkos, titkos_meret);
+
+}
+
+int
+main (void)
+{
+
+    char kulcs[KULCS_MERET];
+    char titkos[MAX_TITKOS];
+    char *p = titkos;
+    int olvasott_bajtok;
+
+    // titkos fajt berantasa
+    while ((olvasott_bajtok =
+                read (0, (void *) p,
+                      (p - titkos + OLVASAS_BUFFER <
+                       MAX_TITKOS) ? OLVASAS_BUFFER : titkos + MAX_TITKOS - p)))
+        p += olvasott_bajtok;
+
+    // maradek hely nullazasa a titkos bufferben
+    for (int i = 0; i < MAX_TITKOS - (p - titkos); ++i)
+        titkos[p - titkos + i] = '\0';
+	//char str[4]= {'i', 'z', 'h', 'g'};
+	char str[KULCS_MERET] = "lugn";
+    // osszes kulcs eloallitasa
+    for (int ii = 0; ii <= 3; ++ii)
+	for (int li = 0; li <= 3; ++li)
+	    for (int ki = 0; ki <= 3; ++ki)
+		for (int ji = 0; ji <= 3; ++ji)
+                                {
+                                    kulcs[0] = str[ii];
+                                    kulcs[1] = str[li];
+                                    kulcs[2] = str[ki];
+                                    kulcs[3] = str[ji];
+                                    
+                                    if (exor_tores (kulcs, KULCS_MERET, titkos, p - titkos))
+                                        printf
+                                        ("Kulcs: [%c%c%c%c]\nTiszta szoveg: [%s]\n",
+                                         kulcs[ii], kulcs[li], kulcs[ki], kulcs[ji], titkos);
+
+                                    // ujra EXOR-ozunk, igy nem kell egy masodik buffer
+                                    exor (kulcs, KULCS_MERET, titkos, p - titkos);
+                                }
+
+    return 0;
+}]]></programlisting>
+        </para>     
+        <para>
+
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/Caesar/feltort.jpg" scale="50"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Ea. TP-ért feltörtem egy hallgatótárs titkosított szövegét ezzel a programmal.</phrase>
+                </textobject>
+            </mediaobject>
+        </para>       
     </section>        
     <section>
         <title>Neurális OR, AND és EXOR kapu</title>
@@ -183,7 +363,10 @@ main (int argc, char **argv)
             Megoldás videó: <link xlink:href="https://youtu.be/Koyw6IH5ScQ">https://youtu.be/Koyw6IH5ScQ</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/NN_R">https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/NN_R</link>               
+            Megoldás forrása: <link xlink:href="src/Caesar/neural.r">neural.r</link>               
+        </para>
+        <para>
+
         </para>
         <para>
             Tanulságok, tapasztalatok, magyarázat...

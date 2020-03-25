@@ -80,7 +80,7 @@ main (void)
     for (int i = 0; i < MAX_TITKOS - (p - titkos); ++i)
         titkos[p - titkos + i] = '\0';
 	//char str[4]= {'i', 'z', 'h', 'g'};
-	char str[KULCS_MERET] = "awsd";
+	char str[KULCS_MERET] = "lugn";
     // osszes kulcs eloallitasa
     for (int ii = 0; ii <= 3; ++ii)
 	for (int li = 0; li <= 3; ++li)
