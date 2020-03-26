@@ -373,7 +373,18 @@ main (void)
 }]]></programlisting>
         </para>     
         <para>
-
+            A fentebb látható program képes feltörni az egyszerűen titkosított szövegeket, feltéve, ha tudjuk, hogy milyen karaktereket tartalmaz a kulcs, illetve hány karakterből áll. A 
+            szokásos define és include utasítások után található az atlagos_szohossz függvény, aminek a neve nagyon beszédes. Megnézi, mekkora az átlagos szóhossz, így jelentősen 
+            lecsökkentve a feltöréshez szükséges időmennyiséget. 
+        </para>
+        <para>
+            Ezután található a tiszta_lehet függvény, ami megvizsgálja, hogy a feltörni kívánt szöveg tartalmazza-e a gyakran használt magyar szavak valamelyikét, ezeket utána rögzíti, 
+            ezzel is csökkentve a futási időt. Ezután a program exor eljárása a XOR műveletet alkalmazza a bufferbe beolvasott szövegre, valamint a kulcsindexre, ezzel visszafejtve a 
+            titkosított szöveget. Az exor_tores meghívja az előbb említett függvényt, valamint visszaadja a tiszta_lehet függvény eredményét. 
+        </para>
+        <para>
+            A mainben a program a titkosított szöveget a bufferbe olvassa, majd a fennmaradó helyeket kinullázza. Ezután egymásba ágyazott for ciklusok segítségével (ahány karakteres a 
+            kulcs, annyi ciklus szükséges) előállítja a program az összes lehetséges kulcsot. Végül kiíratjuk a kulcsot, és a visszafejtett, immár tiszta szöveget. 
         </para>
         <para>
             <mediaobject>
@@ -460,7 +471,15 @@ compute(nn.exor, exor.data[,1:2])]]></programlisting>
             Dr. Bátfai Norbert Tanár Úr programja. 
         </para>            
         <para>
-
+            A (mesterséges) neurális hálókat a mesterséges intelligencia megalkotására/tesztelésére, valamint különféle szimulációs folyamatok során használják. Ezekben a hálózatokban 
+            neuronok, illetve azok csoportjai kommunikálnak egymással függvények segítségével. Három rétegből állnak: a bemeneti rétegen érkezik be az adat, majd ez továbbítja őket a 
+            további rétegeknek, ahol az adatokon különféle  műveleteket hajt végre a hálózat, majd a kimeneti rétegre kerül az átalakított adat. 
+        </para>
+        <para>
+            A neuronok valami jel/jelzés továbbítására képesek. Ez akkor történik, ha valamilyen inger éri őket (a programban akkor, ha elérik a küszöbértéküket). A fenti program két 
+            mintasort rajzol ki, majd azokon elvégzi az ÉS, VAGY, KIZÁRÓ VAGY logikai műveleteket. Ezekből az adatokból készít egy data-framet, és a kapott adatokat eltárolja egy táblában. 
+            Ezek segítségével a program „megtanítja” a neuronoknak, hogy az adott értékeknél milyen jelet kell adniuk. A plot utasítással kirajzoljuk a Neurális hálót, végül a compute-tal 
+            ellenőrizzük a program működését. 
         </para>
     </section>        
 
@@ -470,17 +489,59 @@ compute(nn.exor, exor.data[,1:2])]]></programlisting>
             C++
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/XpBnR31BRJY">https://youtu.be/XpBnR31BRJY</link>
+            Megoldás videó: <link xlink:href="https://youtu.be/CRkm1aDshRE">https://youtu.be/CRkm1aDshRE</link>
         </para>
         <para>
-            Teljes kód forrása: <link xlink:href="src/Caesar/ql.hpp">ql.hpp</link>  
+            Videóban látható kódok forrása:             
         </para>
         <para>
-            Videóban látható kód forrása: <link xlink:href="src/Caeasar/main.cpp">main.cpp</link>             
+                <link xlink:href="src/Caeasar/mandel.cpp">mandel.cpp</link>   
         </para>
         <para>
-            
+                <link xlink:href="src/Caeasar/mlp.hpp">mlp.hpp</link>   
+        </para>
+        <para>
+                <link xlink:href="src/Caeasar/ql.hpp">ql.hpp</link>   
+        </para>
+        <para>
+                <link xlink:href="src/Caeasar/main.cpp">main.cpp</link> 
         </para>            
+        <para>
+            <programlisting language="c"><![CDATA[
+#include <iostream>
+#include "mlp.hpp"
+#include <png++/png.hpp>
+
+int main( int argc, char **argv)
+{
+	png::image <png::rgb_pixel> png_image ( argv[1] );
+	int size = png_image.get_width() *png_image.get_height();
+
+	Perceptron* p = new Perceptron ( 3, size, 256, 1);
+
+	double* image=new double[size];
+	for( int i{0}; i<png_image.get_width(); ++i)
+		for( int j{0}; j<png_image.get_height(); ++j )
+			image[i*png_image.get_width() +j] = png_image[i][j].red;
+
+	double value = (*p) (image);
+
+	std::cout<< value<< std::endl;
+
+	delete p;
+	delete [] image; 
+}]]></programlisting>
+        </para>
+        <para>
+            A perceptron egy, a mesterséges intelligencia fejlesztésénél használatos neuron. Úgy működik, mint egy alakfelismerő, amely a bemeneti adatra elvégez bizonyos műveleteket, és 
+            ezáltal megtanítja a neurális hálónak a bemeneti adatot osztályozni (jelen esetben a Mandelbrot-halmazról készített kép rgb kódjai). Ezután súlyozott összegzést végez, majd egy 
+            nemlineáris leképezést hoz létre.
+        </para>
+        <para>
+            A program sokrétű, és elég bonyolult. A mainben meghívjuk az mlp.hpp headert (ami nem egészen egy header, benne található a perceptron osztály), majd a mainben beimportáljuk a 
+            képet, helyet foglalunk a perceptron objektumnak, és egy for ciklussal feltöltjük a Mandelbrot-halmazos kép paramétereit használva az image képet. Ezután a függvény ezzel a 
+            képpel számol, majd kiírja az eredmény a standard outputra. Végül törli a perceptront, és a képet is.
+        </para>
     </section>        
 
     <section>

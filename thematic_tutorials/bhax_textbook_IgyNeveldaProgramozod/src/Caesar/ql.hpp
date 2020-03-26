@@ -1,6 +1,6 @@
 #ifndef QL_HPP
 #define QL_HPP
-
+//eredeti fajl, ebbol vesszuk ki a Perceptron osztalyt, es ugy hozzuk letre az mlp.hpp-t
 /**
  * @brief JUDAH - Jacob is equipped with a text-based user interface
  *
