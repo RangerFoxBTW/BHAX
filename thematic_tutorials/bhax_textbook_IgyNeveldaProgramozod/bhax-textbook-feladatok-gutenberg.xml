@@ -12,10 +12,7 @@
     </info>
 
     <section>
-        <title>Programozás</title>
-        <para>
-            <citation>Python</citation>
-        </para>
+        <title>Python</title>
         <para>
             A könyv kiadott fejezete segítségével beleláthattam a Python programozási nyelv működésébe, alapvető tulajdonságaiba, működésébe. Rengeteg új információra tettem szert, melyeket 
             hasznosíthatok a későbbi tanulmányaim folyamán, akár már a MALMÖ-s Minecraft feladatok megoldásához is. Érdekesség, hogy a Python idén lett 30 éves, ami tényleg meglepett. 
@@ -129,10 +126,7 @@
     </section>   
 
     <section>
-        <title>Programozási alapfogalmak</title>
-        <para>         
-            <citation>PICI</citation>       
-        </para>
+        <title>Programozási alapfogalmak (pici)</title>
         <para>
             A könyv tartalma 1:1-ben lefedi az előadás anyagát. Szerintem magáért beszél, hogy a könyvben vannak Fortran, LI/I, Pascal és Ada példák is, vagyis egyáltalán nem mai darab, 
             nem is aktualizált a jelenkori modern trendekben elterjedt programozási nyelvekhez. Hovatovább, ugyan viszonylag pontos és kielégítő definíciókat ad minden alapfogalomról, de a 
