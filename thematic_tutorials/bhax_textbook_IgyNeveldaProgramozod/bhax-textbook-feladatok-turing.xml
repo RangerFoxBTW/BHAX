@@ -281,7 +281,7 @@ int main()
     for(;;)
     {
         getmaxyx(terminal, y_meret ,x_meret);
-        mvprintw(y, x, "HEYO!");
+        mvprintw(y, x, "O");
         refresh();          
         usleep(100000);     
         clear();            

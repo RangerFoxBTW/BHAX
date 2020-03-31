@@ -12,11 +12,32 @@
     </info>
 
     <section>
-        <title>Programozási alapfogalmak</title>
-        <para>         
-            <citation>PICI</citation>       
+        <title>Python</title>
+        <para>
+            A könyv kiadott fejezete segítségével beleláthattam a Python programozási nyelv működésébe, alapvető tulajdonságaiba, működésébe. Rengeteg új információra tettem szert, melyeket 
+            hasznosíthatok a későbbi tanulmányaim folyamán, akár már a MALMÖ-s Minecraft feladatok megoldásához is. Érdekesség, hogy a Python idén lett 30 éves, ami tényleg meglepett. 
+            Lényegében egy scriptnyelv, de sokkal többet tud azoknál. Egy magas szintű programozási nyelv, amely rengeteg kényelmi funkciót tartalmaz, megkönnyíti, és egyúttal meg is 
+            gyorsítja a fejlesztők munkáját. Az interpreternek nem kell fordítania a forráskódot, egyből futtatja azt, így spórolva az idővel. 
         </para>
-    </section>    
+        <para>
+            Mivel egyszerű megtanulni a nyelv sajátosságait, így kitűnő kezdő programozók számára. Nagy szabadságot ad a C és hasónló programozási nyelvekhez képest, nincsenek pontosvesszők, 
+            kapcsoszárójelek. Ezek picit idegennek hatnak, de hamar hozzá lehet szokni. Minden sor új utasítást tartalmaz, külön figyelmet kell fordítani a tabulálásra (egységesen vagy space, 
+            vagy tab segítségével lehet elkülöníteni az egy kódrészletbe tartozó utasításokat). Ha egy sorba nem férne el egy utasítás, akkor azt egy \ jellel jelezve folytathatjuk a 
+            következő sorban. 
+        </para>
+        <para>
+            Ezen kívül rengeteg kényelmi funkcióval rendelkezik, például nem szükséges előre definiálni a változók típusát, azokat futtatás közben automatikusan felismeri az interpreter. 
+            Itt is érvényben van a rövidzár kiértékelés, használhatunk globális és lokális változókat. A nyelv ismeri az olyan magas szintű adatszerkezeteket, mint a listák és a szótárak. 
+            Ezek kezelésére különféle kényelmes beépített parancsok állnak rendelkezésünkre. Hasznos eszköz továbbá a típuskonverzió is. Ugyanúgy megtalálhatóak a szokásos iterációk, 
+            szelekciók. Külön öröm, hogy használhatunk range-based for ciklusokat, amelyekkel elegánsan tudjuk például egy tömb elemeit kiíratni. Van beépített kivételkezelője, valamint 
+            számtalan beépített modulja, amelyek főként a mobilprogramozásnál hasznosak. Természetesen, mivel magas szintű programozási nyelv, így itt is értelmezve vannak az osztályok, 
+            függvények, attribútumok, metódusok. 
+        </para>
+        <para>
+            Összességében jó betekintést adott a könyv ezen fejezete a Python programozási nyelvbe, habár rengeteg utánajárást és számtalan egyéb olvasást igényel majd a nyelv tényleges 
+            elsajátítása. Tetszik a nyelv kötetlensége, gyorsasága, hogy felxibilis és hogy nem kell lemondanunk a legtöbb kényelmi funkcióról, amikhez hozzászoktunk a C++ nyelvben.
+        </para>
+    </section>
 
     <section>
         <title>Programozás bevezetés</title>
@@ -24,8 +45,50 @@
             <citation>KERNIGHANRITCHIE</citation>
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/zmfT9miB-jY">https://youtu.be/zmfT9miB-jY</link>
-        </para>        
+            Bevallom, nem nagyon szeretek programozást oktató könyveket olvasni. Egyrészt mert ha egyet olvastál, akkor mindet olvastad, másrészt rengeteg felesleges szöveg, unalomig 
+            ismételt példák vannak benne. Egy tapasztaltabb programozó, aki már ismer legalább egy nyelvet, ennél sokkal egyszerűbb, és nem utolsó sorban gyorsabb alternatívát találhat egy 
+            új nyelv elsajátítására. Mivel tanulmányaim során már tanultam C++ nyelvet (sőt, C#-ot is), így a legtöbb alapfogalom ismerős volt a könyvből. Éppen ezért a triviális fogalmakat 
+            (iterációk, változók, függvények stb.) nem fogom megemlíteni az olvasónaplóban. Helyettük a számomra új/fontosnak tartott dolgokról ejtenék egy pár szót. 
+        </para>
+        <para>
+            Elöljáróban a könyv szerkezetéről: Mint minden programozásos könyv, így ez is az alapokkal kezdi. Az elméleti áttekintést követően az olvasó elé tár egy kódcsipetet, majd azt 
+            megmagyarázza, aztán kiegészíti azt újabb-és újabb kódrészletekkel. Külön fun fact, hogy itt nem „Hello World!”-öt, hanem „Figyelem emberek!”-et írat ki a legelső példában. 
+            Viszont számtalan esetben előfordul, hogy a könyv szerzője túl sok új dologgal egészíti ki az alap példaprogramját, így egy kezdő könnyen elvesztheti a fonalat. Hovatovább, 
+            ennél sokkal életszerűbb példákon keresztül is bemutathatná az alapokat. Ettől eltekintve a fejezetek végén lévő gyakorlófeladatok korrektek, remekül le lehet mérni, mennyire 
+            értettük meg az adott fejezet tartalmát. 
+        </para>
+        <para>
+            Fontos kiemelni, hogy a C-s függvényeknél mindig érték szerinti paraméterátadás történik. Vagyis a függvény hívásakor az argumentumainak értékét egy ideiglenes változóba 
+            (valójában egy verembe) helyezi, és innen kapja meg az értékét a függvény. A hívott függvény nem tudja megváltoztatni a hívó függvény változóinak értékét. Ezáltal egy fokkal 
+            tömörebb programokat írhatunk, kevesebb segédváltozó bevezetésére van szükségünk. Ha mégis szükségünk lenne erre, akkor a hívónak meg kell adni egy – a módosítani kívánt 
+            változóra mutató – pointert, és a hívott félnek az argumentumot pointerként kell deklarálnia, így a változóra indirekt módon hivatkozva. Jó tudni, hogy vannak olyan függvények, 
+            amelyek nem értéket adnak vissza, hanem valamilyen feladatot végeznek el (pl. copy).
+        </para>
+        <para>
+            Egy függvényen belül az extern kulcsszó megadásával tudunk külső változót elérni. Nem szabad összetéveszteni a külső változók deklarációját, illetve a define-t, hiszen a define 
+            sorában foglaljuk le a tárhelyet a változónak, és hozzuk létre azt. A static kulcsszóval ellátott lokális változók megtartják az értéküket két függvényhívás között is. A belső 
+            static objektumok csak az adott függvényen belül ismertek, ezzel egyfajta elzártságot, biztonságot is ad ez. Lehetőségünk van üres függvények írására is, amik ugyan nem csinálnak 
+            semmit, de lefoglaljuk vele a később megírandó programrész helyét. C-ben nem lehet függvénybe ágyazott függvényt írni.
+        </para>
+        <para>
+            Egyéb fontos információ továbbá, hogy a C-s fordító a karakterláncok végét \0-val azonosítja. A C-s karaktermanipulációnál fontos hangsúlyozni, hogy az ’x’, illetve az „x” nem 
+            ugyanazt jelentik! Míg az első ténylegesen az x karaktert (illetve annak gépi kódját) tartalmazza, addig a második egy karakterlánc, ami egy betűből (illetve a végét jelző \0-ból) 
+            áll. Érdekesség, hogy nem csak a \n (sortörés) speciális karakter létezik, hanem a \t (tabulátor) és a \b (backspace) is. Az strcat függvénnyel tudunk konkatenálni (összefűzni) 
+            két karakterláncot. A getchar/putchar függvények karakterkezelésnél elengedhetetlenek C-ben (mellesleg undorító ez a része a C nyelvnek, nagyon körülményes és túlbonyolított, 
+            string, mint adatszerkezet meg nem is létezik).
+        </para>
+        <para>
+            Számomra új információ volt, hogy a != magasabb precedenciájú, mint a = jel. További hasznos  információ, hogy a && (és) magasabb precedenciájú, mint a || (vagy), de mindketten 
+            alacsonyabbak, mint a relációs/egyenlőség operátorok. C-ben is elérhető a Castolás, melynek segítségével bármilyen kifejezésben kikényszeríthetjük a típuskonverziót. A könyv 
+            említést tesz továbbá arról is, hogy a hagyományos C programozási gyakorlat szerint a változónevek kisbetűsök, a szimbolikus konstansok nagybetűsök. Utolsó érdekesség, hogy ha 
+            egy függvénynek nem adunk visszatérési típust, akkor impliciten int lesz annak a visszatérési értéke. Tehát akár a main elől is elhagyhatjuk az int szócskát, habár ez nem ajánlott 
+            (és máshol sem, átláthatatlanná teszi a kódot).
+        </para>
+        <para>
+            Összességében érdekes olvasmány volt, rengeteg hasznos információval lettem gazdagabb. Ugyanakkor nem túl szemléletes példákon keresztül mutatja be a könyv a C nyelv rejtelmeit, 
+            gyakran túlmagyaráz dolgokat, és kezdő programozók könnyen elveszíthetik a fonalat a könyv olvasása közben. A könyv egyúttal megerősített abban, hogy a C nagyon körülményes 
+            nyelv, oktatási célokból és egyszerű programok írására alkalmas, de nem szívesen írnék egy nagyobb szoftvert ezen a nyelven…
+        </para>
     </section>        
 
     <section>
@@ -33,5 +96,60 @@
         <para>                
             <citation>BMECPP</citation>
         </para>
+        <para>
+            A soron következő könyvből feladott fejezetek inkább a C-ről C++-ra átálló programozóknak szóltak, és mivel én előbb használtam a C++-t, így nem feltétlen én vagyok a 
+            célközönsége. Ettől függetlenül hasznos információkról olvashatunk benne, szemléletes példákkal illusztrálva az elhangzottakat. Őszintén meglepett, hogy az első verziója már 
+            1983-ban megjelent, valamint az is, hogy Stroustrup alkotta meg a nyelvet (eddig azt hittem, hogy csak a progos könyvet írta). A C nyelv kiegészítésének, annak egyfajta 
+            ráncfelvarrott változatának szánták. Rengeteg új dolog került bele, valamint számos „hibajavítást” is tartalmaz a C korai változatához képest. Akkoriban az volt a neve, hogy C 
+            with Classes, vagyis C osztályokkal. Ez találó név, hiszen a C nyelvre alapul, de magas szintű programozási nyelv, így ismeretes az osztályok/metódusok/attribútumok fogalma 
+            benne. Ezen kívül viszont még rengeteg hasznos feature-rel rendelkezik a C nyelvhez képest.
+        </para>
+        <para>
+            Az első változtatás, hogy míg C-ben, ha üres paraméterlistát adtunk meg egy függvénynek, akkor az tetszőleges számú paraméterrel hívható, addig C++-ban az üres paraméterlista 
+            elkészítéséhez szükség van a void kulcsszóra. Tetszőleges számú paraméteres függvényt a (…) segítségével készíthetünk. Fontos hangsúlyozni, hogy a C++ nem támogatja az 
+            alapértelmezett visszatérési értéket. A main függvényt megírhatjuk üres paraméterlistával, vagy az argc/argv-vel. Előbbi a parancssori argumentumok számát, utóbbi pedig magát az 
+            argumentumokat tartalmazza. További kényelmes funkció, hogy nem muszáj visszatérési értéket adnunk itt, a fordító automatikusan return 0-t ír a programunk végére, ha sikeresen 
+            lefordult. 
+        </para>
+        <para>
+            Megjelent a C++-ban a bool típusú logikai változó, továbbá a string adatszerkezet (szerencsére nem kell karakterláncokkal meg pointerekkel vesződni, nem úgy, mint C-ben). 
+            További újítás, hogy ahol utasítás állhat, ott szerepelhet változó deklaráció is. C++-ban lehetőségünk van továbbá azonos nevű függvényeket írni, feltéve, hogy a 
+            paraméterlistájuk különbözőek. Lehetőségünk van osztályok létrehozására, de továbbra is engedélyezett a struktúra használata is. Alapértelmezetten az osztályok adattagjai 
+            private, míg a struct adattagjai public láthatóságúak. A C++ rendelkezik elegáns kivételkezelővel, létrehozhatunk konstansokat, valamint lehetőségünk van referencia szerinti 
+            paraméterátadásra is. A malloc és a free memória lefoglaló/felszabadító függvényeket a new/delete váltja, továbbá lehetőségünk van dinamikus objektumok automatikus 
+            memóriafelszabadítására, ezáltal hatékonyabb erőforráshasználatot elérve. Egyszerűbbé vált a string/ láncolt listák használata és kezelése, lehetőségünk van dinamikus tömbök 
+            (vektorok) használatára is. Kicsit szebb lett a kiíratás is.
+        </para>
+        <para>
+            Összességében korrekten rámutatott a két nyelv közti különbségekre, egyértelműen látszik, hogy C++-ban sokkal kényelmesebb, gyorsabb és hatékonyabb programozni, mint C-ben. 
+        </para>
     </section>   
+
+    <section>
+        <title>Programozási alapfogalmak</title>
+        <para>         
+            <citation>PICI</citation>       
+        </para>
+        <para>
+            A könyv tartalma 1:1-ben lefedi az előadás anyagát. Szerintem magáért beszél, hogy a könyvben vannak Fortran, LI/I, Pascal és Ada példák is, vagyis egyáltalán nem mai darab, 
+            nem is aktualizált a jelenkori modern trendekben elterjedt programozási nyelvekhez. Hovatovább, ugyan viszonylag pontos és kielégítő definíciókat ad minden alapfogalomról, de a 
+            leírásuk elég csapongó, nem kellemes olvasni, valamint nehezen fogható és dolgozható fel a tartalma. Nem volt kellemes olvasmány. A nagyon triviális dolgokra nem térnék ki 
+            részletesen, egyrészt mert az előző könyvekben már megtettem ezt, másrészt feleslegesnek érzem egy fortranos példán keresztül demonstrálni egy értékadó utasítást…
+        </para>
+        <para>
+            Az alapfogalmak közé tartozik a szintaktika, szemantika, valamint az interpreter fogalma. Megkülönböztetünk imperatív és deklaratív programozási nyelveket. Továbbá 
+            megkülönböztethetjük őket alacsony szintű (gépközeli, vagy assembly szintű), valamint magas szintű programozási nyelvként. Különböző adattípusokat használhatunk. Megmosolyogtam, 
+            hogy a könyv előbb írja le, hogy lehet saját típust létrehozni, mint hogy kitérne a standard típusokra (pl. az intre). Vannak egyszerű és összetett adattípusok. Létrehozhatunk 
+            nevesített konstansokat, melyeknek név, érték és típus komponensei vannak. A változóknak vannak neveik, értékeik, címeik és különböző attribútumaik (a legfontosabb a típus). 
+            Explicit/implicit módon tudunk értéket rendelni ezekhez, de bizonyos esetekben a fordító automatikusan rendelhet egy változóhoz értéket. 
+        </para>
+        <para>
+            A kifejezésekről se ejtenék sok szót, ismert értékekből új érték előállítására használjuk őket. Operandusokból, operátorokból és elválasztó/csoportosító jelekből (zárójelekből) 
+            állnak. Fontos hangsúlyozni, hogy az operátoroknak eltérő erőssége (precedenciája) van, így figyelni kell arra, hogy milyen sorrendben hajtódnak végre.  Az elágazásokról és 
+            iterációkról nem ejtenék szót, abszolút triviálisak. Alprogramokra azért van szükségünk, hogy egyszerűbb, letisztultabb kódot írjunk, valamint az újra felhasználás céljából. Egy 
+            alprogram lehet eljárás vagy függvény. Van formális és aktuális paraméterlistájuk, ezek segítségével adhatunk át nekik adatokat, amiket utána feldolgoznak. Figyelnünk kell a 
+            paraméterek kiértékelési sorrendjére. 
+        </para>
+    </section>    
+
 </chapter>                
