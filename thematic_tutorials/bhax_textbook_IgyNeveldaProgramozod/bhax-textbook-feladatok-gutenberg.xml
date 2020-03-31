@@ -12,7 +12,10 @@
     </info>
 
     <section>
-        <title>Python</title>
+        <title>Programozás</title>
+        <para>
+            <citation>Python</citation>
+        </para>
         <para>
             A könyv kiadott fejezete segítségével beleláthattam a Python programozási nyelv működésébe, alapvető tulajdonságaiba, működésébe. Rengeteg új információra tettem szert, melyeket 
             hasznosíthatok a későbbi tanulmányaim folyamán, akár már a MALMÖ-s Minecraft feladatok megoldásához is. Érdekesség, hogy a Python idén lett 30 éves, ami tényleg meglepett. 
@@ -73,12 +76,12 @@
         <para>
             Egyéb fontos információ továbbá, hogy a C-s fordító a karakterláncok végét \0-val azonosítja. A C-s karaktermanipulációnál fontos hangsúlyozni, hogy az ’x’, illetve az „x” nem 
             ugyanazt jelentik! Míg az első ténylegesen az x karaktert (illetve annak gépi kódját) tartalmazza, addig a második egy karakterlánc, ami egy betűből (illetve a végét jelző \0-ból) 
-            áll. Érdekesség, hogy nem csak a \n (sortörés) speciális karakter létezik, hanem a \t (tabulátor) és a \b (backspace) is. Az strcat függvénnyel tudunk konkatenálni (összefűzni) 
+            áll. Érdekesség, hogy nem csak a "\n" (sortörés) speciális karakter létezik, hanem a "\t" (tabulátor) és a "\b" (backspace) is. Az strcat függvénnyel tudunk konkatenálni (összefűzni) 
             két karakterláncot. A getchar/putchar függvények karakterkezelésnél elengedhetetlenek C-ben (mellesleg undorító ez a része a C nyelvnek, nagyon körülményes és túlbonyolított, 
             string, mint adatszerkezet meg nem is létezik).
         </para>
         <para>
-            Számomra új információ volt, hogy a != magasabb precedenciájú, mint a = jel. További hasznos  információ, hogy a && (és) magasabb precedenciájú, mint a || (vagy), de mindketten 
+            Számomra új információ volt, hogy a "!=" magasabb precedenciájú, mint az egyenlőségjel. További hasznos információ, hogy a "és" magasabb precedenciájú, mint a "vagy", de mindketten 
             alacsonyabbak, mint a relációs/egyenlőség operátorok. C-ben is elérhető a Castolás, melynek segítségével bármilyen kifejezésben kikényszeríthetjük a típuskonverziót. A könyv 
             említést tesz továbbá arról is, hogy a hagyományos C programozási gyakorlat szerint a változónevek kisbetűsök, a szimbolikus konstansok nagybetűsök. Utolsó érdekesség, hogy ha 
             egy függvénynek nem adunk visszatérési típust, akkor impliciten int lesz annak a visszatérési értéke. Tehát akár a main elől is elhagyhatjuk az int szócskát, habár ez nem ajánlott 
