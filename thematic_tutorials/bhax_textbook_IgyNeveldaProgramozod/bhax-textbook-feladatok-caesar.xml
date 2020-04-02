@@ -505,7 +505,10 @@ compute(nn.exor, exor.data[,1:2])]]></programlisting>
         </para>
         <para>
                 <link xlink:href="src/Caeasar/main.cpp">main.cpp</link> 
-        </para>            
+        </para>       
+        <para>
+            Tutoriáltam: Takács Balázs
+        </para>     
         <para>
             <programlisting language="c"><![CDATA[
 #include <iostream>

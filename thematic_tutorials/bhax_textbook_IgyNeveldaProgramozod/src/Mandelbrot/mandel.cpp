@@ -53,7 +53,7 @@ mandel (int kepadat[MERET][MERET]) {
                 reZ = ujreZ;
                 imZ = ujimZ;
 
-                ++iteracio;
+                iteracio++;
 
             }
 
