@@ -578,7 +578,7 @@ main ( int argc, char *argv[] )
             Megoldás forrása: <link xlink:href="src/Mandelbrot/mandelpngc_60x60_100.cu">mandelpngc_60x60_100.cu</link>          
         </para>
         <para>
-            <programlisting language="c"><![CDATA[
+            <programlisting language="c++"><![CDATA[
 // mandelpngc_60x60_100.cu
 // Copyright (C) 2019
 // Norbert Bátfai, batfai.norbert@inf.unideb.hu
@@ -759,7 +759,29 @@ main (int argc, char *argv[])
 }]]></programlisting>
         </para>
         <para>
-
+            A feladat abszolválásához szükségünk van egy CUDA-s Nvidia videokártyára. Kb. 2008 óta minden dedikált Nvidia GPU ilyen, szóval ezzel nincs gond. Mi is az a CUDA? Dióhéjban az 
+            Nvidia által kifejlesztett párhuzamos számítási platform és egy API egyben. Ez ad lehetőséget arra, hogy az Nvidia GPU-nkat különböző nagy energiaforrást igénylő számítási 
+            feladatok elvégzésére használjuk. 
+        </para>
+        <para>
+            Gondoljunk egy játékra, ahol a különböző fényvisszaverődések, árnyékok és mozgások létrehozásához és real-time változtatásához rengeteg számítást kell elvégeznie a GPU-nak. És 
+            ezzel nincs is semmi baj, erre lett architekturálisan megalkotva, a CPU-val ellentétben. A CUDA segítségével képesek vagyunk az ilyen jellegű feladatokat a GPU-ra hárítani.
+        </para>
+        <para>
+            Ahhoz, hogy a programunkba implementáljuk, és sikeresen futtassuk ezt, szükségünk lesz az nvidia-cuda-toolkitre. A program hasonlít az első feladatban látotthoz, csak míg ott a 
+            CPU számította ki a Mandelbrot halmazt, és hozta létre a képet, addig itt a GPU dolgozik. Ezáltal az eredeti töredéke alatt végrehajtódik ez a művelet, ezzel is alátámasztva a 
+            fent elhangzottakat. Az első programban a processzor egyetlen magja dolgozott, míg itt a GPU összes CUDA magja (a notebookom GPU-ja 384 emelt órajelű CUDA maggal rendelkezik) 
+            dolgozott, ezért is volt sokkal gyorsabb. 
+        </para>
+        <para>
+            Alább látható a végeredmény:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Mandelbrot/cuda.png" scale="100"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>                     
 
@@ -770,10 +792,516 @@ main (int argc, char *argv[])
             egérrel kiválasztva vizualizálja onnan a komplex iteréció bejárta z<subscript>n</subscript> komplex számokat!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
-            Illetve <link xlink:href="https://bhaxor.blog.hu/2018/09/02/ismerkedes_a_mandelbrot_halmazzal">https://bhaxor.blog.hu/2018/09/02/ismerkedes_a_mandelbrot_halmazzal</link>.        </para>
+            Megoldás videó: <link xlink:href="https://www.youtube.com/watch?v=lf2SN8R2xJs">https://www.youtube.com/watch?v=lf2SN8R2xJs</link>
+       </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>
+            Megoldás forrása: <link xlink:href="https://sourceforge.net/p/udprog/code/ci/master/tree/source/binom/Batfai-Barki/frak/">https://sourceforge.net/p/udprog/code/ci/master/tree/source/binom/Batfai-Barki/frak/</link>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+#ifndef FRAKABLAK_H
+#define FRAKABLAK_H
+
+#include <QMainWindow>
+#include <QImage>
+#include <QPainter>
+#include <QMouseEvent>
+#include <QKeyEvent>
+#include "frakszal.h"
+
+class FrakSzal;
+
+class FrakAblak : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    FrakAblak(double a = -2.0, double b = .7, double c = -1.35,
+              double d = 1.35, int szelesseg = 600,
+              int iteraciosHatar = 255, QWidget *parent = 0);
+    ~FrakAblak();
+    void vissza(int magassag , int * sor, int meret) ;
+    void vissza(void) ;
+    // A komplex sík vizsgált tartománya [a,b]x[c,d].
+    double a, b, c, d;
+    // A komplex sík vizsgált tartományára feszített
+    // háló szélessége és magassága.
+    int szelesseg, magassag;
+    // Max. hány lépésig vizsgáljuk a z_{n+1} = z_n * z_n + c iterációt?
+    // (tk. most a nagyítási pontosság)
+    int iteraciosHatar;
+
+protected:
+    void paintEvent(QPaintEvent*);
+    void mousePressEvent(QMouseEvent*);
+    void mouseMoveEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
+    void keyPressEvent(QKeyEvent*);
+
+private:
+    QImage* fraktal;
+    FrakSzal* mandelbrot;
+    bool szamitasFut;
+    // A nagyítandó kijelölt területet bal felső sarka.
+    int x, y;
+    // A nagyítandó kijelölt terület szélessége és magassága.
+    int mx, my;
+};
+
+#endif // FRAKABLAK_H]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+#ifndef FRAKSZAL_H
+#define FRAKSZAL_H
+
+#include <QThread>
+#include <cmath>
+#include <complex>
+#include "frakablak.h"
+
+class FrakAblak;
+
+class FrakSzal : public QThread
+{
+    Q_OBJECT
+
+public:
+    FrakSzal(double a, double b, double c, double d,
+             int szelesseg, int magassag, int iteraciosHatar, FrakAblak *frakAblak);
+    ~FrakSzal();
+    void run();
+
+protected:
+    // A komplex sík vizsgált tartománya [a,b]x[c,d].
+    double a, b, c, d;
+    // A komplex sík vizsgált tartományára feszített
+    // háló szélessége és magassága.
+    int szelesseg, magassag;
+    // Max. hány lépésig vizsgáljuk a z_{n+1} = z_n * z_n + c iterációt?
+    // (tk. most a nagyítási pontosság)
+    int iteraciosHatar;
+    // Kinek számolok?
+    FrakAblak* frakAblak;
+    // Soronként küldöm is neki vissza a kiszámoltakat.
+    int* egySor;
+
+};
+
+#endif // FRAKSZAL_H]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+// frakablak.cpp
+//
+// Mandelbrot halmaz nagyító
+// Programozó Páternoszter
+//
+// Copyright (C) 2011, Bátfai Norbert, nbatfai@inf.unideb.hu, nbatfai@gmail.com
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Ez a program szabad szoftver; terjeszthető illetve módosítható a
+// Free Software Foundation által kiadott GNU General Public License
+// dokumentumában leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi
+// változata szerint.
+//
+// Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz,
+// de minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA
+// VALÓ ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve.
+// További részleteket a GNU General Public License tartalmaz.
+//
+// A felhasználónak a programmal együtt meg kell kapnia a GNU General
+// Public License egy példányát; ha mégsem kapta meg, akkor
+// tekintse meg a <http://www.gnu.org/licenses/> oldalon.
+//
+//
+// Version history:
+//
+// 0.0.1    Bár a Nokia Qt SDK éppen tartalmaz egy Mandelbrotos példát, de
+// ezt nem tartottam megfelelőnek első Qt programként ajánlani, mert elég
+// bonyolult: használ kölcsönös kizárást stb. Ezért "from scratch" megírtam
+// egy sajátot a Javát tanítokhoz írt dallamára:
+// http://www.tankonyvtar.hu/informatika/javat-tanitok-2-2-080904-1
+//
+
+#include "frakablak.h"
+
+FrakAblak::FrakAblak(double a, double b, double c, double d,
+                     int szelesseg, int iteraciosHatar, QWidget *parent)
+                         : QMainWindow(parent)
+{
+    setWindowTitle("Mandelbrot halmaz");
+
+    szamitasFut = true;
+    x = y = mx = my = 0;
+    this->a = a;
+    this->b = b;
+    this->c = c;
+    this->d = d;
+    this->szelesseg = szelesseg;
+    this->iteraciosHatar = iteraciosHatar;
+    magassag = (int)(szelesseg * ((d-c)/(b-a)));
+
+    setFixedSize(QSize(szelesseg, magassag));
+    fraktal= new QImage(szelesseg, magassag, QImage::Format_RGB32);
+
+    mandelbrot = new FrakSzal(a, b, c, d, szelesseg, magassag, iteraciosHatar, this);
+    mandelbrot->start();
+}
+
+FrakAblak::~FrakAblak()
+{
+    delete fraktal;
+    delete mandelbrot;
+}
+
+void FrakAblak::paintEvent(QPaintEvent*) {
+    QPainter qpainter(this);
+    qpainter.drawImage(0, 0, *fraktal);
+    if(!szamitasFut) {
+        qpainter.setPen(QPen(Qt::white, 1));
+        qpainter.drawRect(x, y, mx, my);
+
+    }
+    qpainter.end();
+}
+
+void FrakAblak::mousePressEvent(QMouseEvent* event) {
+
+    // A nagyítandó kijelölt területet bal felső sarka:
+    x = event->x();
+    y = event->y();
+    mx = 0;
+    my = 0;
+
+    update();
+}
+
+void FrakAblak::mouseMoveEvent(QMouseEvent* event) {
+
+    // A nagyítandó kijelölt terület szélessége és magassága:
+    mx = event->x() - x;
+    my = mx; // négyzet alakú
+
+    update();
+}
+
+void FrakAblak::mouseReleaseEvent(QMouseEvent* event) {
+
+    if(szamitasFut)
+        return;
+
+    szamitasFut = true;
+
+    double dx = (b-a)/szelesseg;
+    double dy = (d-c)/magassag;
+
+    double a = this->a+x*dx;
+    double b = this->a+x*dx+mx*dx;
+    double c = this->d-y*dy-my*dy;
+    double d = this->d-y*dy;
+
+    this->a = a;
+    this->b = b;
+    this->c = c;
+    this->d = d;
+
+    delete mandelbrot;
+    mandelbrot = new FrakSzal(a, b, c, d, szelesseg, magassag, iteraciosHatar, this);
+    mandelbrot->start();
+
+    update();
+}
+
+void FrakAblak::keyPressEvent(QKeyEvent *event)
+{
+
+    if(szamitasFut)
+        return;
+
+    if (event->key() == Qt::Key_N)
+        iteraciosHatar *= 2;
+    szamitasFut = true;
+
+    delete mandelbrot;
+    mandelbrot = new FrakSzal(a, b, c, d, szelesseg, magassag, iteraciosHatar, this);
+    mandelbrot->start();
+
+}
+
+
+void FrakAblak::vissza(int magassag, int *sor, int meret)
+{
+    for(int i=0; i<meret; ++i) {
+        QRgb szin = qRgb(0, 255-sor[i], 0);
+        fraktal->setPixel(i, magassag, szin);
+    }
+    update();
+}
+
+void FrakAblak::vissza(void)
+{
+    szamitasFut = false;
+    x = y = mx = my = 0;
+}]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+// frakszal.cpp
+//
+// Mandelbrot halmaz rajzoló
+// Programozó Páternoszter
+//
+// Copyright (C) 2011, Bátfai Norbert, nbatfai@inf.unideb.hu, nbatfai@gmail.com
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+// Ez a program szabad szoftver; terjeszthető illetve módosítható a
+// Free Software Foundation által kiadott GNU General Public License
+// dokumentumában leírtak; akár a licenc 3-as, akár (tetszőleges) későbbi
+// változata szerint.
+//
+// Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz,
+// de minden egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA
+// VALÓ ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve.
+// További részleteket a GNU General Public License tartalmaz.
+//
+// A felhasználónak a programmal együtt meg kell kapnia a GNU General
+// Public License egy példányát; ha mégsem kapta meg, akkor
+// tekintse meg a <http://www.gnu.org/licenses/> oldalon.
+//
+//
+// Version history:
+//
+// 0.0.1    Bár a Nokia Qt SDK éppen tartalmaz egy Mandelbrotos példát, de
+// ezt nem tartottam megfelelőnek első Qt programként ajánlani, mert elég
+// bonyolult: használ kölcsönös kizárást stb. Ezért "from scratch" megírtam
+// egy sajátot a Javát tanítokhoz írt dallamára:
+// http://www.tankonyvtar.hu/informatika/javat-tanitok-2-2-080904-1
+//
+
+#include "frakszal.h"
+
+FrakSzal::FrakSzal(double a, double b, double c, double d,
+                   int szelesseg, int magassag, int iteraciosHatar, FrakAblak *frakAblak)
+{
+    this->a = a;
+    this->b = b;
+    this->c = c;
+    this->d = d;
+    this->szelesseg = szelesseg;
+    this->iteraciosHatar = iteraciosHatar;
+    this->frakAblak = frakAblak;
+    this->magassag = magassag;
+
+    egySor = new int[szelesseg];
+}
+
+FrakSzal::~FrakSzal()
+{
+    delete[] egySor;
+}
+
+// A szál kódját a Javát tanítokhoz írt Java kódomból vettem át
+// http://www.tankonyvtar.hu/informatika/javat-tanitok-2-2-080904-1
+// mivel itt az algoritmust is leírtam/lerajzoltam, így meghagytam
+// a kommenteket, hogy a hallgató könnyen hozzáolvashassa az "elméletet",
+// ha érdekli.
+void FrakSzal::run()
+{
+    // A [a,b]x[c,d] tartományon milyen sűrű a
+    // megadott szélesség, magasság háló:
+    double dx = (b-a)/szelesseg;
+    double dy = (d-c)/magassag;
+    double reC, imC, reZ, imZ, ujreZ, ujimZ;
+    // Hány iterációt csináltunk?
+    int iteracio = 0;
+    // Végigzongorázzuk a szélesség x magasság hálót:
+    for(int j=0; j<magassag; ++j) {
+        //sor = j;
+        for(int k=0; k<szelesseg; ++k) {
+            // c = (reC, imC) a háló rácspontjainak
+            // megfelelő komplex szám
+            reC = a+k*dx;
+            imC = d-j*dy;
+            // z_0 = 0 = (reZ, imZ)
+	    std::complex<double> c(reC, imC);
+	    
+            reZ = 0;
+            imZ = 0;	    
+	    std::complex<double> z_n(reZ, imZ);
+            iteracio = 0;
+            // z_{n+1} = z_n * z_n + c iterációk
+            // számítása, amíg |z_n| < 2 vagy még
+            // nem értük el a 255 iterációt, ha
+            // viszont elértük, akkor úgy vesszük,
+            // hogy a kiinduláci c komplex számra
+            // az iteráció konvergens, azaz a c a
+            // Mandelbrot halmaz eleme
+	    /*
+            while(reZ*reZ + imZ*imZ < 4 && iteracio < iteraciosHatar) {
+                // z_{n+1} = z_n * z_n + c
+
+	      ujreZ = reZ*reZ+ std::atan(reZ*reZ - imZ*imZ) + std::sqrt(reC);
+	      ujimZ = 2*reZ*imZ+std::atan(2*reZ*imZ) + imC;
+
+                reZ = ujreZ;
+                imZ = ujimZ;
+
+                ++iteracio;
+
+            }
+            */
+	    while( std::abs(z_n) < 4 && iteracio < iteraciosHatar) {
+	      z_n = z_n  * z_n + c;
+	      
+	      ++iteracio;
+	    }  
+	      
+            // ha a < 4 feltétel nem teljesült és a
+            // iteráció < iterációsHatár sérülésével lépett ki, azaz
+            // feltesszük a c-ről, hogy itt a z_{n+1} = z_n * z_n + c
+            // sorozat konvergens, azaz iteráció = iterációsHatár
+            // ekkor az iteráció %= 256 egyenlő 255, mert az esetleges
+            // nagyítasok során az iteráció = valahány * 256 + 255
+
+            iteracio %= 256;
+
+            //a színezést viszont már majd a FrakAblak osztályban lesz
+            egySor[k] = iteracio;
+        }
+        // Ábrázolásra átadjuk a kiszámolt sort a FrakAblak-nak.
+        frakAblak->vissza(j, egySor, szelesseg);
+    }
+    frakAblak->vissza();
+
+}]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+// main.cpp
+//
+// Mandelbrot halmaz rajzoló
+// Programozó Páternoszter
+//
+// Copyright (C) 2011, Bátfai Norbert, nbatfai@inf.unideb.hu, nbatfai@gmail.com
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Bár a Nokia Qt SDK éppen tartalmaz egy Mandelbrotos példát, de
+// ezt nem tartottam megfelelőnek első Qt programként ajánlani, mert elég
+// bonyolult: használ kölcsönös kizárást stb. Ezért "from scratch" megírtam
+// egy sajátot a Javát tanítokhoz írt dallamára:
+// http://www.tankonyvtar.hu/informatika/javat-tanitok-2-2-080904-1
+//
+
+#include <QApplication>
+#include "frakablak.h"
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    // További adatokat olvashatsz le innen:
+    // http://www.tankonyvtar.hu/informatika/javat-tanitok-2-3-080904
+    FrakAblak w1;
+    w1.show();
+
+    /*
+    FrakAblak w1,
+    w2(-.08292191725019529, -.082921917244591272,
+       -.9662079988595939, -.9662079988551173, 600, 3000),
+    w3(-.08292191724880625, -.0829219172470933,
+       -.9662079988581493, -.9662079988563615, 600, 4000),
+    w4(.14388310361318304, .14388310362702217,
+       .6523089200729396, .6523089200854384, 600, 38655);
+    w1.show();
+    w2.show();
+    w3.show();
+    w4.show();
+*/
+    return a.exec();
+}]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+######################################################################
+# Automatically generated by qmake (3.0) Thu Apr 10 11:36:01 2014
+######################################################################
+
+QT += widgets
+
+TEMPLATE = app
+TARGET = frak
+INCLUDEPATH += .
+
+# Input
+HEADERS += frakablak.h frakszal.h
+SOURCES += frakablak.cpp frakszal.cpp main.cpp]]></programlisting>
+        </para>
+        <para>
+            A feladat lényegében annyi, hogy olyan programot kell készíten9i, amely az egérrel történő kattintás-kijelöléssegítségével belenagyít a Mandelbrot fraktálba. Ezt úgy érjük el, 
+            hogy a program legenerálja a Mandelbrot halmaz képét, majd az adott területre nagyítva azt újragenerálja, így érjük el a részletgazdag nagyítást. A fentebb beillesztett 
+            forráskódok mindegyikére szükségünk lesz a feladat elvégzéséhez. Mindet Bátfai Norbert Tanár Úr készítette. Ezen felül szükség lesz a Qt telepítésére, a forrás futtatásához.
+        </para>
+        <para>
+            Az egészet a frak.pro fogja össze, ez indítja be a folyamatot, melynek végén működésbe lép a program. A mainben meghívjuk a frakablakkal az első ablakot, majd a másodikat, 
+            harmadikat, negyediket és ezeket megmutatjuk, a returnnel pedig lefuttatjuk a Qapplicationt. A frakszal.cpp-ben van leírva az, hogy hogyan is fog elkészülni egy-egy szálon futó 
+            Mandelbrot ábránk, aminek a lényegi kiszámítása az mind az előző programokban látottakkal egyezik meg annyi különbséggel, hogy a színezés már a frakablak táblában történik. 
+            Minden kiszámolt sort átadunk a frakablaknak, ami aztán azt pontonként megszínezi. 
+        </para>
+        <para>
+            A frakablak.cpp-ben van leírva ennek a menete, abban a kódrészletben található meg Mandelbrot halmaz nevezetű ablakunk, a FrakAblak eljárás ennek a létrehozását végzi el, a 
+            paintEvent pedig kiszínezi azt. A vissza pedig visszaadja a kiszínezett sort, majd update-tel frissíti a képünket. 
+        </para>
+        <para>
+            Alább látható néhány kép a futó programról:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Mandelbrot/utazo1.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Mandelbrot/utazo2.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Mandelbrot/utazo3.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>                     
                                                                                                                                                                             
@@ -782,11 +1310,45 @@ main (int argc, char *argv[])
         <para>
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/Ui3B6IJnssY">https://youtu.be/Ui3B6IJnssY</link>, 4:27-től.
-            Illetve <link xlink:href="https://bhaxor.blog.hu/2018/09/02/ismerkedes_a_mandelbrot_halmazzal">https://bhaxor.blog.hu/2018/09/02/ismerkedes_a_mandelbrot_halmazzal</link>.
+            Megoldás videó: <link xlink:href="https://youtu.be/lN7-JZeTXq4">https://youtu.be/lN7-JZeTXq4</link>
         </para>
         <para>
             Megoldás forrása: <link xlink:href="https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/apbs02.html#id570518">https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/apbs02.html#id570518</link>
+        </para>
+        <para>
+            <link xlink:href="src/Mandelbrot/MandelbrotHalmaz.java">MandelbrotHalmaz.java</link>
+        </para>
+        <para>
+            <link xlink:href="src/Mandelbrot/MandelbrotHalmazNagyító.java">MandelbrotHalmazNagyító.java</link>
+        </para>
+        <para>
+            <link xlink:href="src/Mandelbrot/MandelbrotIterációk.java">MandelbrotIterációk.java</link>
+        </para>
+        <para>  
+            A feladathoz 3 különálló java állományra lesz szükségünk, melyek elérhetőek Bátfai Norbert Tanár Úr honlapján. A MandelbrotHalmaz.java felépítésében megegyezik az előző 
+            feladatokban taglaltakkal, ugyanazokat a számításokat végezzük el benne, csak a java nyelvhez illeszkedve. Mindemellett a billentyűzet lenyomásait is figyeli a feladat: az n 
+            gomb lenyomásánál pontosabb számítást végzünk, az m-nél növeljük az iterációs határt. Ezután elindítjuk az eredeti számításunkat, kirajzolva a halmaz aktuális állapotát.
+        </para>
+        <para>  
+            A MandelbrotIterációk.java megegyezik az előző kódban lévő run() módszerrel, csak nem a hálón megy végig, hanem a háló példányosításakor az egér által megadott csomópontban 
+            számol, így nincs szükség két for ciklusra. Apró módosítás még, hogy ha elértük a 255 iterációt, akkor úgy vesszük, hogy a kiindulási c komplex számra az iteráció konvergens, 
+            vagyis a c szám a Mandelbrot halmaz eleme.
+        </para>
+        <para>  
+            A MandelbrotHalmazNagyító.java létrehoz a komplex sík felett számolni és nagyítani képes objektumot. Itt található a függvény, ami az egérkattintásokat dolgozza fel, valamint 
+            láthatjuk a kijelölt terület meghatározásának folyamatát, azaz amikor felengedjük a bal-klikket, akkor kezdi számítani a kijelölt területet. Ezt követi az egérmozgási események 
+            feldolgozása, valamint a repaint() függvény, mely újrarajzolja egy új ablakban a lépet a nagyítások után, továbbá láthatjuk a printscreen készítő függvényt. Ezután kirajzoljuk a 
+            nagyítandó területet jelző négyzetet, ezt követően a Mandelbrot halmazt, egérmutató pozícióját is lekérdezzük, végül példányosítjuk a Mandelbrot halmazt nagyító objektumot.
+        </para>
+        <para>
+            Alább látható a program működéséről egy kép:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Mandelbrot/javautazo.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>
 
