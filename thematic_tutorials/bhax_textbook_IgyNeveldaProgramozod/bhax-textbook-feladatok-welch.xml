@@ -477,11 +477,25 @@ double atlag, szoras;]]></programlisting>
         </para>
         <para>
             <programlisting language="c++"><![CDATA[
-]]></programlisting>
+public:
+    LZWBinFa ()
+        {
+        gyoker=new Csomopont();
+        fa=gyoker;
+        }
+        ~LZWBinFa ()
+        {
+            szabadit (gyoker->egyesGyermek ());
+            szabadit (gyoker->nullasGyermek ());
+        delete gyoker;
+        }]]></programlisting>
         </para>
         <para>
             <programlisting language="c++"><![CDATA[
-]]></programlisting>
+protected:
+Csomopont *gyoker;
+int maxMelyseg;
+double atlag, szoras;]]></programlisting>
         </para>
         <para>
             A feladat nem bonyolult. A Csomopont osztály protected láthatóságú részében a gyökeret egy pointerre (mutatóra) kell átalakítanunk a * karakter segítségével. Ezután minden egyes 

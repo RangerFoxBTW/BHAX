@@ -68,7 +68,7 @@
         <para>
             <mediaobject>
                 <imageobject>
-                        <imagedata fileref="img/Conway/brainb.jpg" scale="50"/>
+                        <imagedata fileref="img/Conway/brainb.jpg" scale="35"/>
                 </imageobject>
             </mediaobject>
         </para>        
