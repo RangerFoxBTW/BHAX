@@ -543,7 +543,7 @@ Csomopont *masol(Csomopont *elem, Csomopont *regifa)
         </para>
         <para>
             Miután megértettük a C++ másoló/mozgató szemantikáját, a feladat abszolválása nem lesz lehetetlen. A fent látható megoldás ugyan nem a 
-            legszofisztikáltabb, de teszi a dolgát. Először is szükségünk van egy másoló konstruktorra, ami megkapja a binfa elemeit, és azokat új memóriabeli 
+            legelegánsabb, de teszi a dolgát. Először is szükségünk van egy másoló konstruktorra, ami megkapja a binfa elemeit, és azokat új memóriabeli 
             címre, új jobb/bal oldali elemként átmásolja (lementi). Ezután az eredeti fa gyökér pointereit nullpointerekre alakítjuk, így töröljük azok elemeit. 
             Így már csak az új fánk marad a memóriában. 
         </para>
