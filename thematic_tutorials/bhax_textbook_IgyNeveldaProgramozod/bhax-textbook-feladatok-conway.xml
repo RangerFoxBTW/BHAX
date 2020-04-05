@@ -57,14 +57,21 @@
         <para>
         </para>
         <para>
-            Megoldás videó: 
+            Megoldás forrása: <link xlink:href="https://github.com/nbatfai/esport-talent-search">https://github.com/nbatfai/esport-talent-search</link>               
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>               
+            
+        </para>    
+        <para>
+            Saját eredményem:
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>            
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Conway/brainb.jpg" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>        
     </section>        
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 </chapter>                

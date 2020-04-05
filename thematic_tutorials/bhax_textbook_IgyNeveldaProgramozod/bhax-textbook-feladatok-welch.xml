@@ -14,10 +14,19 @@
             nincs eltéve kiszámolt szám.
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/4gZr93V-s-Q">https://youtu.be/4gZr93V-s-Q</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>                
+            Megoldás forrása: <link xlink:href="src/Welch/polargen.h">polargen.h</link>                
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Welch/polargen.cpp">polargen.cpp</link>   
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Welch/polarmain.cpp">polarmain.cpp</link>   
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Welch/PolárGenerátor.java">PolárGenerátor.java</link>   
         </para>
         <para>
             Tanulságok, tapasztalatok, magyarázat... térj ki arra is, hogy a JDK forrásaiban a Sun programozói
@@ -86,6 +95,11 @@ class PolarGen
 #endif]]></programlisting>
         </para>
         <para>
+            A polargen.h forrásban includeoljuk a szükséges könyvtárakat (a ctime a random szám generátorhoz szükséges), majd létrehozzuk a PolarGen osztályunkat, aminek a public részében 
+            van egy nincsTarolt nevű, igaz értéket adó bool változónk, valamint az srand() függvény, ami a random szám generálását végzi majd. A private részben van egy nincsTarolt bool, 
+            illetve egy double típusú tarolt nevű változó, ezek a program többi részének láthatatlanok. 
+        </para>
+        <para>
             <programlisting language="c++"><![CDATA[
 //POLARGEN.CPP
 #include "polargen.h"
@@ -118,6 +132,9 @@ double PolarGen::kovetkezo()
 }]]></programlisting>
         </para>
         <para>
+            Ebben a forrásfájlban található a feladat elvégzéséhez szükséges matekos rész, ez jelenleg lényegtelen a magyarázatban.
+        </para>
+        <para>
             <programlisting language="c++"><![CDATA[
 #include <iostream>
 #include "polargen.h"
@@ -132,7 +149,9 @@ int main(int argc, char **argv)
 }]]></programlisting>
         </para>
         <para>
-            
+            Itt található a main függvény, ezt a forrást kell fordítani és futtatnu. Ha sikeresen megtettük ezt, akkor 10 számot fog kiírni a standard outputra. Fontos megjegyezni, hogy 
+            egy számitási lépés két normális eloszlású számot állit elő, és minden második meghiváskor fel fogja használni az előzőleg tárolt-ban elhelyezett számot, tehát nem fog mindig 
+            számolni. Alább látható egy kép a kimenetről:
         </para>       
         <para>
             <mediaobject>
@@ -140,7 +159,84 @@ int main(int argc, char **argv)
                         <imagedata fileref="img/Welch/polarcpp.png" scale="50"/>
                 </imageobject>
             </mediaobject>
-        </para>     
+        </para> 
+        <para>
+            Ugyanez java-ban:
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+public class PolárGenerátor {
+    
+    boolean nincsTárolt = true;
+    double tárolt;
+    
+    public PolárGenerátor() {
+        
+        nincsTárolt = true;
+        
+    }
+    
+    public double következő() {
+        
+        if(nincsTárolt) {
+            
+            double u1, u2, v1, v2, w;
+            do {
+                u1 = Math.random();
+                u2 = Math.random();
+                
+                v1 = 2*u1 - 1;
+                v2 = 2*u2 - 1;
+                
+                w = v1*v1 + v2*v2;
+                
+            } while(w > 1);
+            
+            double r = Math.sqrt((-2*Math.log(w))/w);
+            
+            tárolt = r*v2;
+            nincsTárolt = !nincsTárolt;
+            
+            return r*v1;
+            
+        } else {
+            nincsTárolt = !nincsTárolt;
+            return tárolt;
+        }
+    }
+    
+    public static void main(String[] args) {
+        
+        PolárGenerátor g = new PolárGenerátor();
+        
+        for(int i=0; i<10; ++i)
+            System.out.println(g.következő());
+        
+    }
+    
+}]]></programlisting>
+        </para>
+        <para>
+            A fent látható program ugyanazt csinálja, mint a C++-os változata,  valamennyivel kompaktabb a kód a random függvény miatt, illetve ez egy forrásfájlban van. Jól szemlélteti az 
+            OOP programok lényegét, csak épp a Java nyelvi eszközeivel demonstrálva azt. Mindkét program Bátfai Norbert Tanár Úr érdeme. Alább látható a kimenete:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Welch/javapolar.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>    
+        <para>
+            A Java JDK-ban megtalálható Sunos random szám generátor:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Welch/sun.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>
     </section>        
 
     <section>
@@ -149,10 +245,99 @@ int main(int argc, char **argv)
             Valósítsd meg C-ben az LZW algoritmus fa-építését!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/uI9XutJjofQ">https://youtu.be/uI9XutJjofQ</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>                
+            Megoldás forrása: <link xlink:href="src/Welch/faepit.c">faepit.c</link>                
+        </para>
+        <para>
+            <programlisting language="c"><![CDATA[
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
+typedef struct binfa                                //definiáljuk a binfa típust
+{
+    int ertek;
+    struct binfa *bal_nulla;
+    struct binfa *jobb_egy;
+} BINFA, *BINFA_PTR;
+
+BINFA_PTR uj_elem()
+{
+    BINFA_PTR p;
+    if ((p = (BINFA_PTR) malloc (sizeof (BINFA))) == NULL)
+    {
+        perror("memoria");
+        exit (EXIT_FAILURE);
+    }
+    return p;
+}
+
+int main(int argc, char **argv)
+{
+    char b;
+    BINFA_PTR gyoker = uj_elem ();
+    gyoker->ertek = '/';
+    gyoker->bal_nulla = gyoker->jobb_egy = NULL;    //bal és jobb gyermeke NULL értéket kapja
+    BINFA_PTR fa = gyoker;                          //gyökérre mutat a pointer
+    while (read (0, (void *) &b, 1))                //beolvasás
+    {
+        //write (1, &b, 1);
+        if (b == '0')                               
+        {
+            if (fa->bal_nulla == NULL)              //ha a gyökérnek még nincs bal_nulla gyermeke    
+            {   
+                fa->bal_nulla = uj_elem ();         //új gyermek létrehozása
+                fa->bal_nulla->ertek = 0;           //az értéke 0 lesz
+                fa->bal_nulla->bal_nulla = fa->bal_nulla->jobb_egy = NULL; //a létrehozott csomópont bal és jobb gyermekének NULL értéket adunk
+                fa = gyoker;                        //a pointer visszaáll a gyökérre
+            }
+            else    
+                fa = fa->bal_nulla;                 //ha van 0-as gyermeke, akkor arra állítjuk rá a pointert
+        }
+        else                                        //ha c == '1'
+        {
+            if (fa->jobb_egy == NULL)               //ha nincs 1-es gyermeke, akkor csinálunk neki
+            {
+                fa->jobb_egy = uj_elem ();          //létrehoz
+                fa->jobb_egy->ertek = 1;            //értéke 1 lesz
+                fa->jobb_egy->bal_nulla = fa->jobb_egy->jobb_egy = NULL;    //a gyermekeinek NULL értéket adunk
+                fa = gyoker;                        //pointer vissza a gyökérre
+            }
+            else //ha van, akkor ráállitjuk a pointert es rekurzívan újrahívódik a függvény
+                fa = fa->jobb_egy;
+        }
+    }
+
+    void szabadit(BINFA_PTR elem)                   //memória felszabadítás
+    {
+        if (elem != NULL)
+        {
+            szabadit (elem->jobb_egy);
+            szabadit (elem->bal_nulla);
+            free (elem);
+        }
+    }
+}]]></programlisting>
+        </para>
+        <para>
+            Az LZW egy veszteségmentes tömörítési algoritmus. A „W” Welch-re utal, a fejezet címadójára. Az LZW binfákban csak bináris értékek állnak (kivétel a gyökérelem). Nem akarok túl 
+            sokat beszélni róla, ugyanis már BevProgon is a bináris fák voltak a fő témánk. Röviden a felépítése: van egy gyökérelem, amelyet a fa minden más elemétől különböző karakterrel 
+            jelölünk. Ennek van egy bal, illetve egy jobb oldali gyermeke, amelyek NULL értékkel rendelkeznek. Minden egyes beolvasott adat egy-egy elemet fog alkotni, melyeknek ugyanígy 
+            létrehoz két NULL értékű gyermeket. A csomópontokban találhatóak a beolvasott értékek. 
+        </para>
+        <para>
+            Ez az érték kétféle lehet: 0 vagy 1. Ha egyes érték következik, akkor meg kell néznünk, hogy van-e már 1-es gyermeke az aktuális csomópontunknak. Ha igen, akkor egyszerűen 
+            berakjuk az 1-es értéket az aktuális csomópontunk gyermekének, és ide fog állni a fa pointer. Ha nincs, akkor létre kell létrehoznunk egy új csomópontot, amit már a létező 1-es 
+            csomópontnak a gyermekének állítunk be. Ezután visszaállítjuk a fa pointert a gyökérre. 
+        </para>
+        <para>
+            Ugyanígy működik 0-ás érték esetén, csak itt az aktuális csomópontnak a nullás gyermekét nézzük meg, hogy létezik-e. Ha van, akkor berakjuk az aktuális csomópont 0-s gyermekének, 
+            ha viszont nincs, akkor szintén létre kell hozni egy új, nullás gyermeket.
+        </para>
+        <para>
+            A kód szerintem kellőképp részletesen van kommentelve, így nem magyaráznék róla sok dolgot. 
         </para>
     </section>        
         
@@ -162,10 +347,78 @@ int main(int argc, char **argv)
             Járd be az előző (inorder bejárású) fát pre- és posztorder is!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/o8EM_dioULQ">https://youtu.be/o8EM_dioULQ</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>                
+            Megoldás forrása: <link xlink:href="src/Welch/binfa.c">binfa.c</link>                
+        </para>
+        <para>
+            A fabejárásokat rekurzív függvények segítségével célszerű elkészíteni. Három fajta bejárás létezik: inorder, preorder és postorder. Az inorder lényege, hogy először végigmegy a 
+            bal oldali részfán inorder módon, majd a gyökérelemhez ugrik, végül pedig a jobb oldali részfán is végigmegy inorder bejárással. Alább látható a példa:
+        </para>
+        <para>
+            <programlisting language="c"><![CDATA[
+void kiir_inorder(BINFA_PTR elem)
+{
+  if (elem != NULL)
+    {
+      melyseg++;
+      if (melyseg > max_melyseg)
+	      max_melyseg = melyseg;
+      kiir_inorder (elem->bal_nulla);
+      for (int i = 0; i < melyseg; ++i)
+	      printf ("---");
+      printf ("%c(%d)\n", elem->ertek < 2 ? '0' + elem->ertek : elem->ertek,
+	      melyseg-1);
+      kiir_inorder (elem->jobb_egy);
+      melyseg--;
+    }
+}]]></programlisting>
+        </para>
+        <para>
+            A preorder először a gyökérelemet veszi figyelembe, majd végigmegy a bal oldali részfán, végül a jobb oldali részfán is hasonlóképp:
+        </para>
+        <para>
+            <programlisting language="c"><![CDATA[
+void kiir_preorder(BINFA_PTR elem)
+{
+  if (elem != NULL)
+    {
+      melyseg++;
+      if (melyseg > max_melyseg)
+	      max_melyseg = melyseg;
+      ;
+      for (int i = 0; i < melyseg; ++i)
+	      printf ("---");
+      printf ("%c(%d)\n", elem->ertek < 2 ? '0' + elem->ertek : elem->ertek,
+	      melyseg-1);
+      kiir_preorder (elem->bal_nulla);
+      kiir_preorder (elem->jobb_egy);
+      melyseg--;
+    }
+}]]></programlisting>
+        </para>
+        <para>
+            A postorder pedig először a bal oldali részfán halad végig postorder bejárással, majd a jobb oldalin, végül pedig a gyökérelem következik:
+        </para>
+        <para>
+            <programlisting language="c"><![CDATA[
+void kiir_postorder(BINFA_PTR elem)
+{
+  if (elem != NULL)
+    {
+      melyseg++;
+      if (melyseg > max_melyseg)
+	      max_melyseg = melyseg;
+      kiir_postorder (elem->bal_nulla);
+      kiir_postorder(elem->jobb_egy);
+      for (int i = 0; i < melyseg; ++i)
+	      printf ("---");
+      printf ("%c(%d)\n", elem->ertek < 2 ? '0' + elem->ertek : elem->ertek,
+	      melyseg-1);
+      melyseg--;
+    }
+}]]></programlisting>
         </para>
     </section>        
                         
@@ -176,10 +429,37 @@ int main(int argc, char **argv)
             osztálya. A gyökér csomópont legyen kompozícióban a fával!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/o8EM_dioULQ">https://youtu.be/o8EM_dioULQ</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>                
+            Megoldás forrása: <link xlink:href="src/Welch/z3a7.cpp">z3a7.cpp</link>                
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+public:
+LZWBinFa ():fa (&gyoker)
+{
+}
+~LZWBinFa ()
+{
+szabadit (gyoker.egyesGyermek ());
+szabadit (gyoker.nullasGyermek ());
+}]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+protected:
+Csomopont gyoker;
+int maxMelyseg;
+double atlag, szoras;]]></programlisting>
+        </para>
+        <para>
+            Mivel a gyökér az egy csomópont, ezért kompozícióban van magával a fával. Éppen ezért ha hivatkozni szeretnénk rá, akkor referenciát kell használnunk. pl. a gyökérre történő 
+            visszaugráskor: <programlisting language="c++"><![CDATA[fa = &gyoker; ]]></programlisting>
+        </para>
+        <para>
+            Az LZWBinfa osztály beágyazott Csomopont osztályának a protected láthatósággal ellátott adattagjai között van deklarálva a gyökér, és ez csak az adott osztályban, valamint az 
+            ebből származtatott osztályokban érhető el.
         </para>
     </section>        
                 
@@ -190,10 +470,23 @@ int main(int argc, char **argv)
             fával!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link> 
+            Megoldás videó: <link xlink:href="https://youtu.be/z00dAG8k1D4">https://youtu.be/z00dAG8k1D4</link> 
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>  
+            Megoldás forrása: <link xlink:href="src/Welch/mutato.cpp">mutato.cpp</link>  
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+]]></programlisting>
+        </para>
+        <para>
+            A feladat nem bonyolult. A Csomopont osztály protected láthatóságú részében a gyökeret egy pointerre (mutatóra) kell átalakítanunk a * karakter segítségével. Ezután minden egyes 
+            alkalommal, amikor a gyökérre hivatkozunk, már nem szükséges referenciajelet használnunk, így azokat kitöröljük. Ezáltal a gyökér már nem a fa egy része lesz, hanem csak egy arra 
+            mutató pointer. Így érjük el, hogy a gyökér csomópont már ne kompozícióban, hanem aggregációban álljon a fával.
         </para>
     </section>                     
 
@@ -204,10 +497,59 @@ int main(int argc, char **argv)
             értékadásra alapozva!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link> 
+            Megoldás videó: <link xlink:href="https://youtu.be/z00dAG8k1D4">https://youtu.be/z00dAG8k1D4</link> 
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>  
+            Megoldás forrása: <link xlink:href="src/Welch/mozgat.cpp">mozgat.cpp</link>  
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+LZWBinFa(const LZWBinFa & regi) 
+     {
+          gyoker.ujEgyesGyermek(masol(regi.gyoker.egyesGyermek(), regi.fa));
+          gyoker.ujNullasGyermek(masol(regi.gyoker.nullasGyermek(), regi.fa));
+
+          if (regi.fa == &(regi.gyoker))
+               fa = &gyoker;
+     }
+
+     LZWBinFa(LZWBinFa && regi) 
+     {
+          gyoker.ujEgyesGyermek(regi.gyoker.egyesGyermek());
+          gyoker.ujNullasGyermek(regi.gyoker.nullasGyermek());
+
+          regi.gyoker.ujEgyesGyermek(nullptr);
+          regi.gyoker.ujNullasGyermek(nullptr);
+     }]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+Csomopont *masol(Csomopont *elem, Csomopont *regifa) 
+     {
+          Csomopont *ujelem = NULL;
+
+          if (elem != NULL)
+          {
+               ujelem = new Csomopont(elem->getBetu());
+               ujelem->ujEgyesGyermek(masol(elem->egyesGyermek(), regifa));
+               ujelem->ujNullasGyermek(masol(elem->nullasGyermek(), regifa));
+
+               if (regifa == elem)
+                    fa = ujelem;
+          }
+          
+          return ujelem;
+     }]]></programlisting>
+        </para>
+        <para>
+            Miután megértettük a C++ másoló/mozgató szemantikáját, a feladat abszolválása nem lesz lehetetlen. A fent látható megoldás ugyan nem a 
+            legszofisztikáltabb, de teszi a dolgát. Először is szükségünk van egy másoló konstruktorra, ami megkapja a binfa elemeit, és azokat új memóriabeli 
+            címre, új jobb/bal oldali elemként átmásolja (lementi). Ezután az eredeti fa gyökér pointereit nullpointerekre alakítjuk, így töröljük azok elemeit. 
+            Így már csak az új fánk marad a memóriában. 
+        </para>
+        <para>
+            Magát a mozgatást a main függvényben végezzük egy beépített függvénnyel, a move() segítségével. Ez csak az előtte megírt mozgató konstruktor 
+            segítségével fogja átmozgatni a binfát.  
         </para>
     </section>     
 

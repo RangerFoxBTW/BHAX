@@ -11,9 +11,9 @@ class PolarGen
         PolarGen()
         {
             nincsTarolt = true;
-            std::srand (std::time (NULL));
+            std::srand (std::time (NULL)); //random generator
         }
-        ~PolarGen(){}
+        ~PolarGen(){} //destruktor
         double kovetkezo();
 
     private:
