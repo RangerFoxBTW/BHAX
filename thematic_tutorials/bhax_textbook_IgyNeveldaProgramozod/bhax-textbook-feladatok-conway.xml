@@ -48,12 +48,12 @@
             Most Qt C++-ban!
         </para>
         <para>
-            Megoldás videó: <link xlink:href=""></link>
+            Megoldás videó: <link xlink:href="https://youtu.be/gSSqilLDih0">https://youtu.be/gSSqilLDih0</link>
         </para>
         <para>
-            Megoldás forrásai: <link xlink:href="src/Conway/main.cpp">main.cpp</link>, <link xlink:href="src/Conway/sejtablak.cpp">sejtablak.cpp</link>, 
-            <link xlink:href="src/Conway/sejtszal.cpp">sejtszal.cpp</link>, <link xlink:href="src/Conway/sejtablak.h">sejtablak.h</link>, <link xlink:href="src/Conway/sejtszal.h">sejtszal.h</link>, 
-            <link xlink:href="src/Conway/Sejtauto.pro">Sejtauto.pro</link>               
+            Megoldás forrásai: <link xlink:href="src/Conway/game/main.cpp">main.cpp</link>, <link xlink:href="src/Conway/game/sejtablak.cpp">sejtablak.cpp</link>, 
+            <link xlink:href="src/Conway/game/sejtszal.cpp">sejtszal.cpp</link>, <link xlink:href="src/Conway/game/sejtablak.h">sejtablak.h</link>, <link xlink:href="src/Conway/game/sejtszal.h">sejtszal.h</link>, 
+            <link xlink:href="src/Conway/game/Sejtauto.pro">Sejtauto.pro</link>               
         </para>
         <para>
             
@@ -100,11 +100,10 @@
             Megoldás videó: <link xlink:href="https://youtu.be/VP0kfvRYD1Y">https://youtu.be/VP0kfvRYD1Y</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="https://github.com/nbatfai/RedFlowerHell">https://github.com/nbatfai/RedFlowerHell</link>
+            Megoldás forrása: <link xlink:href="src/Conway/pipacs.py">pipacs.py</link>
         </para>
         <para>
 
         </para>
-    </section>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </section>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 </chapter>                
