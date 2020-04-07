@@ -15,12 +15,16 @@
             Megoldás videó: <link xlink:href="https://bhaxor.blog.hu/2018/10/10/myrmecologist">https://bhaxor.blog.hu/2018/10/10/myrmecologist</link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>               
+            Megoldás forrásai: <link xlink:href="src/Conway/hangya/ant.h">ant.h</link>, <link xlink:href="src/Conway/hangya/antthread.cpp">antthread.cpp</link>, 
+            <link xlink:href="src/Conway/hangya/antthread.h">antthread.h</link>, <link xlink:href="src/Conway/hangya/antwin.cpp">antwin.cpp</link>, 
+            <link xlink:href="src/Conway/hangya/antwin.h">antwin.h</link>, <link xlink:href="src/Conway/hangya/main.cpp">main.cpp</link>, 
+            <link xlink:href="src/Conway/hangya/myrmecologist.pro">myrmecologist.pro</link>               
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            
         </para>            
-    </section>        
+    </section>  
+
     <section>
         <title>Java életjáték</title>
         <para>
@@ -28,30 +32,34 @@
             valósítsa meg a sikló-kilövőt!
         </para>
         <para>
-            Megoldás videó: 
+            Megoldás videó: <link xlink:href="https://youtu.be/_haXQEn1vGU">https://youtu.be/_haXQEn1vGU</link> 
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>               
+            Megoldás forrása: <link xlink:href="src/Conway/Sejtautomata.java">Sejtautomata.java</link>          
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            
         </para>            
     </section>        
+
     <section>
         <title>Qt C++ életjáték</title>
         <para>
             Most Qt C++-ban!
         </para>
         <para>
-            Megoldás videó: 
+            Megoldás videó: <link xlink:href=""></link>
         </para>
         <para>
-            Megoldás forrása: <link xlink:href=""></link>               
+            Megoldás forrásai: <link xlink:href="src/Conway/main.cpp">main.cpp</link>, <link xlink:href="src/Conway/sejtablak.cpp">sejtablak.cpp</link>, 
+            <link xlink:href="src/Conway/sejtszal.cpp">sejtszal.cpp</link>, <link xlink:href="src/Conway/sejtablak.h">sejtablak.h</link>, <link xlink:href="src/Conway/sejtszal.h">sejtszal.h</link>, 
+            <link xlink:href="src/Conway/Sejtauto.pro">Sejtauto.pro</link>               
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            
         </para>            
-    </section>        
+    </section>    
+
     <section>
         <title>BrainB Benchmark</title>
         <para>
@@ -60,10 +68,22 @@
             Megoldás forrása: <link xlink:href="https://github.com/nbatfai/esport-talent-search">https://github.com/nbatfai/esport-talent-search</link>               
         </para>
         <para>
-            
+            A BrainB lényegében egy Benchmark program, amely az agy kognitív képességeit próbálja mérni. Az
+            alapprobléma abból indult, hogy a legtöbb online kompetitív multiplayer játékban (különösen a
+            MOBA-kban) gyakran előfordul, hogy egy teamfightban annyira sok vizuális tartalom jelenik meg a
+            képernyőn egy időben, hogy egyszerűen nem tudjuk követni azokat, elveszítjük a karakterünket. A
+            kognitív képességeink közé tartozik a szemünk által észlelt dolgok és események feldolgozása,
+            azokból a hasznos információk leszűrése. Ezt a helyzetet igyekszik szimulálni a program.
         </para>    
         <para>
-            Saját eredményem:
+            A programot megnyitva különböző jelzésű négyzeteket láthatunk, mindegyikben egy sötét ponttal. A
+            feladatunk az, hogy a Samu Entropy nevű négyzet pontjában tartsuk az egérmutatónkat lenyomva 10
+            percig. Idő közben ezekből a négyzetekből egyre több lesz, valamint maguk az alakzatok
+            mindeközben mozognak is (rezegnek/vibrálnak). Minél tovább tartjuk a helyes pontban az egerünket,
+            annál több ilyen rezgő alakzat lesz látható a képernyőn, valamint egyre agresszívabban fogják a
+            pozíciójukat változtatni. A 10 perc letelte után kapunk egy összesítő eredményjelző táblát, aminek az
+            alján kiírja az agyam kognitív képességének a „számszerűsített” értékét Kbyte-ban. Alább látható az
+            eredményem:
         </para>
         <para>
             <mediaobject>
@@ -73,5 +93,18 @@
             </mediaobject>
         </para>        
     </section>        
+
+    <section>
+        <title>Minecraft MALMÖ Vörös Pipacs Pokol 19RF</title>
+        <para>
+            Megoldás videó: <link xlink:href="https://youtu.be/VP0kfvRYD1Y">https://youtu.be/VP0kfvRYD1Y</link>
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/nbatfai/RedFlowerHell">https://github.com/nbatfai/RedFlowerHell</link>
+        </para>
+        <para>
+
+        </para>
+    </section>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 </chapter>                

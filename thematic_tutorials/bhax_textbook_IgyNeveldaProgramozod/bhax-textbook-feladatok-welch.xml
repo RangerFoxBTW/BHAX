@@ -568,6 +568,16 @@ Csomopont *masol(Csomopont *elem, Csomopont *regifa)
     </section>     
 
     <section>
+        <title>Bátfai Norbert template osztályos Binfája</title>
+        <para>
+            Feladat forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/-/tree/master/distance_learning/ziv_lempel_welch">https://gitlab.com/nbatfai/bhax/-/tree/master/distance_learning/ziv_lempel_welch</link>
+        </para>
+        <para>
+            
+        </para>
+    </section>
+
+    <section>
         <title>Minecraft Malmö 5x5x5</title>
         <para>
             <link xlink:href="https://youtu.be/mj3OV5g5guw">https://youtu.be/mj3OV5g5guw</link>
