@@ -49,19 +49,19 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
     public Sejtautomata(int szélesség, int magasság) {
         this.szélesség = szélesség;
         this.magasság = magasság;
-        // A két rács elkészítése
+        //A két rács elkészítése
         rácsok[0] = new boolean[magasság][szélesség];
         rácsok[1] = new boolean[magasság][szélesség];
         rácsIndex = 0;
         rács = rácsok[rácsIndex];
-        // A kiinduló rács minden cellája HALOTT
+        //A kiinduló rács minden cellája HALOTT
         for(int i=0; i<rács.length; ++i)
             for(int j=0; j<rács[0].length; ++j)
                 rács[i][j] = HALOTT;
-        // A kiinduló rácsra "élőlényeket" helyezünk
+        //A kiinduló rácsra "élőlényeket" helyezünk
         //sikló(rács, 2, 2);
         siklóKilövő(rács, 5, 60);
-        // Az ablak bezárásakor kilépünk a programból.
+        //Az ablak bezárásakor kilépünk a programból.
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 setVisible(false);
@@ -70,17 +70,17 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
         });
         // A billentyűzetről érkező események feldolgozása
         addKeyListener(new java.awt.event.KeyAdapter() {
-            // Az 'k', 'n', 'l', 'g' és 's' gombok lenyomását figyeljük
+            //A 'k', 'n', 'l', 'g' és 's' gombok lenyomását figyeljük
             public void keyPressed(java.awt.event.KeyEvent e) {
                 if(e.getKeyCode() == java.awt.event.KeyEvent.VK_K) {
-                    // Felezük a cella méreteit:
+                    //Felezzük a cella méreteit:
                     cellaSzélesség /= 2;
                     cellaMagasság /= 2;
                     setSize(Sejtautomata.this.szélesség*cellaSzélesség,
                             Sejtautomata.this.magasság*cellaMagasság);
                     validate();
                 } else if(e.getKeyCode() == java.awt.event.KeyEvent.VK_N) {
-                    // Duplázzuk a cella méreteit:
+                    //Duplázzuk a cella méreteit:
                     cellaSzélesség *= 2;
                     cellaMagasság *= 2;
                     setSize(Sejtautomata.this.szélesség*cellaSzélesség,
@@ -95,11 +95,11 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
                 repaint();
             }
         });
-        // Egér kattintó események feldolgozása:
+        //Egérkattintó események feldolgozása:
         addMouseListener(new java.awt.event.MouseAdapter() {
-            // Egér kattintással jelöljük ki a nagyítandó területet
-            // bal felső sarkát vagy ugyancsak egér kattintással
-            // vizsgáljuk egy adott pont iterációit:
+            //Egérkattintással jelöljük ki a nagyítandó területet
+            //Bal felső sarkát vagy ugyancsak egér kattintással
+            //Vizsgáljuk egy adott pont iterációit:
             public void mousePressed(java.awt.event.MouseEvent m) {
                 // Az egérmutató pozíciója
                 int x = m.getX()/cellaSzélesség;
@@ -108,9 +108,9 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
                 repaint();
             }
         });
-        // Egér mozgás események feldolgozása:
+        //Egérmozgás események feldolgozása:
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            // Vonszolással jelöljük ki a négyzetet:
+            //Vonszolással jelöljük ki a négyzetet:
             public void mouseDragged(java.awt.event.MouseEvent m) {
                 int x = m.getX()/cellaSzélesség;
                 int y = m.getY()/cellaMagasság;
@@ -118,10 +118,10 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
                 repaint();
             }
         });
-        // Cellaméretek kezdetben
+        //Cellaméretek kezdetben
         cellaSzélesség = 10;
         cellaMagasság = 10;
-        // Pillanatfelvétel készítéséhez:
+        //Pillanatfelvétel készítéséhez:
         try {
             robot = new java.awt.Robot(
                     java.awt.GraphicsEnvironment.
@@ -130,41 +130,41 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
         } catch(java.awt.AWTException e) {
             e.printStackTrace();
         }
-        // A program ablakának adatai:
+        //A program ablakának adatai:
         setTitle("Sejtautomata");
         setResizable(false);
         setSize(szélesség*cellaSzélesség,
                 magasság*cellaMagasság);
         setVisible(true);
-        // A sejttér életrekeltése:
+        //A sejttér életrekeltése:
         new Thread(this).start();
     }
     /** A sejttér kirajzolása. */
     public void paint(java.awt.Graphics g) {
-        // Az aktuális
+        //Az aktuális
         boolean [][] rács = rácsok[rácsIndex];
-        // rácsot rajzoljuk ki:
-        for(int i=0; i<rács.length; ++i) { // végig lépked a sorokon
-            for(int j=0; j<rács[0].length; ++j) { // s az oszlopok
-                // Sejt cella kirajzolása
+        //Rácsot rajzoljuk ki:
+        for(int i=0; i<rács.length; i++) { //végig lépked a sorokon
+            for(int j=0; j<rács[0].length; j++) { //s az oszlopok
+                //Sejtcella kirajzolása
                 if(rács[i][j] == ÉLŐ)
                     g.setColor(java.awt.Color.BLACK);
                 else
                     g.setColor(java.awt.Color.WHITE);
                 g.fillRect(j*cellaSzélesség, i*cellaMagasság,
                         cellaSzélesség, cellaMagasság);
-                // Rács kirajzolása
+                //Rács kirajzolása
                 g.setColor(java.awt.Color.LIGHT_GRAY);
                 g.drawRect(j*cellaSzélesség, i*cellaMagasság,
                         cellaSzélesség, cellaMagasság);
             }
         }
-        // Készítünk pillanatfelvételt?
+        //Ha készült pillanatkép
         if(pillanatfelvétel) {
-            // a biztonság kedvéért egy kép készítése után
-            // kikapcsoljuk a pillanatfelvételt, hogy a
-            // programmal ismerkedő Olvasó ne írja tele a
-            // fájlrendszerét a pillanatfelvételekkel
+            /* a biztonság kedvéért egy kép készítése után
+                kikapcsoljuk a pillanatfelvételt, hogy a
+                programmal ismerkedő Olvasó ne írja tele a
+                fájlrendszerét a pillanatfelvételekkel*/
             pillanatfelvétel = false;
             pillanatfelvétel(robot.createScreenCapture
                     (new java.awt.Rectangle
@@ -174,13 +174,13 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
         }
     }
     /**
-     * Az kérdezett állapotban lévő nyolcszomszédok száma.
-     *
-     * @param   rács    a sejttér rács
-     * @param   sor     a rács vizsgált sora
-     * @param   oszlop  a rács vizsgált oszlopa
-     * @param   állapor a nyolcszomszédok vizsgált állapota
-     * @return int a kérdezett állapotbeli nyolcszomszédok száma.
+      Az kérdezett állapotban lévő nyolcszomszédok száma.
+    * 
+    *    @param   rács    a sejttér rács
+    *   @param   sor     a rács vizsgált sora
+    *   @param   oszlop  a rács vizsgált oszlopa
+    *    @param   állapor a nyolcszomszédok vizsgált állapota
+    *    @return int a kérdezett állapotbeli nyolcszomszédok száma.
      */
     public int szomszédokSzáma(boolean [][] rács,
             int sor, int oszlop, boolean állapot) {        
@@ -210,12 +210,12 @@ public class Sejtautomata extends java.awt.Frame implements Runnable {
         
         return állapotúSzomszéd;
     }
-    /**
-     * A sejttér időbeli fejlődése a John H. Conway féle
-     * életjáték sejtautomata szabályai alapján történik.
-     * A szabályok részletes ismertetését lásd például a
-     * [MATEK JÁTÉK] hivatkozásban (Csákány Béla: Diszkrét
-     * matematikai játékok. Polygon, Szeged 1998. 171. oldal.)
+    /*
+      A sejttér időbeli fejlődése a John H. Conway féle
+      életjáték sejtautomata szabályai alapján történik.
+      A szabályok részletes ismertetését lásd például a
+      [MATEK JÁTÉK] hivatkozásban (Csákány Béla: Diszkrét
+      matematikai játékok. Polygon, Szeged 1998. 171. oldal.)
      */
     public void időFejlődés() {
         

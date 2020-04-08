@@ -79,10 +79,32 @@
             Megoldás videó: <link xlink:href="https://youtu.be/bAPSu3Rndi8">https://youtu.be/bAPSu3Rndi8</link>      
         </para>
         <para>
-            Megoldás forrása:                
+            A Minecraft Project MALMÖ egy kísérleti platform a mesterséges intelligencia fejlesztéshez. Az első változata 2016-ban jelent meg, Katja Hoffmann volt a vezető fejlesztő a 
+            projekt elkészítése során. A Malmö egy kellőképp zárt, jól definiált, mégis végtelen számú lehetőséget magába foglaló környezetet biztosít ahhoz, hogy egy játékon belüli AI-t 
+            hozhassunk létre. Mindez a Minecraft játékra épül: a lehetőségek tárháza korlátlan!                
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            Hoffmann azért akarta létrehozni a projektet, mert zavarta, hogy az addigi játékok, amikkel az AI képességeit tesztelték nagyon zártak voltak. Ezzel szemben a Minecraft egy 
+            igazi open world játék, akár a játékon belül is létrehozhatunk saját játékot, különböző akadálypályákat, feladatokat. Tesztelhetjük az AI-t survival módban, vagy hagyhatjuk, 
+            hogy creative módban tevékenykedjen. Mindemellett a Minecraft világa meglehetősen zárt keretek között valósul meg, a játékon beül található összes objektum, a fizika 
+            megvalósítása mind-mind pontosan definiált, jól körülhatárolt. Ez remek lehetőséget biztosít számtalan -féle AI fejlesztésére: Reinforcement Learning, Deep Learning, 
+            Symbolic AI.
+        </para>
+        <para>
+            Oktatási célokra is ideális a Project Malmö. Egyrészt a Minecraft világa könnyen befogadható a kisebb korosztálynak, akár már általános iskolában is megismerkedhetnek egy 
+            könnyen tanulható programozási nyelvvel a diákok ennek segítségével. Másfelől remek felület kezdésnek a mesterséges intelligencia tanuláshoz, az ágens programozás a legalapabb 
+            területnek számít. Több programozási nyelvet is támogat természetesen a platform, a Prog1 órán mi a Pythont részesítettük előnyben. Mindemellett dokumentálva is van a platform, 
+            a parancsok, rendelkezésünkre áll számtalan tutorial forrásfájl, egyszerű küldetések, feladatok. 
+        </para>
+        <para>
+            A Prog1 órákon a RedFlowerHell nevű feladattal foglalkoztunk, amit Dr. Bátfai Norbert készített. Egy fordított piramis alakú veremben kell az AI-nak vörös pipacsokat gyűjtenie, 
+            miközben föntről láva csorog lefelé. A feladat nem tűnik bonyolultnak, de számos akadályba ütköztünk a feladat elvégzése során. Rengeteg módosítást, fejlesztést vittünk végbe 
+            ahhoz, hogy kellőképp hatékony programot alkossunk. A fejlesztés során beleütköztünk a platform néhány hibájába is, ilyen például a nagyon magas erőforrásigény, valamint az 
+            instabil kliens. Érdekes volt látni, hogy még az ember által irányított karakter által összegyűjtött virágnál is többet szedett össze a legjobb megoldás. 
+        </para>
+        <para>
+            A Project Malmö egy rendkívül innovatív platformot kínál az AI fejlesztésre, tesztelésre. Ugyan csak a felszínét kapargattuk eddig a Prog1 órákon, de kíváncsian várom a további 
+            feladatokat. Nem tartom kizártnak, hogy pár éven belül Malmös AI játékosokkal közösen tudunk majd kalandozni a Minecraft világában...
         </para>
     </section>        
 
