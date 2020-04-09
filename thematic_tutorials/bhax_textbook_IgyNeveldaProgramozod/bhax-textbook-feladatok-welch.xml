@@ -565,10 +565,10 @@ Csomopont *masol(Csomopont *elem, Csomopont *regifa)
             Magát a mozgatást a main függvényben végezzük egy beépített függvénnyel, a move() segítségével. Ez csak az előtte megírt mozgató konstruktor 
             segítségével fogja átmozgatni a binfát.  
         </para>
-    </section>     
-
-    <section>
-        <title>Bátfai Norbert template osztályos Binfája</title>
+        <para></para>
+        <para>
+            Bátfai Norbert template osztályos Binfája:
+        </para>
         <para>
             Feladat forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/-/tree/master/distance_learning/ziv_lempel_welch">https://gitlab.com/nbatfai/bhax/-/tree/master/distance_learning/ziv_lempel_welch</link>
         </para>
@@ -581,13 +581,12 @@ Csomopont *masol(Csomopont *elem, Csomopont *regifa)
         <para>
             
         </para>
-    </section>
+    </section>     
 
     <section>
         <title>Minecraft Malmö 5x5x5</title>
         <para>
             <link xlink:href="https://youtu.be/mj3OV5g5guw">https://youtu.be/mj3OV5g5guw</link>
         </para>
-    </section>               
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </section>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 </chapter>                
