@@ -122,7 +122,7 @@
     )
 )
 
-;(script-fu-bhax-chrome "Bátf41 Haxor" "Sans" 120 1000 1000 '(255 0 0) "Crown molding")
+;(script-fu-bhax-chrome "Szabó Dani" "Sans" 120 1000 1000 '(255 0 0) "Crown molding")
 
 (script-fu-register "script-fu-bhax-chrome"
     "Chrome3"

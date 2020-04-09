@@ -7,14 +7,12 @@
     </info>
     <section>
         <title>Iteratív és rekurzív faktoriális Lisp-ben</title>
+        <para></para>
         <para>
-                
+            Megoldás videó: <link xlink:href="https://youtu.be/WZ3pEj8Ay8I">https://youtu.be/WZ3pEj8Ay8I</link>      
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/z6NJE2a1zIA">https://youtu.be/z6NJE2a1zIA</link>      
-        </para>
-        <para>
-            Megoldás forrása:                
+            Megoldás forrásai: <link xlink:href="src/Chaitin/fakt1.scm">fakt1.scm</link>, <link xlink:href="src/Chaitin/fakt2.scm">fakt2.scm</link>               
         </para>
         <para>
 
@@ -41,10 +39,10 @@
             bemenő szövegre!
         </para>
         <para>
-            Megoldás videó: <link xlink:href="https://youtu.be/OKdAkI_c7Sc">https://youtu.be/OKdAkI_c7Sc</link>      
+            Megoldás videó: <link xlink:href="https://youtu.be/B0Xv2J4-aTo">https://youtu.be/B0Xv2J4-aTo</link>      
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/GIMP_Lisp/Chrome">https://gitlab.com/nbatfai/bhax/tree/master/attention_raising/GIMP_Lisp/Chrome</link>               
+            Megoldás forrása: <link xlink:href="src/Chaitin/chrome.scm">chrome.scm</link>               
         </para>
         <para>
             
@@ -64,7 +62,7 @@
             Megoldás forrása: <link xlink:href="src/Chaitin/mandala.scm">mandala.scm</link>               
         </para>
         <para>
-            <programlisting language="scm"><![CDATA[
+            <programlisting language="lisp"><![CDATA[
 ]]></programlisting>
         </para>            
     </section>    
