@@ -573,13 +573,28 @@ Csomopont *masol(Csomopont *elem, Csomopont *regifa)
             Feladat forrása: <link xlink:href="https://gitlab.com/nbatfai/bhax/-/tree/master/distance_learning/ziv_lempel_welch">https://gitlab.com/nbatfai/bhax/-/tree/master/distance_learning/ziv_lempel_welch</link>
         </para>
         <para>
-            
+            Ezt  a bekezdést azért hoztam létre, mert a fejezet befejezése után, utólag derült ki, hogy szerepelnie kell benne a Tanár Úr által írt új Binfa kódnak is. Őszintén szólva 
+            nagyon jó kezdeményezésnek tartom, hogy from scratch módon, a szemünk láttára írta meg a Tanár a kódot, hiszen így rengeteg új információval lettünk gazdagabbak, valamint 
+            videó/stream mellett kódolni sokkal intuitívabb. A kód sokkal elegánsabb, letisztultabb és fejlettebb, mint az elődje. Ha jól értelmeztem a C++-os template-ekről kell 
+            részletesen beszélnem, illetve megértenem a működésüket, így alább ismertetném ezeket.
         </para>
         <para>
-            
+            A templatek működését legegyszerűbben egy példával tudnám elmagyarázni. A legegyszerűbbel élve: van egy eljárásunk, aminek a feladata kiíratni egy intet a standard outputra. Ehhez ugyebár int típusúként kell létrehoznunk az eljárást. Ha viszont azt szeretnénk, hogy mondjuk egy stringet írasson ki, akkor létre kellene hoznunk egy ugyanolyan eljárást, csak épp string típusúként. És ezt eljátszhatnánk minden szükséges típusra. Ilyenkor praktikus megoldást nyújt a template használata. 
         </para>
         <para>
-            
+            A template segítségével lehetőségünk van afféle sablonok létrehozására, amelyeket a compiler a használatuk alapján fordít le. Ezt úgy kell érteni, hogy ha int típust szeretnénk kiíratni, akkor intre, ha stringet, akkor string típusra alakítja át a sablont. És ez így van minden típussal. Az eljárás meghívásakor megadott paraméterek döntik el, hogy milyen formában fog lefutni a template eljárás.
+        </para>
+        <para>
+            A szintaxisa a következő: <programlisting language="c++"><![CDATA[template<typename nev>]]></programlisting>. Ezután a megadott nevet kell a paraméterlistába írni típusként. 
+            A typename helyett írhatnánk class-t is, nem fog változni a működése. Érdekesség, hogy ezek a templatek nem igazi kódok addig, amíg fel nem használjuk őket. Akár szintaxisbeli hiba 
+            is lehetne benne, amíg nem hívom meg az eljárást, addig a fordító figyelmen kívül hagyja, és gond nélkül le fog futni a program. Továbbá a híváskor <programlisting language="c++"><![CDATA[<>]]></programlisting> 
+            jelek közé megadhatom, hogy milyen típusra szeretném meghívni az eljárást, habár ez nem kötelező, mivel a fordító automatikusan felismeri a megadott argumentum típusát.  
+        </para>
+        <para>
+            Az osztályok esetében is ugyanerre használjuk: tetszőleges típusok használatát tesszük lehetővé vele. A Binfát ezáltal tetszőleges típusú adatokkal tölthetjük fel, amitől sokkal 
+            használhatóbb, sokoldalúbb lett. Érdemes megjegyezni, hogy a templatek nagyon erős eszközök a C++ programozásban, ám sok helyen nem preferálják amiatt, mert egy komplexebb programnál, 
+            ha sok összetett templatet használunk, és valami hiba történik, akkor nagyon nehéz lesz megtalálni a hibát, mert ahhoz ki kell bogarászni, hogy ténylegesen milyen típusokkal milyen kód 
+            is fog lefutni. Ám az ilyen egyszerűbb példáknál, illetve bizonyos területeken (pl. login rendszereknél) hatalmas segítséget nyújtanak.
         </para>
     </section>     
 

@@ -17,8 +17,10 @@
         </para>
         <para>
             Megoldás forrása: <link xlink:href="Caesar/tm.c">
-                <filename>bhax/thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/Caesar/tm.c</filename>
             </link> 
+        </para>
+        <para>
+            Védés: <link xlink:href=""></link>
         </para>
         <programlisting language="c"><![CDATA[#include <stdio.h>
 #include <stdlib.h>
