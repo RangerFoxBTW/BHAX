@@ -142,6 +142,9 @@ void finish(){
             Megoldás forrása: <link xlink:href="src/Conway/Sejtautomata.java">Sejtautomata.java</link>          
         </para>
         <para>
+            Tutoriáltam: Nyika Benedek
+        </para>
+        <para>
             John Conway, angol matematikus, a fejezet címadója az életjátékot. A neve megtévesztő, ugyanis nem klasszikus értelemben vett játék, sokkal inkább egyfajta szimuláció. Egy 
             négyzetrácsos terület reprezentálja az életteret, minden egyes cellában pedig sejtek jelenhetnek meg. 3 nagyon egyszerű szabállyal igen komplex szituációkat lehet kreálni. 
         </para>
@@ -519,6 +522,9 @@ public void siklóKilövő(boolean [][] rács, int x, int y) {
             <link xlink:href="src/Conway/game/Sejtauto.pro">Sejtauto.pro</link>               
         </para>
         <para>
+            Tutoriáltam: Nyika Benedek
+        </para>
+        <para>
             Érdekesség a játékról, hogy az 1970-es évek egyik legnagyobb vírusának tartották a játékot, ami megosztó volt a közönség számára.Voltak olyanok, akik napi szinten használták a 
             játékot, míg voltak olyanok, akik nem értették, mégis miért jó ez a játék, mi a szórakoztató abban, hogy csak figyelni lehet a képernyőt. Ebben az időben lényegében 
             "szenvedélybetegséggé" vált a játék, a Time becslése szerint pedig több millió dolláros anyagi kárt okozott a biztosítótársaságoknak és a bankoknak, hiszen ezzel a gépidőből 
@@ -589,6 +595,9 @@ for(int i=-1; i<2; ++i)
             Megoldás forrása: <link xlink:href="https://github.com/nbatfai/esport-talent-search">https://github.com/nbatfai/esport-talent-search</link>               
         </para>
         <para>
+            Tutoriáltam: Nyika Benedek
+        </para>
+        <para>
             A BrainB lényegében egy Benchmark program, amely az agy kognitív képességeit próbálja mérni. Az
             alapprobléma abból indult, hogy a legtöbb online kompetitív multiplayer játékban (különösen a
             MOBA-kban) gyakran előfordul, hogy egy teamfightban annyira sok vizuális tartalom jelenik meg a
@@ -622,6 +631,9 @@ for(int i=-1; i<2; ++i)
         </para>
         <para>
             Megoldás forrása: <link xlink:href="src/Conway/pipacs.py">pipacs.py</link>
+        </para>
+        <para>
+            Tutoriáltam: Nyika Benedek
         </para>
         <para>
             <programlisting language="python"><![CDATA[

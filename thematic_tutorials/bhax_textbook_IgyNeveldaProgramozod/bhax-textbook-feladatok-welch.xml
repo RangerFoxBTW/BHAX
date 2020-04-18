@@ -517,6 +517,9 @@ double atlag, szoras;]]></programlisting>
             Megoldás forrása: <link xlink:href="src/Welch/mozgat.cpp">mozgat.cpp</link>  
         </para>
         <para>
+            Tutoriáltam: Nyika Benedek
+        </para>
+        <para>
             <programlisting language="c++"><![CDATA[
 LZWBinFa(const LZWBinFa & regi) 
      {
