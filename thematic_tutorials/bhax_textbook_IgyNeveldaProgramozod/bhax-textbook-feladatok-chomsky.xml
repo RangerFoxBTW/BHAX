@@ -74,6 +74,9 @@ int main()
             Megoldás forrása: A fejezetbe ágyazva.                
         </para>
         <para>
+            Érdekesség forrása: <link xlink:href="https://en.wikipedia.org/wiki/Noam_Chomsky">link</link>
+        </para>
+        <para>
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="img/Chomsky/logika1.jpg" scale="50"/>

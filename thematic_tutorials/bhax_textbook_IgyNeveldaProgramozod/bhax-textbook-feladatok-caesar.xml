@@ -510,7 +510,10 @@ compute(nn.exor, exor.data[,1:2])]]></programlisting>
         </para>       
         <para>
             Tutoriáltam: Takács Balázs
-        </para>     
+        </para> 
+        <para>
+            A perceptronokról további infók: <link xlink:href="https://en.wikipedia.org/wiki/Perceptron">link</link>
+        </para>    
         <para>
             <programlisting language="c"><![CDATA[
 #include <iostream>

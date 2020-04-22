@@ -17,6 +17,9 @@
             Megoldás forrása: <link xlink:href="src/Mandelbrot/mandel.cpp">mandel.cpp</link>        
         </para>
         <para>
+            Minden, amit a Mandelbrot-halmazról tudni érdemes: <link xlink:href="https://hu.wikipedia.org/wiki/Mandelbrot-halmaz">link</link>
+        </para>
+        <para>
             A Mandelbrot halmazt 1980-ban találta meg Benoit Mandelbrot a 
             komplex számsíkon. Komplex számok azok a számok, amelyek körében 
             válaszolni lehet az olyan egyébként értelmezhetetlen kérdésekre, 
@@ -1265,7 +1268,7 @@ HEADERS += frakablak.h frakszal.h
 SOURCES += frakablak.cpp frakszal.cpp main.cpp]]></programlisting>
         </para>
         <para>
-            A feladat lényegében annyi, hogy olyan programot kell készíten9i, amely az egérrel történő kattintás-kijelöléssegítségével belenagyít a Mandelbrot fraktálba. Ezt úgy érjük el, 
+            A feladat lényegében annyi, hogy olyan programot kell készíteni, amely az egérrel történő kattintás-kijelöléssegítségével belenagyít a Mandelbrot fraktálba. Ezt úgy érjük el, 
             hogy a program legenerálja a Mandelbrot halmaz képét, majd az adott területre nagyítva azt újragenerálja, így érjük el a részletgazdag nagyítást. A fentebb beillesztett 
             forráskódok mindegyikére szükségünk lesz a feladat elvégzéséhez. Mindet Bátfai Norbert Tanár Úr készítette. Ezen felül szükség lesz a Qt telepítésére, a forrás futtatásához.
         </para>

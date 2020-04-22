@@ -145,6 +145,9 @@ void finish(){
             Tutoriáltam: Nyika Benedek
         </para>
         <para>
+            Az életjátékról további tudnivalók: <link xlink:href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">link</link>
+        </para>
+        <para>
             John Conway, angol matematikus, a fejezet címadója az életjátékot. A neve megtévesztő, ugyanis nem klasszikus értelemben vett játék, sokkal inkább egyfajta szimuláció. Egy 
             négyzetrácsos terület reprezentálja az életteret, minden egyes cellában pedig sejtek jelenhetnek meg. 3 nagyon egyszerű szabállyal igen komplex szituációkat lehet kreálni. 
         </para>
