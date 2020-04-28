@@ -93,11 +93,10 @@ main ()
         <para>
             A programban elsőnek meghatározzuk, hogy 5 sora legyen. Ezután a **tm segítségével lefoglalunk a memóriában egy területet, majd a malloc segítségével 
             ellenőrizzük, hogy a program rendelkezésére áll-e a kívánt mennyiségű memória. Ha nem, akkor Null értéket visszaadva leáll a program. A malloc void*-t adna 
-            vissza eredményül, de a programban meghatározzuk neki, hogy double** típust adjon vissza. 
+            vissza eredményül, de a programban meghatározzuk neki, hogy double** típust adjon vissza (castolás). 
         </para>  
         <para>
-            Ezek után szükség van egy for ciklusra, ami megnézi, hogy elegendő memória áll-e a rendelkezésre a megadott számú soroknak (ebben az esetben 5 sor van, így 
-            5*40 Bájtra van szüksége, vagyis 200-ra). Ha a pointer Null értéket kap, akkor leáll a program. 
+            Ezek után szükség van egy for ciklusra, ami megnézi, hogy elegendő memória áll-e a rendelkezésre a megadott számú soroknak. Ha a pointer Null értéket kap, akkor leáll a program. 
         </para>
         <para>
             Majd egymásba ágyazott for ciklusokkal feltöltjük a mátrixot elemekkel (az i a sorokat, j az oszlopokat jelöli), majd szintén for ciklussal kiíratjuk az 
@@ -105,7 +104,7 @@ main ()
         </para>
         <para>
             Az utolsó rész demonstrálja, hogy másképp is ki lehet íratni az elemeket (a program a 3. sor elemeit írja ki másként), végül a free() eljárással 
-            felszabadítja a double* és a double** által lefoglalt memóriát.
+            felszabadítja a sorokhoz lefoglalt memóriát, végül a mátrix által lefoglalt helyet is.
         </para>
         <para>  
             <mediaobject>
@@ -264,7 +263,7 @@ public class main{
             Megoldás forrása: <link xlink:href="src/Caesar/kodtor50000.c">kodtoro50000.c</link>               
         </para>
         <para>
-            Tutoriált: Takács Balázs
+            Engem tutoriált: <link xlink:href="https://gitlab.com/stoky123/repo">Takács Balázs</link>
         </para>
         <para>
             <programlisting language="c"><![CDATA[
@@ -509,7 +508,7 @@ compute(nn.exor, exor.data[,1:2])]]></programlisting>
                 <link xlink:href="src/Caeasar/main.cpp">main.cpp</link> 
         </para>       
         <para>
-            Tutoriáltam: Takács Balázs
+            Tutoriáltam: <link xlink:href="https://gitlab.com/stoky123/repo">Takács Balázs</link>
         </para> 
         <para>
             A perceptronokról további infók: <link xlink:href="https://en.wikipedia.org/wiki/Perceptron">link</link>

@@ -383,6 +383,9 @@ int main()
             </link>
         </para>
         <para>
+            Tutoriáltam: <link xlink:href="https://gitlab.com/BBarna9/bhax">Barna Benjámin</link>
+        </para>
+        <para>
 <programlisting language="C++"><![CDATA[
 #include <iostream>
 
