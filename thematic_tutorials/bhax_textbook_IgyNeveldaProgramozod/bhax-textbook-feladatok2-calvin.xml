@@ -1,0 +1,40 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Calvin!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    
+    <section>
+        <title>MNIST</title>
+        <para>
+            Az alap feladat megoldása, +saját kézzel rajzolt képet is ismerjen fel,
+            <link xlink:href="https://progpater.blog.hu/2016/11/13/hello_samu_a_tensorflow-bol">Tensorflow</link> Háttérként ezt vetítsük le:
+            <link xlink:href="https://prezi.com/0u8ncvvoabcr/no-programming-programming/">Prezi</link>"
+        </para>
+        
+    </section>
+
+    <section>
+        <title>
+            DEEP MNIST
+        </title>
+        <para>Mint az előző, de a mély változattal. Segítő ábra, vesd össze a forráskóddal a
+            <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/NEMESPOR/DE/denbatfai2.pdf">DEEP MNIST</link> 8. fóliáját!
+        </para>
+        
+    </section>
+
+    <section>
+        <title>Android telefonra a TF objektum detektálója</title>
+        <para>
+            Telepítsük fel, próbáljuk ki!
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/android">Android TF</link>
+        </para>
+        
+    </section>
+    
+</chapter>                

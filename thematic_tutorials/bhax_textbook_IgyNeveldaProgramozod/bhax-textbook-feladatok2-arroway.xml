@@ -5,37 +5,88 @@
             <keyword/>
         </keywordset>
     </info>
-
+    
     <section>
-        <title>A BPP algoritmus Java megvalósítása</title>
+        <title>OO szemlélet</title>
         <para>
+            A módosított polártranszformációs normális generátor beprogramozása Java nyelven. Mutassunk rá,
+hogy a mi természetes saját megoldásunk (az algoritmus egyszerre két normálist állít elő, kell egy
+példánytag, amely a nem visszaadottat tárolja és egy logikai tag, hogy van-e tárolt vagy futtatni kell
+az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
         </para>
         <para>
-            Megoldás videó:
+            Lásd még fóliák!
         </para>
         <para>
-            Megoldás forrása:                
+            Ismétlés: <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_5.pdf">16-22 fóliák</link>
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            Ugyanezt írjuk meg C++ nyelven is! (lásd még UDPROG repó: source/labor/polargen)
         </para>
     </section>        
 
     <section>
-        <title>Java osztályok a Pi-ben</title>
+    <title>Homokózó</title>
+    <para>
+        Írjuk át az első védési programot (LZW binfa) C++ nyelvről Java nyelvre, ugyanúgy működjön!
+        Mutassunk rá, hogy gyakorlatilag a pointereket és referenciákat kell kiirtani és minden máris működik
+        (erre utal a feladat neve, hogy Java-ban minden referencia, nincs választás, hogy mondjuk egy
+        attribútum pointer, referencia vagy tagként tartalmazott legyen).
+        Miután már áttettük Java nyelvre, tegyük be egy Java Servletbe és a böngészőből GET-es kéréssel
+        (például a böngésző címsorából) kapja meg azt a mintát, amelynek kiszámolja az LZW binfáját!
+    </para>
+    
+    </section>
+    
+    <section>
+    <title>„Gagyi”</title>
+    <para>
+        Az ismert formális 2 „while (x &lt;= t &amp;&amp; x &gt;= t &amp;&amp; t != x);” tesztkérdéstípusra adj a szokásosnál
+        (miszerint x, t az egyik esetben az objektum által hordozott érték, a másikban meg az objektum
+        referenciája) „mélyebb” választ, írj Java példaprogramot mely egyszer végtelen ciklus, más x, t
+        értékekkel meg nem! A példát építsd a JDK Integer.java forrására 3 , hogy a 128-nál inkluzív objektum
+        példányokat poolozza!
+    </para>
+    
+    </section>    
+
+    <section>
+        <title>Yoda</title>
         <para>
-            Az előző feladat kódját fejleszd tovább: vizsgáld, hogy Vannak-e Java osztályok a Pi hexadecimális kifejtésében!
+            Írjunk olyan Java programot, ami java.lang.NullPointerEx-el leáll, ha nem követjük a Yoda
+conditions-t! https://en.wikipedia.org/wiki/Yoda_conditions
         </para>
+    </section>    
+
+    <section>
+        <title>Kódolás from scratch</title>
         <para>
-            Megoldás videó:
+            Induljunk ki ebből a tudományos közleményből: http://crd-legacy.lbl.gov/~dhbailey/dhbpapers/bbp-alg.pdf és csak ezt tanulmányozva írjuk meg Java nyelven a BBP algoritmus megvalósítását!
+            Ha megakadsz, de csak végső esetben: https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/apbs02.html#pi_jegyei (mert ha csak lemásolod, akkor pont az a fejlesztői élmény marad ki,
+            melyet szeretném, ha átélnél).
         </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
+        
     </section>        
+    <section>
+        <title>EPAM Java Object metódusok</title>
+        <para>
+            Mutasd be a Java Object metódusait és mutass rá mely metódusokat érdemes egy saját
+osztályunkban felüldefiniálni és miért. (Lásd még Object class forráskódja)
+        </para>
+    </section>
+    <section>
+        <title>EPAM Eljárásorientál vs Objektumorientált</title>
+        <para>
+            Írj egy 1 oldalas értekező esszé szöveget, amiben összehasonlítod az eljárásorientált és az
+objektumorientált paradigmát, igyekezve kiemelni az objektumorientált paradigma előnyeit!
+        </para>
+    </section>
+    <section>
+        <title>EPAM Objektum példányosítás programozási mintákkal</title>
+        <para>
+            Hozz példát mindegyik “creational design pattern”-re és mutasd be mikor érdemes használni őket!
+        </para>
+    </section>
         
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 </chapter>                

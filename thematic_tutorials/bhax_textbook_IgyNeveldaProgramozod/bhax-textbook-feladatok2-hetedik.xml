@@ -1,0 +1,92 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, !</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    
+    <section>
+        <title>FUTURE tevékenység editor</title>        
+        <para>
+            Javítsunk valamit a ActivityEditor.java JavaFX programon!
+            <link xlink:href="https://github.com/nbatfai/future/tree/master/cs/F6">https://github.com/nbatfai/future/tree/master/cs/F6</link>
+            Itt láthatjuk működésben az alapot: <link xlink:href="https://www.twitch.tv/videos/222879467">https://www.twitch.tv/videos/222879467</link>
+        </para>
+        
+    </section>
+
+    <section>
+        <title>OOCWC Boost ASIO hálózatkezelése</title>   
+        <para>
+            Javítsunk valamit a ActivityEditor.java JavaFX programon!
+        </para>     
+        <para>
+            <link xlink:href="https://github.com/nbatfai/robocar-emulator/blob/master/justine/rcemu/src/carlexer.ll">carlexerl.ll</link>                
+        </para>
+        <para>
+            Itt láthatjuk működésben az alapot: https://www.twitch.tv/videos/222879467
+        </para>
+        
+    </section>
+
+        <section>
+        <title>SamuCam</title>        
+        <para>
+            Mutassunk rá a webcam (pl. Androidos mobilod) kezelésére ebben a projektben:
+            <link xlink:href="https://github.com/nbatfai/SamuCam">SamuCam</link>
+        </para>
+    
+        
+    </section>
+
+        <section>
+        <title>BrainB</title>        
+        
+        <para>
+            Mutassuk be a Qt slot-signal mechanizmust ebben a projektben: <link xlink:href="https://github.com/nbatfai/esport-
+talent-search">BrainB</link>
+        </para>
+        
+    </section>
+
+    <section>
+        <title>OSM térképre rajzolása 7</title>
+        <para>
+            Debrecen térképre dobjunk rá cuccokat, ennek mintájára, ahol én az országba helyeztem el a DEAC
+hekkereket: https://www.twitch.tv/videos/182262537 (de az OOCWC Java Swinges
+megjelenítőjéből:
+https://github.com/nbatfai/robocar-emulator/tree/master/justine/rcwin
+is
+kiindulhatsz, mondjuk az komplexebb, mert ott időfejlődés is van...)
+        </para>
+    </section>
+
+    <section>
+        <title>EPAM: XML feldolgozás</title>
+        <para>
+            Adott egy koordinátákat és államokat tartalmazó XML (kb 210ezer sor), ezt az XML-t feldolgozva
+szeretnék létrehozni egy SVG fájlt, melyben minden város megjelenik egy pont formájában az adott
+koordináták alapján (tetszőleges színnel)
+Plusz feladat: A városokat csoportosíthatjuk államok szerint, és minden állam külön színnel jelenjen
+meg a térképen, így látszódni fognak a határok is.
+Elvárt eredmény:
+        </para>
+    </section>
+
+    <section>
+        <title>EPAM: ASCII Art</title>
+        <para>
+            ASCII Art in Java! Implementálj egy Java parancssori programot, ami beo
+        </para>
+    </section>
+
+    <section>
+        <title>EPAM: Titkos üzenet, száll a gépben!</title>
+        <para>
+            Implementájl egy olyan parancssori alkalmazást, amely a billentyűzetről olvas soronként ASCII
+karakterekből álló sorokat, és a beolvasott szöveget Caesar kódolással egy txt fájlba írja soronként.
+        </para>
+    </section>
+
+</chapter>

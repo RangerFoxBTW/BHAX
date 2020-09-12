@@ -1,0 +1,113 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Stroustrup!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+    
+    <section>
+        <title>JDK osztályok</title>
+        <para>Írjunk olyan Boost C++ programot (indulj ki például a fénykardból) amely kilistázza a JDK összes
+            osztályát (miután kicsomagoltuk az src.zip állományt, arra ráengedve)!
+        </para>
+       
+    </section>
+
+    <section>
+        <title>Másoló-mozgató szemantika</title>
+        <para>Kódcsipeteken (copy és move ctor és assign) keresztül vesd össze a C++11 másoló és a mozgató
+                szemantikáját, a mozgató konstruktort alapozd a mozgató értékadásra!
+        </para>
+        
+    </section>   
+
+    <section>
+        <title>Hibásan implementált RSA törése</title>
+        <para>
+            Készítsünk betű gyakoriság alapú törést egy hibásan implementált RSA kódoló:
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_3.pdf (71-73 fólia) által
+készített titkos szövegen.
+        </para>
+    </section>
+
+    <section>
+        <title>Változó argumentumszámú ctor</title>
+        <para>Készítsünk olyan példát, amely egy képet tesz az alábbi projekt Perceptron osztályának bemenetére
+        és a Perceptron ne egy értéket, hanem egy ugyanakkora méretű „képet” adjon vissza. (Lásd még a 4
+        hét/Perceptron osztály feladatot is.)
+        </para>
+        
+    </section> 
+
+    <section>
+        <title>Összefoglaló</title>
+        <para>
+            Az előző 4 feladat egyikéről írj egy 1 oldalas bemutató „”esszé szöveget!
+        </para>
+    </section>
+
+    <section>
+        <title>EPAM: It's gone. Or is it?</title>
+        <para>
+            Adott a következő osztály:
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+            public class BugousStuffProducer {
+private final Writer writer;
+public BugousStuffProducer(String outputFileName) throws
+IOException {
+writer = new FileWriter(outputFileName);
+}
+public void writeStuff() throws IOException {
+writer.write("Stuff");
+}
+@Override
+public void finalize() throws IOException {
+writer.close();
+}
+}]]></programlisting>
+        </para>
+        <para>
+            Mutass példát arra az esetre, amikor előfordulhat, hogy bár a program futása során meghívtuk a
+writeStuff() metódust, a fájl, amibe írtunk még is üres. Magyarázd meg, miért. Mutass alternatívát.
+        </para>
+    </section>
+
+    <section>
+        <title>EPAM: Kind of equal</title>
+        <para>
+            Adott az alábbi kódrészlet.
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+            / Given
+String first = "...";
+String second = "...";
+String third = "...";
+// When
+var firstMatchesSecondWithEquals = first.equals(second);
+var firstMatchesSecondWithEqualToOperator = first == second;
+var firstMatchesThirdWithEquals = first.equals(third);
+var firstMatchesThirdWithEqualToOperator = first == third;
+Változtasd meg a String third = "..."; sort úgy, hogy a
+firstMatchesSecondWithEquals, firstMatchesSecondWithEqualToOperator,
+firstMatchesThirdWithEquals értéke true, a
+firstMatchesThirdWithEqualToOperator értéke pedig false legyen. Magyarázd
+meg, mi történik a háttérben.]]></programlisting>
+        </para>
+    </section>
+
+    <section>
+        <title>EPAM: Java GC</title>
+        <para>
+            Mutasd be nagy vonalakban hogyan működik Java-ban a GC (Garbage Collector). Lehetséges az
+OutOfMemoryError kezelése, ha igen milyen esetekben?
+        </para>
+        <para>
+            Források: <link xlink:href="https://medium.com/@hasithalgamge/seven-types-of-java-garbage-collectors-6297a1418e82">1</link>, <link xlink:href="https://stackoverflow.com/questions/2679330/catching-java-lang-outofmemoryerror">2</link>
+        </para>
+    </section>
+            
+</chapter>
