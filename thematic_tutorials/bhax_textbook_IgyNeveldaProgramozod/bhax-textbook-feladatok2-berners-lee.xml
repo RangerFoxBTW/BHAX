@@ -9,7 +9,52 @@
     <section>
         <title>Nyékyné Gaizler Judit: Java 2 Útikalauz programozóknak 5.0</title>
         <para>
-            
+            A Java, ahogy a C++ is egy magas szintű programozási nyelv, ebből kifolyólag nem igényel hosszú időt a szintaxis megtanulása annak, aki már programozott C++/C#-ban, hiszen a C/C++ nyelvek inspirálták a készítőket (James Gosling vezette a csapatot). Ettől függetlenül a Java-nak van néhány sajátossága, melyek eltérnek a C++-ban megszokottaktól:
+        </para>
+        <para>
+            Először is a Java egy valódi platform független nyelv (cross-platform), vagyis a Java kódunkat bármilyen eszközön futtathatjuk, melyre elérhető a JVM (erről picit később). Ezzel szemben a C++ nem platformfüggetlen, hiszen a forráskódunkat minden platformon újra kell fordítanunk. Teát a Java hordozhatóbb. Ez azért lehetséges, mert míg a C++ fordító egy gépi kódot alkot, ami aztán az adott hardveren lefut, addig egy Java forráskód fordítása során egy úgynevezett Java Bytekódot hoz létre. Ezt a Byte kódot a futtatáskor a JVM (Java Virtual Machine) fogja értelmezni és végrehajtani. Ez lényegében egy virtuális gép, amely segítségével a fizikai hardvertől függetlenül tudjuk futtatni a Java kódunkat. Az ehhez szükséges környezetet a JRE (Java Runtime Environment) teremti meg. Ezt és további számos hasznos fejlesztői eszközt tartalmaz a JDK (Java Development Kit), melyet célszerű telepítenünk. Ezután már írhatunk és futtathatunk is Java programokat. :)
+        </para>
+        <para>
+            Apró érdekesség a JVM-mel kapcsolatban, hogy az általa feldolgozandó Byte kód minden esetben a „CAFE BABE” szavakkal kezdődik. A JVM értelmezés előtt ellenőrzi a kapott byte kódot: ellenőrzi a formátumát, valamint a szintaktika helyességét. Hogy hogy is működik egy Java forráskód fordítása? Először a .java kiterjesztésű forrásunkra ráeresztjük a javac fordítót, ami előállítja a fent említett Byte kódot. Ezután a már .class kiterjesztésű Byte kódot a JVM értelmezi és végrehajtja. Ez a része hordozható, bármilyen hardveren, ahol fut a JVM, működni fog a kód. Fontos megkötés, hogy a java forráskódunk nevének meg kell egyeznie a benne található osztály nevével. 
+        </para>
+        <para>
+            A C++-szal ellentétben Java-ban van Garbage Collector. Ez nagyban megkönnyíti a fejlesztők dolgát, hiszen hatékony memória menedzsmentet tesz lehetővé azáltal, hogy felszabadítja a memória heap azon részeit, amelyeken olyan változók, példányosított osztályok vannak, amelyekre elfogytak a rájuk mutató hivatkozások. C++-ban a memória menedzsment nem automatikus, a new és delete kulcsszavakkal kell allokálnunk/deallokálnunk a memóriában helyet. 
+        </para>
+        <para>
+            Fontos tudni, hogy míg C++-ban a kifejezések kiértékelési sorrendje nincs meghatározva (undefined behavior), addig Java-ban igen: balról-jobbra. Habár szintaktikailag a legtöbb dolog megegyezik a C++ és Java között, például az osztályok létrehozása picit másként történik:
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+            //C++
+            class Hello
+            {
+                public:
+                    void vmi();
+                    string myName;
+                    int myAge;
+            };]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+            //JAVA
+            class Hello {
+                public void vmi() {
+                }
+                public int myAge;
+                public String myName;
+            }]]></programlisting>
+        </para>
+        <para>
+            Mivel a Java GC-t használ, így nem tudunk destruktort létrehozni sem, míg C++-ban a memóriakezelésről a programozónak kell gondoskodnia. Talán a legfontosabb különbség a Java és C++ között, hogy Java-ban minden objektum referencia, míg C++-ban valójában egy pointer. Ezzel szemben java-ban egy referenciát kapunk a példányosítás után létrejött objektumra.  Ugyanez igaz a this kulcsszóra is. C++ referenciáknak muszáj inicializálva lenniük és az adott érték futási idő alatt nem változhat meg. Java-ban viszont megváltoztathatjuk a referenciánk által referált objektumot. C++-szal megegyező működést érünk el, ha a final kulcsszóval látjuk el a referenciákat (az osztályt ezután nem lehet örökíteni). Még egy fontos különbség az objektum orientáltság tekintetében, hogy a C++-szal ellentétben Java-ban nincs lehetőségünk osztályon kívül definiálni osztálymetódusokat. Mivel a Java szigorúan objektum orientált nyelv, így single root hierarchiával rendelkezik.
+        </para>
+        <para>
+            C++-ban lehetőségünk van mind az operátorokat, mind a metódusokat túlterhelni, Java-ban csak a metódusokat tudjuk (egy osztályon belül lehet több ugyanolyan nevű metódus is, feltéve, ha a paraméterlistájuk különbözik). A C++ támogatja a struktúra (struct), illetve az unió (union) adatszerkezeteket, melyek segítségével különböző típusú adatokat tudunk egy adatszerkezeten belül tárolni. Java-ban ezek nem állnak a rendelkezésünkre. Nem feltétlen olyan hasznos feature, de Javaban lehetőségünk van „documentation comment”-ek létrehozására a /** … */ jelek segítségével. Annál hasznosabb viszont az, hogy Java-ban rengeteg beépített könyvtár áll a rendelkezésünkre a legkülönfélébb feladatok elvégzésére (szálkezelés, 3D grafikus munkához használható könyvtárak, hálózati eszközök programozása stb). Ezekhez C++-ban harmadik féltől származó könyvtárakra lenne szükségünk. Ahogy tapasztaltam a Stringkezelésben is fejlettebb valamennyivel a Java.
+        </para>
+        <para>
+            Míg C++-ban csak egy lehetőség a virtuális függvények használata a virtual kulcsszó segítségével, addig Java-ban minden függvény alapból virtuális. Ez annyit jelent, hogy egy osztály felüldefiniálhatja a szülő összes metódusát. Vagyis futási időben dől el, hogy melyik felülírt metódus fog végrehajtódni. Ezt kiküszöbölhetjük, ha a szülő osztály metódusai elé odaírjuk a super kulcsszót, mellyel elérjük, hogy akkor is működjenek, ha azokat túlterheltük.
+        </para>
+        <para>
+            Mindkét nyelv támogatja a kivételkezelést (mint szinte az összes magas szintű nyelv), ám egy picit eltérnek egymástól. Mindkettőben a try-catch blokk segít ki minket ilyen helyzetben, de Java-ban létrehozhatunk egy finally blokkot, amelyben szereplő kód mindenképpen le fog futni (akkor is, ha nem dobott kivételt). Másik fontos különbség, hogy a Java megszabja, hogy a kivételek milyen típussal rendelkezhetnek. Itt ugyanis öröklődniük kell a Throwable osztályból (pl.: Error, Exception). Erre azért van szükség, mert a Throwable osztály olyan metódust definiál, mely segíthet a hiba okát visszakeresni debugolás során. Vannak alapértelmezett kivételek definiálva, ilyenek például a Array-IndexOutOfBoundsException (túlindexelt tömb), vagy épp a ClassCastException (nem megengedett osztálykonverzió). A Catch blokkban hozzáférhetünk a kivételhez, de mivel javaban minden referencia, így itt is csak a refernciájához férünk hozzá.
         </para>
         
     </section>
@@ -17,7 +62,22 @@
     <section>
         <title>Forstner Bertalan, Ekler Péter, Kelényi Imre: Bevezetés a mobilprogramozásba. Gyors prototípus fejlesztés Python és Java nyelven</title>
         <para>
-            
+            A Python egy rendkívül sokoldalú, magas szintű programozási nyelv mely egyaránt alkalmas rövid szkriptek írására, valamint hosszú és összetett programok létrehozására is. A nyelv idén lett 30 éves, a készítője (Guido van Rossum) pedig egy holland programozó volt. A nyelv megalkotásával az volt a célja, hogy egy könnyen tanulható, egyszerűen használható, kényelmes és könnyen olvasható nyelvet alkosson. Azt kell mondanom, hogy ez sikerült is neki, hiszen a felesleges zárójelek, pontosvesszők és kapcsoszárójelek nélkül egy sokkal tömörebb, letisztultabb és egyszerűbben olvasható kódokat kapunk. Ezek hiányában egyedül az indentálásra kell figyelnünk programozás közben.
+        </para>
+        <para>
+            A kevesebb nyelvi kötöttség miatt lehet kiváló választás a Python kezdő programozók számára. Hisz nem kell lemondaniuk azokról a kényelmi funkciókról, amelyek megtalálhatóak C++/Java-ban, mindemellett azoknál sokkal „barátságosabb” nyelv is. Egy platformfüggetlen interpreteres nyelv, így hordozható, kompakt kódokat tudunk létrehozni rövid idő alatt, melyek relatívan gyorsak is (persze lassabbak, mint egy compileres nyelven írt kód). Mindemellett több tízezer ingyenes modul áll a fejlesztők rendelkezésére, melyek segítségével a legkülönfélébb feladatokat is el tudják végezni, kezdve az advanced string - és fájlkezeléstől, a mobilprogramozáson át egészen a neurális hálók és mesterséges intelligencia fejlesztésig. 
+        </para>
+        <para>
+            A könyv segítségével bepillantást nyerhetünk a Python programozás alapjaiba, megismerkedhetünk az alapvető vezérlési szerkezetekkel, a szintaktikával, lényegében az alapokkal. Ezekről csak futólag, felsorolás szintjén beszélnék, egyrészt mert egyszerű példákat hoz fel a könyv, másrészt mert előző félévben is írni kellett erről a könyvről. 
+        </para>
+        <para>
+            Interpreteres nyelv révén a forráskódot sorról-sorra értelmezi és hajtja végre az utasításokat. Minden sor egy-egy utasítást tartalmaz, ha nem férne el egy utasítás az adott sorban, azt a \ jel segítségével folytathatjuk a következőben. Egysoros kommenteket a # jel segítségével hozhatunk létre. Fontos különbség az eddig tanult nyelvekkel szemben, hogy itt nem kell előre definiálnunk a változók típusát, azt az interpreter futás közben automatikusan felismeri (ezzel még inkább olvashatóbb kódot kapunk végeredményben). Itt is érvényben van a rövidzár kiértékelés, használhatunk globális és lokális változókat. 
+        </para>
+        <para>
+            A nyelv ismeri az olyan magas szintű adatszerkezeteket, mint a listák és a szótárak. Ezek kezelésére különféle kényelmes beépített parancsok állnak rendelkezésünkre. Hasznos eszköz továbbá a típuskonverzió is. Ugyanúgy megtalálhatóak a szokásos vezérlési szerkezetek (iterációk, szelekciók).  Külön öröm, hogy használhatunk range-based for ciklusokat, amelyekkel elegánsan tudjuk például egy tömb elemeit kiíratni. Természetesen lehetőségünk van a kivételkezelésre is. Magas szintű programozási nyelv révén ugyanúgy létre tudunk hozni osztályokat, és élvezhetjük az objektum orientált programozás minden előnyét. Továbbá hasznos a Garbage Collector megléte, ami óriási kényelmet jelent a C++-szal szemben.
+        </para>
+        <para>
+            Összességében jó betekintést adott a könyv ezen fejezete a Python programozási nyelvbe, habár rengeteg utánajárást és számtalan egyéb olvasást igényel majd a nyelv tényleges elsajátítása.
         </para>
        
     </section>
