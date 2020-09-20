@@ -24,37 +24,171 @@ az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
             Ugyanezt írjuk meg C++ nyelven is! (lásd még UDPROG repó: source/labor/polargen)
         </para>
         <para>
+            Megoldás forrásai: <link xlink:href="src/Arroway/Polargen.java">Polargen.java</link>, <link xlink:href="src/Welch/polargen.cpp">polargen.cpp</link>, <link xlink:href="src/Welch/polargen.h">polargen.h</link>, <link xlink:href="src/Welch/polarmain.cpp">polarmain.cpp</link>
+        </para>
+        <para>
+            Mivel az OOP-s beveztőt már megírtam a 6. fejezetben, és mivel már ismerjük a feladatot, így nem is húznám az időt, lássuk a feladatot!
+        </para>
+        <para>
+<programlisting language="c++"><![CDATA[
+// POLARGEN.H
+#ifndef POLARGEN__H
+#define POLARGEN__H
+#include <cstdlib>
+#include <cmath>
+#include <ctime>
 
+class PolarGen
+{
+    public: 
+        PolarGen()
+        {
+            nincsTarolt = true;
+            std::srand (std::time (NULL));
+        }
+        ~PolarGen(){}
+        double kovetkezo();
+
+    private:
+        bool nincsTarolt;
+        double tarolt;
+};
+
+#endif]]></programlisting>
         </para>
         <para>
-            
+            A polargen.h forrásban includeoljuk a szükséges könyvtárakat (a ctime a random szám generátorhoz szükséges), majd létrehozzuk a PolarGen osztályunkat, aminek a public részében 
+            van egy nincsTarolt nevű, igaz értéket adó bool változónk, valamint az srand() függvény, ami a random szám generálását végzi majd. A private részben van egy nincsTarolt bool, 
+            illetve egy double típusú tarolt nevű változó, ezek a program többi részének láthatatlanok. 
         </para>
         <para>
-            
+<programlisting language="c++"><![CDATA[
+//POLARGEN.CPP
+#include "polargen.h"
+
+double PolarGen::kovetkezo()
+{
+    if (nincsTarolt)
+    {
+        double u1, u2, v1, v2, w;
+        do
+        {
+            u1 = std::rand () / (RAND_MAX + 1.0);
+            u2 = std::rand () / (RAND_MAX + 1.0);
+            v1 = 2 * u1 - 1;
+            v2 = 2 * u2 - 1;
+            w = v1 * v1 + v2 * v2;
+        } while (w > 1);
+        double r = std::sqrt ((-2 * std::log (w)) / w);
+        tarolt = r * v2;
+        nincsTarolt = !nincsTarolt;
+
+        return r * v1;
+    }
+    else
+    {
+         nincsTarolt = !nincsTarolt;
+
+         return tarolt;
+    }
+}]]></programlisting>
         </para>
         <para>
-            
+            Ebben a forrásfájlban található a feladat elvégzéséhez szükséges matekos rész, ez jelenleg lényegtelen a magyarázatban, hiszen az OOP szemléltetésére szolgál a feladat, valamint a C++ és Java közti apró különbségekre való rámutatásra.
         </para>
         <para>
-            
+<programlisting language="c++"><![CDATA[
+#include <iostream>
+#include "polargen.h"
+#include "polargen.cpp"
+
+int main(int argc, char **argv)
+{
+    PolarGen pg;
+
+    for (int i = 0; i < 10; i++)
+        std::cout << pg.kovetkezo() << std::endl;
+}]]></programlisting>
         </para>
         <para>
-            
+            Itt található a main függvény, ezt a forrást kell fordítani és futtatnu. Ha sikeresen megtettük ezt, akkor 10 számot fog kiírni a standard outputra. Fontos megjegyezni, hogy 
+            egy számitási lépés két normális eloszlású számot állit elő, és minden második meghiváskor fel fogja használni az előzőleg tárolt-ban elhelyezett számot, tehát nem fog mindig 
+            számolni. Alább látható egy kép a kimenetről:
         </para>
         <para>
-            
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Arroway/4.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
         </para>
         <para>
-            
+            Ugyanez Java-ban:
         </para>
         <para>
+<programlisting language="java"><![CDATA[
+public class Polargen {
+    
+    boolean notStored = true;
+    double stored;
+    
+    public Polargen() {
+        
+        notStored = true;
+        
+    }
+    
+    public double következő() {
+        
+        if(notStored) {
             
+            double u1, u2, v1, v2, w;
+            do {
+                u1 = Math.random();
+                u2 = Math.random();
+                
+                v1 = 2*u1 - 1;
+                v2 = 2*u2 - 1;
+                
+                w = v1*v1 + v2*v2;
+                
+            } while(w > 1);
+            
+            double r = Math.sqrt((-2*Math.log(w))/w);
+            
+            stored = r*v2;
+            notStored = !notStored;
+            
+            return r*v1;
+            
+        } else {
+            notStored = !notStored;
+            return stored;
+        }
+    }
+    
+    public static void main(String[] args) {
+        
+        Polargen g = new Polargen();
+        
+        for(int i=0; i<10; ++i)
+            System.out.println(g.következő());
+        
+    }
+}]]></programlisting> 
         </para>
         <para>
-            
+            Működésüket tekintve megegyezik a C++ és Java-s verzió, csupán apró különbségek vannak köztük. Például Java-ban nem kell importálni libraryt, hogy a standard outputra tudjunk írni, picit más a szintaktikája, a számításoknál a Math függvénykönyvtárat használjuk. A legfontosabb talán, hogy mivel van GC, így nem kell a memóriafelszabadítással foglalkoznunk külön, C++-ban ez megkerülhetetlen.
         </para>
         <para>
-            
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Welch/sun.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            A JDK Sun programozói is megvalósítottak egy ilyen polár metódust anno, fentebb látható. A legfontosabb különbség eközött, illetve amit mi írtunk talán az, hogy mi a Math() függvényt használtuk a számításokhoz, míg ők a StrictMath()-et. Ez ugyan pontosabb végeredményt ad, viszont lényegesen lassabb is.
         </para>
     </section>        
     
@@ -192,7 +326,10 @@ osztályunkban felüldefiniálni és miért. (Lásd még Object class forráskó
         Java-ban az Object class a java.lang package-ben található. Tulajdonképpen Java-ban minden osztály az Object class-ból származik direkt vagy indirekt módon. Éppen ezért az Object osztály metódusai minden osztályban elérhetőek. Mondhatjuk úgy is, hogy az Object class az osztályhierarchia tetején áll, ő lesz minden újonnan létrehozott osztály őse. Az alábbi metódusok találhatóak meg az Object osztályban:
     </para>
     <para>
-        toString(): A toString() metódus neve igen beszédes: egy objektumot Stringgé konvertál.  Alapértelmezetten ilyen formában írja ki a metódus a módosított objektumot: “osztály neve @ hash kód”. Hacsak nem ilyen formát szeretnénk elérni (márpedig általában nem), akkor célszerű felüldefiniálni a metódust. Az @Override jelzi a fordítónak, hogy az alatta lévő rész felül akar definiálni egy szuperosztályban definiált metódust. Ugyan ez nem kötelező, de segít megelőzni a hibákat, jobban olvashatóvá teszi a kódot. Valahogy így:
+        toString():
+    </para>
+    <para>
+         A toString() metódus neve igen beszédes: egy objektumot Stringgé konvertál.  Alapértelmezetten ilyen formában írja ki a metódus a módosított objektumot: “osztály neve @ hash kód”. Hacsak nem ilyen formát szeretnénk elérni (márpedig általában nem), akkor célszerű felüldefiniálni a metódust. Az @Override jelzi a fordítónak, hogy az alatta lévő rész felül akar definiálni egy szuperosztályban definiált metódust. Ugyan ez nem kötelező, de segít megelőzni a hibákat, jobban olvashatóvá teszi a kódot. Valahogy így:
     </para>
     <para>
         <programlisting language="java"><![CDATA[
@@ -205,28 +342,52 @@ public String toString() {
        Érdekesség, hogy ha egy objektum referenciáját szertnénk kiíratni, akkor mindig a toString() metódus hajtódik végbe a háttérben. 
     </para>
     <para>
-       hashCode(): Minden objektumnak a JVM egy egyedi számot generál. Ez a hash kód. Ezt egy hashelő algoritmus segítségével teszi meg. Azért célszerű az objektumokat valamilyen hash adatszerkezetben (HashSet, HashMap, HashTable) eltárolni, mert sokkal könnyebben lehet visszakeresni őket. Felül kell írni minden egyes objektumhoz a hashCode() metódust, hiszen minden  objektumhoz egyedi számot rendelünk. Illetve ha az equals() metódust is felüldefiniáltuk, hiszen az egyenlő értékű objektumoknak azonos hashcode-ot kell tartalmazniuk. 
+        hashCode():
     </para>
     <para>
-        equals(Object obj): Két objektum értékét hasonlítja össze. Ha a két objektum egyenlő, akkor True, egyébként False logikai értéket ad vissza. A == összehasonlító operátorral ekvivalens, ilyenkor referencia szerint hasonlít össze. Akkor érdemes felülírni, ha logikai ekvivalenciát szeretnénk vizsgálni.  
+        Minden objektumnak a JVM egy egyedi számot generál. Ez a hash kód. Ezt egy hashelő algoritmus segítségével teszi meg. Azért célszerű az objektumokat valamilyen hash adatszerkezetben (HashSet, HashMap, HashTable) eltárolni, mert sokkal könnyebben lehet visszakeresni őket. Felül kell írni minden egyes objektumhoz a hashCode() metódust, hiszen minden  objektumhoz egyedi számot rendelünk. Illetve ha az equals() metódust is felüldefiniáltuk, hiszen az egyenlő értékű objektumoknak azonos hashcode-ot kell tartalmazniuk. 
     </para>
     <para>
-        getClass(): Az objektum futási idő alatti osztályát adja vissza. Metainformációkat is kinyerhetünk vele az adott osztályból. Mivel ez egy final metódus, így nem írhatjuk felül.
+        equals(Object obj):
     </para>
     <para>
-       finalize(): Ez a metódus egyszer hívódik meg egy adott objektumra, mielőtt a GC eltakarítja. A Garbage Collector hívja meg, amikor eldönti egy adott objektumról, hogy van-e rá hivatkozó referencia. Felüldefiniálhatjuk, hogy rendszer erőforrásokat szabadítsunk fel vele, illetve csökkentsük a memóriaszivárgás esélyét. 
+         Két objektum értékét hasonlítja össze. Ha a két objektum egyenlő, akkor True, egyébként False logikai értéket ad vissza. A == összehasonlító operátorral ekvivalens, ilyenkor referencia szerint hasonlít össze. Akkor érdemes felülírni, ha logikai ekvivalenciát szeretnénk vizsgálni.  
     </para>
     <para>
-        clone(): Egy olyan új objektummal tér vissza, amely teljesen megegyezik azzal az objektummal, amelyet a zárójelek közé írtunk. Nem definiálhatjuk felül.
+        getClass():
     </para>
     <para>
-        wait(): Egy adott szálat addig várakoztat, amíg egy másik szál meg nem hívja a notify() vagy notifyAll() metódust, vagy amíg a paraméternek megadott idő le nem telik. 
+         Az objektum futási idő alatti osztályát adja vissza. Metainformációkat is kinyerhetünk vele az adott osztályból. Mivel ez egy final metódus, így nem írhatjuk felül.
     </para>
     <para>
-       notify(): Ha egy adott objektumban van várakozó szál, akkor az egyiket véletlenszerűen kiválasztja, és újraindítja (felkelti). Ha meghívjuk a wait() metódust, akkor a szálak az objektum monitorán fognak várakozni. 
+        finalize():
     </para>
     <para>
-        notifyAll(): Ha az objektumban van várakozó szál, akkor az összeset újraindítja (felkelti). 
+        Ez a metódus egyszer hívódik meg egy adott objektumra, mielőtt a GC eltakarítja. A Garbage Collector hívja meg, amikor eldönti egy adott objektumról, hogy van-e rá hivatkozó referencia. Felüldefiniálhatjuk, hogy rendszer erőforrásokat szabadítsunk fel vele, illetve csökkentsük a memóriaszivárgás esélyét. 
+    </para>
+    <para>
+         clone():
+    </para>
+    <para>
+        Egy olyan új objektummal tér vissza, amely teljesen megegyezik azzal az objektummal, amelyet a zárójelek közé írtunk. Nem definiálhatjuk felül.
+    </para>
+    <para>
+        wait(): 
+    </para>
+    <para>
+        Egy adott szálat addig várakoztat, amíg egy másik szál meg nem hívja a notify() vagy notifyAll() metódust, vagy amíg a paraméternek megadott idő le nem telik. 
+    </para>
+    <para>
+        notify():
+    </para>
+    <para>
+        Ha egy adott objektumban van várakozó szál, akkor az egyiket véletlenszerűen kiválasztja, és újraindítja (felkelti). Ha meghívjuk a wait() metódust, akkor a szálak az objektum monitorán fognak várakozni. 
+    </para>
+    <para>
+         notifyAll():
+    </para>
+    <para>
+        Ha az objektumban van várakozó szál, akkor az összeset újraindítja (felkelti). 
     </para>
     </section>
     <section>
