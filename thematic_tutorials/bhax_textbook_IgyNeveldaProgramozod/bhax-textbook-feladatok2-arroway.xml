@@ -23,20 +23,40 @@ az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
         <para>
             Ugyanezt írjuk meg C++ nyelven is! (lásd még UDPROG repó: source/labor/polargen)
         </para>
-    </section>        
+        <para>
 
-    <section>
-    <title>Homokózó</title>
-    <para>
-        Írjuk át az első védési programot (LZW binfa) C++ nyelvről Java nyelvre, ugyanúgy működjön!
-        Mutassunk rá, hogy gyakorlatilag a pointereket és referenciákat kell kiirtani és minden máris működik
-        (erre utal a feladat neve, hogy Java-ban minden referencia, nincs választás, hogy mondjuk egy
-        attribútum pointer, referencia vagy tagként tartalmazott legyen).
-        Miután már áttettük Java nyelvre, tegyük be egy Java Servletbe és a böngészőből GET-es kéréssel
-        (például a böngésző címsorából) kapja meg azt a mintát, amelynek kiszámolja az LZW binfáját!
-    </para>
-    
-    </section>
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+        <para>
+            
+        </para>
+    </section>        
     
     <section>
     <title>„Gagyi”</title>
@@ -47,32 +67,167 @@ az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
         értékekkel meg nem! A példát építsd a JDK Integer.java forrására 3 , hogy a 128-nál inkluzív objektum
         példányokat poolozza!
     </para>
-    
+    <para>
+        Megoldás forrása: <link xlink:href="src/Arroway/Gagyi1.java">Gagyi1.java</link>, <link xlink:href="src/Arroway/Gagyi2.java">Gagyi2.java</link>
+    </para>
+    <para>
+        A fenti kérdés lényegében arra irányul, hogy mikor egyenlő két objektum. Kétfajta egyenlőséget különböztethetünk meg: az érték szerintit, valamint az identitáson alapuló egyenlőséget. Az érték szerinti szó szerint azt jelenti, amit a neve is sugall: két változó/objektum által hordozott érték megegyezik. Vegyük az alábbi példát: 
+    </para>
+    <para>
+        <programlisting language="java"><![CDATA[
+package gagyi;
+
+public class Gagyi1 {
+
+	public static void main(String[] args) {
+		Integer x = 200;
+		Integer t = 200;
+		
+		while(x <= t && x >= t && t != x)
+			System.out.println("Vegtelen");
+
+	}
+
+}]]></programlisting>
+    </para>
+    <para>
+          <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Arroway/1.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+    </para>
+    <para>
+        Amint láthatjuk, végtelen ciklust kapunk, hiszen a while ciklus fejében lévő feltételek kivétel nélkül igazat fognak adni. x &lt;= t, hiszen 200 = 200. x &gt;= t, hiszen 200 = 200 szintén igaz. És végül t != x, hiszen az Integer osztályból két példányt hoztunk létre (példányosítás), így nem egyezhetnek meg identitás alapján, hisz akkor egy időben egy helyen kellene lenniük a memóriában... Nézzük meg a következő példát:
+    </para>
+    <para>
+        <programlisting language="java"><![CDATA[
+package gagyi;
+
+public class Gagyi2 {
+
+	public static void main(String[] args) {
+		Integer t = 100;
+		Integer x = 100;
+		
+		while(x <= t && x>=t && t != x)
+			System.out.println("Vegtelen");
+
+	}
+
+}]]></programlisting>  
+    </para>
+    <para>
+        Vegyük észre, hogy az Integer osztályt használtuk itt is, ahogy az előzőben is, csupán az értékeket írtuk át. Ám most nem írt ki semmit a programunk, tehát gond nélkül lefutott, nem keletkezett végtelen ciklus. Hogy ez mégis, hogy lehetséges? Az Integer osztálynak számos kényelmi funkciója van (pl. egyszerűen tudunk számokat Stringgé alakítani), de most azt a tulajdonságát használjuk ki, hogy a [-128;127] tartomány közti értékeket gyorsítótárazza. Tehát mindig, ha ebből az értéktartományból választunk literált, akkor már egy létező objektumra kapunk referenciát. És pont emiatt a while ciklus fejében lévő utolsó feltétel, a t!= x megbukik.  
+    </para>
+    <para>
+        Ennek kiküszöbölésére használhatjuk az equals() metódust.
+    </para>
     </section>    
 
     <section>
         <title>Yoda</title>
-        <para>
+    <para>
             Írjunk olyan Java programot, ami java.lang.NullPointerEx-el leáll, ha nem követjük a Yoda
 conditions-t! https://en.wikipedia.org/wiki/Yoda_conditions
-        </para>
-    </section>    
+    </para>
+    <para>
+        Megoldás forrása: <link xlink:href="src/Arroway/Yoda.java">Yoda.java</link>
+    </para>
+    <para>
+       Yoda nem csak az egyik leghatalmasabb Jedi volt, de az egyik legviccesebben beszélő is. Lényegében felcseréli a mondatrészeket. 
+    </para>
+    <para>
+        <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Arroway/yoda.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+    </para>
+    <para>
+       Programozás során ezt úgy érhetjük el, ha egy feltételben felcseréljük a vizsgált dolgot azzal, amihez hasonlítjuk. Például: 
+    </para>
+    <para>
+       <programlisting language="java"><![CDATA[
+if (jedi == "Yoda") helyett
+if ("Yoda" == jedi)]]></programlisting> 
+    </para>
+    <para>
+       Nem szerencsés így felcserélni a sorrendet, hiszen különféle kivételeket dobhat a program futási idő alatt. A feladat azt kéri, hogy az általam írt kód NullPointerException-t dobjon. Ez akkor történhet, ha pl. egy null objektum adattagjaihoz akarunk hozzáférni, egy null tömb elemeihez akarunk hozzáférni, vagy épp nullt dobunk throw-val. Az alábbi kód ezt fogja dobni, hiszen az első if-ben egy null objektum metódusát hívjuk meg. Viszont, ha az első if szerkezetet kitöröljük, akkor a program gond nélkül le fog futni. 
+    </para>
+    <para>
+        <programlisting language="java"><![CDATA[
+package yoda;
 
-    <section>
-        <title>Kódolás from scratch</title>
-        <para>
-            Induljunk ki ebből a tudományos közleményből: http://crd-legacy.lbl.gov/~dhbailey/dhbpapers/bbp-alg.pdf és csak ezt tanulmányozva írjuk meg Java nyelven a BBP algoritmus megvalósítását!
-            Ha megakadsz, de csak végső esetben: https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/apbs02.html#pi_jegyei (mert ha csak lemásolod, akkor pont az a fejlesztői élmény marad ki,
-            melyet szeretném, ha átélnél).
-        </para>
+public class Yoda {
+
+	public static void main(String[] args) {
+		String jedi = null;
+		
+		if (jedi.equals("Yoda"))
+			System.out.println("Nem működne");
+		if ("Yoda".equals(jedi))
+			System.out.println("Ez már jó");
+
+	}
+
+}]]></programlisting>       
+    </para>
+    <para>
+        <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Arroway/3.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+    </para>
+    </section>    
         
-    </section>        
     <section>
         <title>EPAM Java Object metódusok</title>
-        <para>
+    <para>
             Mutasd be a Java Object metódusait és mutass rá mely metódusokat érdemes egy saját
 osztályunkban felüldefiniálni és miért. (Lásd még Object class forráskódja)
-        </para>
+    </para>
+    <para>
+        Java-ban az Object class a java.lang package-ben található. Tulajdonképpen Java-ban minden osztály az Object class-ból származik direkt vagy indirekt módon. Éppen ezért az Object osztály metódusai minden osztályban elérhetőek. Mondhatjuk úgy is, hogy az Object class az osztályhierarchia tetején áll, ő lesz minden újonnan létrehozott osztály őse. Az alábbi metódusok találhatóak meg az Object osztályban:
+    </para>
+    <para>
+        toString(): A toString() metódus neve igen beszédes: egy objektumot Stringgé konvertál.  Alapértelmezetten ilyen formában írja ki a metódus a módosított objektumot: “osztály neve @ hash kód”. Hacsak nem ilyen formát szeretnénk elérni (márpedig általában nem), akkor célszerű felüldefiniálni a metódust. Az @Override jelzi a fordítónak, hogy az alatta lévő rész felül akar definiálni egy szuperosztályban definiált metódust. Ugyan ez nem kötelező, de segít megelőzni a hibákat, jobban olvashatóvá teszi a kódot. Valahogy így:
+    </para>
+    <para>
+        <programlisting language="java"><![CDATA[
+@Override
+public String toString() { 
+    return String.format("Amilyen formát szeretnénk"); 
+ }]]></programlisting>   
+    </para>
+    <para>
+       Érdekesség, hogy ha egy objektum referenciáját szertnénk kiíratni, akkor mindig a toString() metódus hajtódik végbe a háttérben. 
+    </para>
+    <para>
+       hashCode(): Minden objektumnak a JVM egy egyedi számot generál. Ez a hash kód. Ezt egy hashelő algoritmus segítségével teszi meg. Azért célszerű az objektumokat valamilyen hash adatszerkezetben (HashSet, HashMap, HashTable) eltárolni, mert sokkal könnyebben lehet visszakeresni őket. Felül kell írni minden egyes objektumhoz a hashCode() metódust, hiszen minden  objektumhoz egyedi számot rendelünk. Illetve ha az equals() metódust is felüldefiniáltuk, hiszen az egyenlő értékű objektumoknak azonos hashcode-ot kell tartalmazniuk. 
+    </para>
+    <para>
+        equals(Object obj): Két objektum értékét hasonlítja össze. Ha a két objektum egyenlő, akkor True, egyébként False logikai értéket ad vissza. A == összehasonlító operátorral ekvivalens, ilyenkor referencia szerint hasonlít össze. Akkor érdemes felülírni, ha logikai ekvivalenciát szeretnénk vizsgálni.  
+    </para>
+    <para>
+        getClass(): Az objektum futási idő alatti osztályát adja vissza. Metainformációkat is kinyerhetünk vele az adott osztályból. Mivel ez egy final metódus, így nem írhatjuk felül.
+    </para>
+    <para>
+       finalize(): Ez a metódus egyszer hívódik meg egy adott objektumra, mielőtt a GC eltakarítja. A Garbage Collector hívja meg, amikor eldönti egy adott objektumról, hogy van-e rá hivatkozó referencia. Felüldefiniálhatjuk, hogy rendszer erőforrásokat szabadítsunk fel vele, illetve csökkentsük a memóriaszivárgás esélyét. 
+    </para>
+    <para>
+        clone(): Egy olyan új objektummal tér vissza, amely teljesen megegyezik azzal az objektummal, amelyet a zárójelek közé írtunk. Nem definiálhatjuk felül.
+    </para>
+    <para>
+        wait(): Egy adott szálat addig várakoztat, amíg egy másik szál meg nem hívja a notify() vagy notifyAll() metódust, vagy amíg a paraméternek megadott idő le nem telik. 
+    </para>
+    <para>
+       notify(): Ha egy adott objektumban van várakozó szál, akkor az egyiket véletlenszerűen kiválasztja, és újraindítja (felkelti). Ha meghívjuk a wait() metódust, akkor a szálak az objektum monitorán fognak várakozni. 
+    </para>
+    <para>
+        notifyAll(): Ha az objektumban van várakozó szál, akkor az összeset újraindítja (felkelti). 
+    </para>
     </section>
     <section>
         <title>EPAM Eljárásorientál vs Objektumorientált</title>
@@ -80,11 +235,26 @@ osztályunkban felüldefiniálni és miért. (Lásd még Object class forráskó
             Írj egy 1 oldalas értekező esszé szöveget, amiben összehasonlítod az eljárásorientált és az
 objektumorientált paradigmát, igyekezve kiemelni az objektumorientált paradigma előnyeit!
         </para>
-    </section>
-    <section>
-        <title>EPAM Objektum példányosítás programozási mintákkal</title>
         <para>
-            Hozz példát mindegyik “creational design pattern”-re és mutasd be mikor érdemes használni őket!
+            A régebbi programozási nyelvek nem az adatokra, hanem a műveletekre helyezték a hangsúlyt. Ez azért volt így, mert akkoriban még főleg matematikai számításokat végeztek a számítógépekkel. Viszont miután a számítógépek egyre szélesebb körben elterjedtek, megváltoztak a velük szemben felállított igények, egyre komplexebb problémákat kellett megoldani, melyeket procedurális módszerrel már nem letetett kényelmesen és hatékonyan megoldani.  
+        </para>
+        <para>
+            A procedurális nyelvek (FORTRAN, Pascal, BASIC, C stb.) egy egyszerű „top-down” megközelítést használnak, melynek lényege, hogy olyan véges sok utasításokat/műveleteket írunk meg bennük, melyeket a számítógép lépésről-lépésre végre fog hajtani. Egy sokszor elvégzendő utasítást eljárásként írunk meg, melyet aztán a programon belül bárhol meghívhatunk. Ezeket rutinoknak is szokás nevezni. 
+        </para>
+        <para>
+            Ezzel szemben a modern objektum-orientál programozási nyelvek (Java, C++, C#, Python, Swift, PHP, JavaScript stb.) már nem a műveleteket helyezi előtérbe, hanem magát az adatokat (adatszerkezeteket), illetve az adatok közti kapcsolatot (hierarchiát). Az objektum-orientált paradigma lényege, hogy a valós világon alapszik, azt modellezhetjük le vele. Ennek segítségére az absztrakciót használjuk: az adatabsztrakció segítségével írjuk le azokat az adatokat, amik a világot jellemzik, a procedurális absztrakció segítségével pedig a különböző műveleteket, tevékenységeket, viselkedéseket írjuk le a világban észlelhető dolgoknak. 
+        </para>
+        <para>
+            Egy átlagembernek nagyon nehéz megértenie az absztrakciót, hisz teljesen más gondolkodás - és szemléletmódot igényel, mint ahogy a valós életben tekintünk a világra. Hétköznapi példával szemléltetve akár úgy is felfoghatjuk a programozási nyelveket, mintha egy könyvet olvasnánk. A procedurális nyelvek reprezentálják azokat a könyveket, amelyekben egyáltalán nincsenek ábrák, magyarázatok, csak rosszul tördelt, egybefolyó szöveg. Ezzel szemben egy objektum-orientált nyelv egy olyan könyvre hasonlít, amelyben tömör, lényegre törő szöveg található, mellette színes képekkel, segítő ábrákkal. Nagyban megkönnyíti a vizualitást, sokszor természetes, magától értetődő, beszédes az egész kód. Na de ennyi bevezető után nézzük, mik a konkrét előnyei az objektum-orientált nyelveknek az eljárás-orientáltakkal szemben. 
+        </para>
+        <para>
+            Mindenekelőtt az emberi szemnek kellemesebb, könnyebben olvasható, kompakt kódot kapunk. Sokkal könnyebben és természetesebben tudjuk leírni a minket körülvevő világ dolgait, így a fejlesztési idő is lerövidül. A folyamatosan fejlődő új világ által felállított akadályok leküzdésére tervezték az objektum-orientált nyelveket. Folyamatosan változó, rendkívül dinamikus világban élünk. Számtalanszor előfordul, hogy az adott kódot a jövőben bővíteni kell új funkciókkal. Erre az OOP nyelvek rendkívül egyszerű lehetőséget nyújtanak, míg a procedurális nyelvek nem. 
+        </para>
+        <para>
+            Míg a POP a kódot kisebb részekre, úgynevezett eljárásokra (functions) bontotta, addig az OOP objektumokra. Míg a POP-ban nincs módunk az adatok elrejtésére, addig az OOP alapja erre épül. A felhasználóval csak annyi adatot kell megosztanunk, amennyire feltétlen szükség van. Továbbá az is fontos, hogy a programunk kisebb részekből épül fel, viszont a programon belül sem kell minden kis résznek tudnia minden adatról. A POP erre nem szolgál megoldással, és mivel ez alapvetően veszélyes, így az OOP-nek erre is megoldást kellett találnia. A láthatóság bevezetése volt a megoldás erre. Java-ban 3 fajta láthatóság található: Public, Private és Protected. A Public elég beszédes, az ilyen láthatósággal ellátott tulajdonságokat/metódusokat mindenki láthatja. A Private csak az adott osztályon belül elérhető, a leszármazott osztályok nem láthatják és nem is módosíthatják azokat. A Protected lényegében ugyanaz, mint a Private, csak itt leszármazott osztályok módosíthatják is azokat. 
+        </para>
+        <para>
+            A dinamikusságnak köszönhetően lerövidülnek a fejlesztési idők, egyúttal könnyebbé válnak a programok karbantartása, bővítése is. Összegezve az elhangzottakat az OOP-nek rengeteg előnye van a POP-pal szemben. Viszont mind a mai napig használnak procedurális nyelveket (főleg C-t). Ez azért van, mert sokkal hardverközelibb, így sokkal jobban lehet optimalizálni az adott kódot a megadott hardverre, ilyen téren egy magas szintű programozási nyelv sosem fogja megelőzni őt. Az objektum-orientált programozás alapelveire külön nem térnék ki, hisz ezt már megtettem a könyv 6. fejezetében.
         </para>
     </section>
         
