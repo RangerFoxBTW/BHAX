@@ -29,6 +29,41 @@ az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
         <para>
             Mivel az OOP-s beveztőt már megírtam a 6. fejezetben, és mivel már ismerjük a feladatot, így nem is húznám az időt, lássuk a feladatot!
         </para>
+         <para>
+            Mielőtt rátérnék a feladatok megoldására, szeretnék egy kis bevezetőt írni az OOP alapelveiről, illetve egy átfogó képet adni arról, mi is az, illetve miért hasznos egy 
+            programozónak.
+        </para>   
+        <para>
+            A magas szintű programozási nyelvek legnagyobb előnye az alacsonyabb szintűekkel szemben, hogy lehetőséget adnak az objektum orientál programozásra. Ezzel lényegesen kevesebb 
+            munkával sokkal komplexebb, hatékonyabb és átláthatóbb programot tudunk létrehozni. Az OOP már nem a műveleteket helyezi a középpontba, hanem az adatokat, illetve a köztük lévő 
+            kapcsolatokat (hierarchiát). 
+        </para>
+        <para>
+            Osztályokat hozunk létre, amikben eltárolhatjuk egy egyed (entitás) tulajdonságait és működését különféle adatok és műveletek segítségével. Ebből az osztályból aztán létre kell 
+            hoznunk legalább egy példányt (objektumot). Ezt a folyamatot példányosításnak nevezzük. A tulajdonságokat (attribútumokat) tároló változókat adattagoknak, a műveleteket 
+            metódusoknak nevezzük. 
+        </para>
+        <para>
+            Az OOP alapelvei közé tartozik, hogy a felhasználó csak annyi adathoz férjen hozzá, amennyihez feltétlen szükséges. Veszélyes lenne, ha mindenkinek látható és módosítható (!) 
+            lenne minden adat. Alapvetően 3 féle láthatóság létezik: public, private és protected. A Public egyértelmű, mindenki számára látható. A Private csak az osztályon belül látható, a 
+            származtatott osztályok számára nem látható és nem is módosítható. A Protected majdnem ugyanaz, mint a Private annyi különbséggel, hogy itt már a leszármazott osztályok is 
+            hozzáférnek az adatokhoz. C++ban alapértelmezetten minden private. 
+        </para>
+        <para>
+            Fontos fogalom még az enkapszuláció, vagy más néven egységbe zárás. Ez is egyfajta védelmet biztosít, lényegében azt takarja, hogy egy osztály belső szerkezetét gond nélkül 
+            megváltoztathatjuk, feltéve, hogy a metódusok ne változzanak. (pl.: mindegy, hogy milyen repülőről beszélünk, legyen az egy utasszállító, vagy egy vadászgép, mindegyikkel tudunk 
+            repülni. Vagy teljesen mindegy, hogy milyen autóról beszélünk, mindegyiknek van kormánya, amivel irányítani tudjuk azt.)
+        </para>
+        <para>
+            Az öröklődés, vagy más néven származtatás szintén egy fontos fogalom. Az ősosztályból származtathatunk különböző osztályokat, melynek lényege, hogy a származtatott osztályok az 
+            ősosztálynak egy konkretizáltabb, specializáltabb formája, de végeredményben ugyanúgy az ősosztály egy tagja. (pl.: a „lakberendezési cikkek” osztályból származtathatjuk a 
+            „bútorok” osztályt, amiből szintén származtathatunk egy „székek” osztályt és így tovább…)
+        </para>
+        <para>
+            Nyilván a fent említett példák nagyon egyszerűek és földhöz ragadtak, de véleményem szerint ilyen egyszerű példákkal remekül lehet szemléltetni az OOP lényegét. Ezeknél nyilván 
+            vannak szofisztikáltabb, látványosabb és hasznosabb példák is. Nem könnyű elsajátítani ezt a szemléletmódot, mert a való életben nem szoktunk hozzá az ilyen strukturált 
+            gondolkodás/szemléletmódhoz. Ennyi bevezető után viszont térjünk át a programokra.
+        </para>
         <para>
 <programlisting language="c++"><![CDATA[
 // POLARGEN.H
