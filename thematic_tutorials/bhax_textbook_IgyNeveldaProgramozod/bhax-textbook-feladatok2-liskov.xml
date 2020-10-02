@@ -16,6 +16,106 @@
             <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/PROG2/Prog2_1.pdf">93-99 fólia</link>
             (számos példa szerepel az elv megsértésére az UDPROG repóban, lásd pl. source/binom/BatfaiBarki/madarak/)
         </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Liskov/Liskov.java">Liskov.java</link>
+        </para>
+        <para>
+            Robert Cecil Martin, egy amerikai informatikus alkotta meg a S.O.L.I.D. alapelveket. Lényegében ez egy szabályrendszer, amely leírja, hogy hogyan érdemes egy objektum-orientált programot megtervezni és megírni. Tulajdonképpen ezek az alapelvek alkotják a magját az agilis szoftverfejlesztésnek. A mozaikszó öt alapelvet foglal magába:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Liskov/solid.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            A feladat apropóján a harmadik alapelvvel kell foglalkoznunk, a Liskov helyettesítési elvvel. Barbara Liskov, amerikai informatikus hölgy a névadója, és azt mondja ki, hogy egy programban nem okoz hibát az, ha bárhol, ahol az ősosztály egy példányát alkalmaznánk, helyette az alosztályt használjuk. Kicsit általánosabban megfogalmazva: Ha S osztály T osztály leszármazottja, akkor S szabadon behelyettesíthető minden olyan helyre (változó, paraméter stb.), ahol T típust várunk. 
+        </para>
+        <para>
+            Ez viszont nem mindig működik. Például anno megtanultuk, hogy minden bogár rovar, de nem minden rovar bogár. Így, ha a bogarak az ősosztály, akkor a rovarok nem lehetne az alosztálya, hiszen nem minden rovar örökli a bogarak tulajdonságait. Fordítva rendben lenne. Vagy matematikai példával élve gondoljunk a téglalap-négyzetre. A téglalapnak 4 oldala van, és a szemközti oldalai megegyeznek. A négyzetnek is négy oldala van, valamint a szemközti oldalai is megegyeznek, de ő egy speciális téglalap, hiszen mind a 4 oldala megegyezik. Pont ezért nem működne, ha a négyzet lenne az ősosztály, és a téglalap lenne az alosztály, hiszen nem minden téglalapnak ugyanakkorák az oldalai. 
+        </para>
+        <para>
+            Nézzük az alábbi példaprogramot:
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+public class Liskov {
+	class Animals {
+		public void bark() {
+			System.out.println("Barking!");
+		}
+	}
+	
+	class Function {
+		public void barking(Animals animals) {
+			animals.bark();
+		}
+	}
+	
+	class Doggo extends Animals {
+	}
+	
+	class Cat extends Animals {
+	}
+	
+	public static void main(String[] args) {
+		Liskov l = new Liskov();
+		Function f = l.new Function();
+		Animals animals = l.new Animals();
+		f.barking(animals);
+		
+		Doggo dog = l.new Doggo();
+		f.barking(dog);
+		Cat cat = l.new Cat();
+		f.barking(cat);
+	}
+
+}]]></programlisting>
+        </para>
+        <para>
+            A Liskov osztályon belül létrehozunk egy Animals osztályt, amiben definiálunk egy bark() metódust (Egy sima kiíratással reprezentáljuk, hogy az adott állat ugat). Ezután létrehozzuk a Function osztályt, ami magát a feladatot fogja elvégezni. Ezután létrehozunk egy Doggo és Cat alosztályt, amelyek az extends kulcsszó segítségével öröklik meg az Animals osztály attribútumait és metódusait. Ezután a mainben megtörténnek a példányosítások, majd meghívjuk az ugatás metódust az objektumokra. Amint láthatjuk, sikerrel jártunk, hisz a macska is ugat a programunk alapján. Ez viszont a való életben nem lehetséges, így megsértettük a Liskov elvet. 
+        </para>
+        <para>
+            Ez a feladat azt szerette volna demonstrálni, hogy ha egy bizonyos tulajdonság vagy metódus csak a gyermekre vonatkozik, akkor azt neki kell adnunk, nem a szülő osztálynak. 
+        </para>
+        <para>
+            És végül itt van Bátfai Tanár Úr C++ kódrészlete:
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+class Madar {
+public:
+virtual void repul() {};
+};
+
+class Program {
+public:
+void fgv ( Madar &madar ) {
+madar.repul();
+}
+};
+
+class Sas : public Madar
+{};
+
+class Pingvin : public Madar
+{};
+
+int main ( int argc, char **argv )
+{
+Program program;
+	Madar madar;
+	program.fgv(madar);
+	Sas sas;
+	program.fgv(sas);
+	Pingvin pingvin;
+	program.fgv(pingvin);
+}]]></programlisting> 
+        </para>
+        <para>
+            Lényegében elég hasonló a Java kódhoz. Két publikus osztályt hozunk létre, egy Madar és egy Program nevűt. Előbbiben létrehoztunk egy virtuális függvényt, mely „repültetné” a madarat, utóbbiban pedig ezt a függvényt felhasználva létrehoztunk egy eljárást erre, amit a mainben is használni fogunk. Ezután létrehozunk két alosztályt a Madar osztályból, egy Sast és egy Pingvint. A lényeg az, hogy a sas tud repülni, de a pingvinek röpképtelen madarak. Ez azért baj, mert így ugyan a program lefut, miután a repülés metódust meghívtuk a pingvinre, de ez a való életben nem történhet meg, így ugyancsak megszegtük a Liskov elvet.
+        </para>
         
     </section>
 
@@ -27,28 +127,62 @@
         </para>
         <para>
             Lásd fóliák! <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/PROG2/Prog2_1.pdf">98. fólia</link>
+        </para>
+        <para>
+            Az öröklődés lényege, hogy egy gyermek örökli a szülő attribútumait és metódusait, ha azok nem private láthatóságúak. Viszont a szülő nem fér hozzá a gyermek metódusaihoz és tulajdonságaihoz. Ahhoz csak maga a gyerek, illetve a gyermek alosztályai férnek hozzá (láthatóságtól függően persze). Ez a feladat ennek a bizonyítását szolgálja.
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+public class Szulo_gyerek {
+	
+	class Szulo {
+		
+	}
+	
+	class Gyerek extends Szulo {
+		public void viselkedes() {
+			System.out.println("Vajon ki ér el engem?");
+		}
+	}
 
+	public static void main(String[] args) {
+		Szulo_gyerek szgy = new Szulo_gyerek();
+		Szulo szulo = szgy.new Szulo_gyerek();
+		Gyerek gyerek = szgy.new Szulo_gyerek();
+		
+		gyerek.viselkedes();  		 	//Lefut
+		szulo.viselkedes();				//nem fut le
+		
+
+	}
+
+}]]></programlisting>
+        </para>
+        <para>
+            Elég egyszerű kód, létrehoztunk egy Szulo osztályt, valamint annak a gyermekét, a Gyereket. Utóbbiban írtunk egy metódust, ami a konzolra kiír egy szöveget. Ezután a mainen belül történik a példányosítás. Először az szgy objektumot példányosítjuk, ezzel tudatjuk, hogy mindkét osztály a Szulo_gyerek osztályon belül található. Ennek a segítségével példányosítjuk ezután a szulo és gyerek objektumokat. Ha csak a gyerek objektumra hívjuk meg a viselkedes() metódust, akkor probléma nélkül lefut a program, de ha a szulo-re szeretnénk, akkor hibát írna ki, hiszen a szülő nem fér hozzá a gyermek metódusaihoz.
+        </para>
+        <para>
+            Mivel a C++-os változat működése megegyezik a Java-s változattal, és mivel a szintaktikai különbségekről már írtam az előző fejezetekben, így csak bemásolnám az osztálydefiníciót:
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+class Szulo {};
+
+class Gyerek : public Szulo {
+    public:
+        void viselkedes() {
+            std::cout << "Vajon ki lát engem?" << std::endl;
+        }
+};
+
+int main(int argc, char **argv)
+{
+    viselkedes(szulo);
+    viselkedes(gyerek);
+}]]></programlisting>
         </para>
         
     </section> 
-
-    <section>
-        <title>Anti OO</title>
-        <para>
-            A BBP algoritmussal 4 a Pi hexadecimális kifejtésének a 0. pozíciótól számított 10<superscript>6</superscript>, 10<superscript>7</superscript>,10<superscript>8</superscript> 
-            darab jegyét határozzuk meg C, C++, Java és C# nyelveken és vessük össze a futási időket!
-        </para>
-        
-    </section>
-
-    <section>
-        <title>Hello, Android!</title>
-        <para>
-            Élesszük fel az SMNIST for Humans projektet! 
-            <link xlink:href="https://gitlab.com/nbatfai/smnist/tree/master/forHumans/SMNISTforHumansExp3/app/src/main">https://gitlab.com/nbatfai/smnist/tree/master/forHumans/SMNISTforHumansExp3/app/src/main</link>
-            Apró módosításokat eszközölj benne, pl. színvilág.
-        </para> 
-    </section>
 
     <section>
         <title>Ciklomatikus komplexitás</title>
@@ -56,43 +190,143 @@
             Számoljuk ki valamelyik programunk függvényeinek ciklomatikus komplexitását! Lásd a fogalom
             tekintetében a <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_2.pdf">https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_2.pdf (77-79 fóliát)!</link> 
         </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Liskov/Favago.cpp">Favago.cpp</link>
+        </para>
+        <para>
+            A ciklomatikus komplexitás elméletének megalkotása Thomas J. McCabe nevéhez fűződik. Ez tulajdonképpen egy metrika, ami alapján megállapíthatjuk, hogy a programunk vezérlési szempontból mennyire összetett. Vagyis megvizsgálja a felhasznált vezérlési szerkezeteket és azt is belekalkulálja, hogy hány lineárisan független út van az adott program modulban. 
+        </para>
+        <para>
+            Ez az egész a gráfelméleten alapszik, a kapott érték pedig a kódban szereplő elágazásokból felépülő vezérfolyam-gráf pontjai, és a köztük lévő élek alapján tevődik össze.  A gráfot a függvények alkotják, él pedig akkor keletkezik két utasítás között, ha az egyik után rögtön végrehajtódhat a másik. Itt látható a képlet:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Liskov/ciklo1.png" scale="80"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            A ciklomatikus komplexitás alapján osztályozhatjuk a forráskódokokat. Értelemszerűen minél kisebb az érték, annál egyszerűbb a program.
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Liskov/ciklo2.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            Kíváncsi voltam, hogy az egyetemi éveim alatt megírt első „komolyabb” kódom milyen ciklomatikus komplexitással rendelkezik, szóval a Binary Search Tree C++ programomra végeztem el a mérést. Ezt akár saját magunk is kiszámolhatnánk, de bonyolultabb kódoknál célszerűbb külső segítséget használnunk. Akár a Maven-nek is van beépített megoldása erre, de én az egyszerűség kedvéért egy online calculatort használtam. Alább látható a mérés eredménye:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Liskov/ciklo3.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </para>
         
-    </section>
-
-    <section>
-        <title>EPAM: Interfész evolúció Java-ban</title>
-        <para>
-            Mutasd be milyen változások történtek Java 7 és Java 8 között az interfészekben. Miért volt erre
-szükség, milyen problémát vezetett ez be?
-        </para>
-    </section>
-
-    <section>
-        <title>EPAM: Liskov féle helyettesíthetőség elve, öröklődés</title>
-        <para>
-            Adott az alábbi osztály hierarchia.
-class Vehicle, class Car extends Vehicle, class Supercar extends
-Car
-Mindegyik osztály konstruktorában történik egy kiíratás, valamint a Vehicle osztályban szereplő
-start() metódus mindegyik alosztályban felül van definiálva.
-Mi történik ezen kódok futtatása esetén, és miért?
-<programlisting language="java"><![CDATA[
-Vehicle firstVehicle = new Supercar();
-firstVehicle.start();
-System.out.println(firstVehicle instanceof Car);
-Car secondVehicle = (Car) firstVehicle;
-secondVehicle.start();
-System.out.println(secondVehicle instanceof Supercar);
-Supercar thirdVehicle = new Vehicle();
-thirdVehicle.start();]]></programlisting>
-        </para>
     </section>
 
     <section>
         <title>EPAM: Interfész, Osztály, Absztrak Osztály</title>
         <para>
             Mi a különbség Java-ban a Class, Abstract Class és az Interface között? Egy tetszőleges példával /
-példa kódon keresztül mutasd be őket és hogy mikor melyik koncepciót célszerű használni.
+            példa kódon keresztül mutasd be őket és hogy mikor melyik koncepciót célszerű használni.
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Liskov/AbstractExample.java">AbstractExample.java</link>
+        </para>
+        <para>
+            Osztályok, interfészek és absztrakt osztályok… Mindhárom programozási eszköz az absztrakcióban segíti a munkánkat, ami az objektum-orientált programozás talán legfontosabb eszköze. A sima osztályokról már írtam az előző fejezetekben, így csak egy gyors ismétlésre térnék ki rájuk. 
+        </para>
+        <para>
+            Az OOP világában egy osztály olyan adatok és műveletek összessége, amellyel leírhatjuk egy entitás tulajdonságait és működését. Ezután az osztályból példányosíthatunk egy konkrét objektumot, amivel aztán dolgozhatunk tovább. Az attribútumokat és metódusokat különféle láthatósággal láthatjuk el egy osztályon belül, amely elsősorban a biztonság növelését szolgálja. Az osztályok között hierarchia áll fenn, szülő-gyermek viszony. 
+        </para>
+        <para>
+            A gyermekosztályok öröklik a szülő osztály összes nem privát láthatósággal ellátott attribútumát és metódusát. A gyerek ezután definiálhat saját tulajdonságokat és metódusokat, amiket a szülő már nem érhet el, csak a gyermek, illetve az ő leszármazottjai. A Liskov-elv értelmében az alosztály egy példánya minden olyan helyen megjelenhet, ahol a szülő osztály (szuperosztály) példánya megjelenhet. Java-ban egy osztály közvetlenül csak egy osztálytól örökölhet, emellett nem megengedett a többszörös öröklődés. Emellett Java-ban minden osztály az Object osztályból származik (tehát az Object osztály az öröklési fa gyökere). Ezt singly rooted hierarchiának nevezzük.
+        </para>
+        <para>
+            Szóval mire való egy interface, illetve mit jelent az az abstract kulcsszó az osztály előtt?
+        </para>
+        <para>
+            Lényegében mindkettő arra való, hogy sima osztályokat készítsünk a segítségükkel. Az absztrakt osztályok és az interfészek sem példányosíthatóak. Absztrakt osztályokat akkor használunk, ha bizonyos metódusoknak csak a specifikációját szeretnénk megadni, az implementációját nem. Az absztrakt osztályok segítenek megszervezni egy osztályt, hogy annak milyen metódusai, attribútumai legyenek. Az interfészek hasonló célt szolgálnak, csak egy picit másként. Egy interfészben csak absztrakt (implementáció nélküli) metódusok vannak, az abstract kulcsszó nem is kell eléjük. Az interfészeket egy sima osztály implementálni tud, ilyenkor pedig az össze metódust, amit az interfész magába foglal felül kell definiálni az osztályban. 
+        </para>
+        <para>
+            Egy szóval mindkét módszer technikailag ugyanazt a célt szolgálja, csak kicsit másként. Absztrakt osztályt akkor érdemes használni, ha nem csak absztrakt metódusokat szeretnénk használni benne, esetleg definiálnánk néhány változót, melyet egy metódus használna. Egy absztrakt osztály tartalmazhat absztrakt és normál metódusokat is, míg egy interfész csak absztraktat. Ha csak általánosságban szeretnénk megalkotni egy osztályt, kvázi egy blueprintet készíteni, akkor interfészt használjunk. Ilyenkor olyan metódusokra kell gondolni, amiket minden osztálynál más implementációval rendelkeznek majd. Egy kicsit nehéz általánosságban beszélni ezekről, így inkább nézzük a példámat.
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+interface DogInterface {
+	
+	abstract void breed();
+	void bark();
+	
+}
+
+abstract class Dog {
+	
+	public void bark() {
+		System.out.println("Bark!");
+	}
+	
+	public abstract void poop();
+	
+}
+
+class GermanShepard extends Dog {
+	
+	public String breed = "I am a cute german shepard!";
+
+	@Override
+	public void poop() {
+		System.out.println("I just pooped!");	
+	}	
+	
+}
+
+class Greyhound implements DogInterface {
+
+	@Override
+	public void bark() {
+		System.out.println("Bark!");
+	}
+	
+	@Override
+	public void breed() {
+		System.out.println("I am an adorable greyhound!");	
+	}
+	
+}
+
+public class AbstractExample {
+
+	public static void main(String[] args) {
+		GermanShepard gs = new GermanShepard();
+		System.out.println(gs.breed);
+		
+		Greyhound gh = new Greyhound();
+		gh.breed();
+	}
+
+}]]></programlisting>
+        </para>
+        <para>
+            Létrehoztam egy Dog nevű absztrakt osztályt. Ebben definiáltam egy bark() metódust, megadtam az implementációját is. Mellette létrehoztam egy abstract metódust is, aminek poop() a neve. Ez azt eredményezi, hogy minden olyan osztálynak, amely örökli a Dog osztály metódusait, kötelezően felül kell definiálnia a poop() metódust, hiszen nem adtunk meg neki a Dog-on belül implementációt. (Ez annyiban buta példa, hogy ebből következnie kellene, hogy minden kutya másként könnyít magán, de jobb példa nem jutott eszembe). Létrehoztam egy GermanShepard (németjuhász) osztályt, amely örököl a Dog osztályból. Neki van egy saját attribútuma, amely egy String. Emellett viszont kötelező volt felüldefiniálnunk az örökölt poop() metódust, enélkül hibát kaptunk volna. 
+        </para>
+        <para>
+            Létrehoztam a forrás elején egy DogInterface nevű interfészt, amelyben definiáltam két metódus specifikációját. Érdekességként az egyik elé odaírtam az abstract kulcsszót, a másik elé nem. Gond nélkül lefutott, hiszen egy interfész csak absztrakt metódusokat tartalmazhat, így az abstract kulcsszót nem is kell kiírni eléjük. Ennek a szemléltetésére létrehoztam egy Greyhound (agár) osztályt, amely implementálja ezt az interfészt. Itt kötelezően felül kellett definiálnunk mindkét abstract metódust. Érdekességként egy interfészt egy másik interfész kiterjeszthet, illetve a tagjai alapértelmezetten public láthatóságúak. Egy osztály több interfészt is implementálhat.
+        </para>
+        <para>
+            A main részében csupán a példányosítás történik, a példa szemléltetése érdekében nincs is rá szükségünk igazából, de természetesen gond nélkül lefutott, és ilyen szuper kimenetet adott:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Liskov/output.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>
 </chapter>                
