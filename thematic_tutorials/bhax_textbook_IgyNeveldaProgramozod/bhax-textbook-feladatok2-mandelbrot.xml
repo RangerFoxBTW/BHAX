@@ -6,6 +6,7 @@
         </keywordset>
     </info>
     
+    
     <section>
         <title>Reverse engineering UML osztálydiagram</title>
         <para>
@@ -14,8 +15,25 @@
             kapcsolatára a forráskódban és a diagramon, lásd még: https://youtu.be/Td_nlERlEOs.
             <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_6.pdf">https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_6.pdf (28-32 fólia)</link>  
         </para>
-
-        
+        <para>
+            Megoldás forrása: <link xlink:href="src/Mandelbrot2/z3a7.cpp">z3a7.cpp</link>
+        </para>
+        <para>
+            Forráskódból UML-re történő átalakításra számos eszköz áll a rendelkezésünkre. Én a Visual Paradigm nevű programot használtam, számos nagyvállalatnál használják előszeretettel ezt. Ugyan fizetős a szoftver licence, de egy ingyenes trial aktiválását követően máris nekikezdhetünk a feladatnak. A telepítése és a használata se különösebben nehéz, kellően intuitív a kezelőfelülete. A feladat elvégzéséhez navigáljunk a Tools menüpontba, onnan válasszuk ki a Code-ot és kattintsunk az Instant Reverse funkcióra. Ezután ki kell választanunk a forrásfájl típusát, valamint magát a forráskódot. Miután elkészítette a diagrammot, szűrhetünk arra, hogy mely osztályokat jelenítse meg. Az alább látható UML osztálydiagram a z3a7.cpp alapján készült:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Mandelbrot2/fauml.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            Amint láthatjuk, az UMl nem hazudtolja meg magát: egy grafikus, általános célú modellező nyelv, melyben kényelmesen lehet modellezni a programunk struktúráját, a benne szereplő osztályok között fennálló kapcsolatokat, azok tulajdonságait stb. A fejlécekben találhatóak az osztályok nevei, alattuk az attribútumaik, majd alattuk egy vonallal elválasztva a metódusaik. Ezek előtt található egy bizonyos jel: +, -, #. Ezek a három láthatóságot reprezentálják (+ : public, - : private, # : protected). 
+        </para>
+        <para>
+            Amikre még felfigyelhetünk, azok a furcsa nyilak az osztályok között. Ezek a kapcsolatokat jelképezik. A sima vonal az asszociációt jelenti, a szaggatott nyíl a függést, a fekete rombuszt tartalmazó nyíl a kompozíciót, az átlátszó rombuszos nyíl pedig az aggregciót jelöli. Ez utóbbi nem látható az ábrán. Az aggregáció és a kompozíció két fontos fogalom, mindkettő osztályok közti kapcsolatot jellemez, csak kicsit másként. Az aggregáció egy olyan kapcsolat, amely azt jelenti, hogy az egyik osztály a másiknak a része. A kompozíció tulajdonképpen egy speciális aggregáció, ami azt jelenti, hogy a két osztály szinkronban működik egymással. Ez azt jelenti, hogy az egyik osztály objektumai addig élnek, amíg a másik osztályé is. A fenti ábrán kompozíció figyelhető meg a gyökérelem és a Csomópont között. 
+        </para>       
     </section> 
     
     <section>
@@ -23,16 +41,28 @@
         <para>
             UML-ben tervezzünk osztályokat és generáljunk belőle forrást!
         </para>
-        
-    </section>                          
-
-    <section>
-        <title>Egy esettan</title>
         <para>
-            A BME-s C++ tankönyv 14. fejezetét (427-444 elmélet, 445-469 az esettan) dolgozzuk fel!
-        </para>
-       
-    </section>
+                Megoldás forrása: <link xlink:href="src/Mandelbrot2/Birdies.vpp">Birdies.vpp</link>, 
+                                  <link xlink:href="src/Mandelbrot2/Bird.java">Bird.java</link>, 
+                                  <link xlink:href="src/Mandelbrot2/FlightlessBirds.java">FlightlessBirds.java</link>, 
+                                  <link xlink:href="src/Mandelbrot2/FlyingBirds.java">FlyingBirds.java</link>, 
+                                  <link xlink:href="src/Mandelbrot2/Penguin.java">Penguin.java</link>, 
+                                  <link xlink:href="src/Mandelbrot2/FlightlessBirds.py">FlightlessBirds.py</link>
+            </para>
+            <para>
+                Az előző fejezetben Bátfai Tanár Úr madaras példája megtetszett, így ezt a feladatot is ezzel a példával szemléltetném. Alább látható egy egyszerű UML osztálydiagram, amit a Visual Paradigm nevű szoftverben készítettem:
+            </para>
+            <para>
+                <mediaobject>
+                    <imageobject>
+                            <imagedata fileref="img/Mandelbrot2/bird.png" scale="75"/>
+                    </imageobject>
+                </mediaobject>
+            </para>
+            <para>
+                A programon belül a Tools, Code, Generate Java Code menükben zongorázva hamar készíthetünk bármilyen UML osztálydiagramból forráskódot (sok nyelvet támogat, nem csak Java-t). A feladattal kapcsolatban nem sokat lehet mesélni, a diagram elég intuitív, úgy is helyeztem az osztályokat, hogy látszódjon a hierarchia. A forráskódoknál viszont néha nem minden stimmel, változóneveket különösen gyakran elírja… Alább látható néhány Java-s és Pythonos kimenet:
+            </para>
+    </section>                          
     
     <section>
             <title>BPMN</title>
@@ -40,46 +70,62 @@
                 Rajzoljunk le egy tevékenységet BPMN-ben!
                 <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_7.pdf">https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_7.pdf (34-47 fólia)</link>  
             </para>
-            
-    </section>             
-
-    <section>
-        <title>BPEL Helló, Világ! - egy visszhang folyamat</title>
-        <para>
-            Egy visszhang folyamat megvalósítása az alábbi teljes „videó tutoriál” alapján: <link xlink:href="https://youtu.be/0OnlYWX2v_I">https://youtu.be/0OnlYWX2v_I</link>
-
-        </para>
-        
-    </section>   
-
-    <section>
-        <title>TeX UML</title>
-        <para>
-            Valamilyen TeX-es csomag felhasználásával készíts szép diagramokat az OOCWC projektről (pl.
-use case és class diagramokat).
-        </para>
-    </section>
-
-    <section>
-        <title>EPAM: Neptun tantárgyfelvétel modellezése UML-ben</title>
-        <para>
-            Modellezd le a Neptun rendszer tárgyfelvételéhez szükséges objektumokat UML diagramm
-segítségével.
-        </para>
-    </section>
-
-    <section>
-            <title>EPAM: Neptun tantárgyfelvétel UML diagram implementálása</title>
             <para>
-                Implementáld le az előző feladatban létrehozott diagrammot egy tetszőleges nyelven.
-            </para>
-    </section>
+                Megoldás forrása: 
+            </para> 
+            <para>
+                Nem csak UML diagramokat készíthetünk egy feladat modellezésére. Bár a BPMN nem osztálydiagrammok készítésére használatos, mégis hasznos tud lenni akár fejlesztők körében is. A mozaikszó feloldásából (Buseiness Process Model and Notation) könnyen kitalálható, hogy eredetileg üzleti folyamatok ábrázolására hozták létre. Ettől függetlenül kellően sokoldalú és összetett modellező felület ahhoz, hogy szinte bármilyen folyamatot leírjunk vele. 
+            </para>  
+            <para>
+                Fejlesztőként hasznos lehet az ügyféllel való kommunikáció során, hiszen a nem szakmabeliek is könnyen megértik az intuitív folyamatábrákat. Továbbá hasznos lehet a fejlesztés során is: különböző mechanikákat és folyamatokat egyszerűen és szemléletes módon tudunk ábrázolni így. A BPMN fontosabb részei: belépési-és végesemények, köztes események, feladatok, útválasztók, sávok, fázisok és ezek közötti különböző kapcsolatot ábrázoló nyilak, vonalak.
+            </para> 
+            <para>
+                <mediaobject>
+                    <imageobject>
+                            <imagedata fileref="img/Mandelbrot2/vasarlas.png" scale="40"/>
+                    </imageobject>
+                </mediaobject>
+            </para> 
+            <para>
+                Az fentebb látható egyszerű folyamatábra egy üzletben való vásárlás folyamatát írja le. A fenti sávban található a vásárló életútja, az alsóban pedig a pénztárosé. A zöld kör jelzi a belépési eseményt, amikor a vevő besétál a boltba. Ezután megkeresi a kívánt terméket. Itt következik egy elágazás, amit egy narancssárga rombusz jelöl (programozásban a folyamatábrás leírásban is ezt a jelölést használjuk az elágazásoknál). Ha nem találta meg amit keresett, akkor kisétál a boltból és egy végesemény következik be (piros kör). Ha megtalálta, akkor odamegy a pénztárhoz. A pénztáros mindeközben a vásárlóval párhuzamosan várakozik, amíg ki nem tudja szolgálni a vevőt. Miután megérkezett a vásárló, kölcsönhatásba lép a pénztárossal – odanyújtja a terméket neki. A pénztáros leolvassa a terméket, majd visszaadja a vevőnek azt (itt megint kölcsönhatásba lépnek). A fizetés része ugyanígy zajlik, végül elköszönnek egymástól, a vevő kisétál a boltból. Végül mindketten végeseményhez értek. 
+            </para>    
+    </section>             
 
     <section>
             <title>EPAM: OO modellezés</title>
             <para>
                 Írj egy 1 oldalas esszét arról, hogy OO modellezés során milyen elveket tudsz követni (pl.: SOLID,
 KISS, DRY, YAGNI).
+            </para>
+            <para>
+                A szoftverfejlesztés elengedhetetlen és kritikus pontja a megfelelő tervezés. Objektum-orientált programozás során ez még inkább fontossá válik, így nem árt, ha tisztában vagyunk az alábbi tervezési elvekkel:
+            </para>
+            <para>
+                <command>SOLID: </command> Korábbi fejezetben már beszéltem róla, de inkább kétszer, mint egyszer sem… Tulajdonképpen egy mozaikszó, ami 5 elvet foglal magába. A megálmodóját Robert Cecil Martinnak hívják, egy amerikai informatikust tisztelhetünk a személyében. Az 5 elv a következő:
+            </para>
+            <para>
+                <command>Single Responsibility principle:</command> Vagyis az egyetlen felelősség elve. Ez csupán annyit takar, hogy minden feladat elvégzéséhez külön osztályt hozzunk létre. Ez egyrészt tisztább és átláthatóbb kódot eredményez, másrészt pedig lényegesen megkönnyíti a tesztelést. 
+            </para>
+            <para>
+               <command>Open/Close principle: </command> Egy osztályt mindig úgy kell megtervezni, hogy az nyílt legyen a kiterjesztésre, de legyen zárt a módosításra. Vagyis egy jól működő osztályt ne módosítgassunk, ha egy új funkcióra van szükségünk, hanem terjesszük ki azt egy újra. 
+            </para>
+            <para>
+                <command>Liskov Substitution principle: </command> Erről szólt az előző fejezet, így csak futólag: Liskov helyettesítési elve kimondja, hogy minden olyan helyen, ahol az osztály típusát használnánk, használhatjuk helyette a leszármazott osztályét is anélkül, hogy a program működését ez befolyásolná.
+            </para>
+            <para>
+                <command>Interface Segregation principle: </command> Nagyon egyszerű, ne írjunk egy hosszú és összetett interfészt, helyette írjunk több kisebb, jobban átláthatóbbat.
+            </para>
+            <para>
+                <command>Dependency Inversion principle: </command>Ez az elv azt mondja ki, hogy a magasabb szintű osztályok ne függjenek az alcsonyabb szintű osztályok implementációjától. Mindkettőt rejtsük el az absztrakció mögé.
+            </para>
+            <para>
+                A <command>KISS</command> elv, vagyis Keep It Simple Stupid elv azt vallja, hogy a kódunk legyen tiszta, könnyen olvasható és annyira egyszerű, amennyire csak lehetséges. Vagyis ne írjunk túl hosszú (50+ soros) metódusokat, igyekezzünk kerülni a túlbonyolított megoldásokat, ahol csak lehet, ott tördeljük meg a forráskódot, szervezzük át őket új forrásokba, ha kell. Egyrészt sokkal átláthatóbb lesz tőle a programunk, másrészt tesztelésnél is egyszerűbb és gyorsabb egy rövidebb metódust tesztelni. Kihangsúlyoznám, hogy ne bonyolítsuk túl a megoldásokat, csak ártunk a kollégáinknak és magunknak is ezzel...
+            </para>
+            <para>
+                A <command>DRY</command> elv, vagyis a Don’t Repeat Yourself elv azt vallja, hogy a kódunk minden alkotóeleme legyen egyedi, ne forduljon elő benne duplikáció. Vagyis, ha egyszer már megírtuk a megoldást egy részproblémára, akkor ne féljünk használni azt, felesleges újra-és újra leírni azt. Szervezzük ki egy metódusba azt, és erre aztán annyiszor hivatkozhatunk amennyiszer csak jól esik. Ez szintén tisztábbá teszi a kódunkat, valamint a hibakeresésnél is jól jön, hiszen csak egy programrészben kell keresni a hibát, nem szétszórva az egész forráskódban.
+            </para>
+            <para>
+                És végül nézzük a <command>YAGNI</command> (You Aren’t Gonna Need It) elvet. Ez is egy fontos elv, azt mondja ki, hogy ne dolgozzunk feleslegesen előre, mindig az aktuális problémákra fókuszáljunk. A későbbi esetleges bővítéssel ne foglalkozzunk a jelenben, hiszen, ha jól szerveztük a kódunkat, akkor erre könnyedén sort keríthetünk majd a későbbiek során. Felesleges teletömni a kódunkat olyan feature-ökkel, amelyekre lehet, hogy nem is lesz szükség. Egyrészt pazarló, megterhelő számunkra is és legfőképpen kevésbé lesz átlátható tőle a kódunk. 
             </para>
     </section>
 </chapter>  
