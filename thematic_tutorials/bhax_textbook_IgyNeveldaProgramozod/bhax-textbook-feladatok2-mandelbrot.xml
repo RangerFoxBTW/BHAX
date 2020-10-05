@@ -62,6 +62,69 @@
             <para>
                 A programon belül a Tools, Code, Generate Java Code menükben zongorázva hamar készíthetünk bármilyen UML osztálydiagramból forráskódot (sok nyelvet támogat, nem csak Java-t). A feladattal kapcsolatban nem sokat lehet mesélni, a diagram elég intuitív, úgy is helyeztem az osztályokat, hogy látszódjon a hierarchia. A forráskódoknál viszont néha nem minden stimmel, változóneveket különösen gyakran elírja… Alább látható néhány Java-s és Pythonos kimenet:
             </para>
+            <para>
+                Bird.java:
+                <programlisting language="java"><![CDATA[
+public class Bird {
+
+	public void walking() {
+		throw new UnsupportedOperationException();
+	}
+}]]></programlisting>
+            </para>
+            <para>
+                FlightlessBirds.java:
+                <programlisting language="java"><![CDATA[
+public class FlightlessBirds extends Bird {
+
+	public void walking() {
+		throw new UnsupportedOperationException();
+	}
+}]]></programlisting>
+            </para>
+            <para>
+                FlyingBirds.java:
+                <programlisting language="java"><![CDATA[
+public class FlyingBirds extends Bird {
+
+	public void flying() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void landing() {
+		throw new UnsupportedOperationException();
+	}
+
+	public void walking() {
+		throw new UnsupportedOperationException();
+	}
+}]]></programlisting>
+            </para>
+            <para>
+                Penguin.java:
+                <programlisting language="java"><![CDATA[
+public class Penguin extends FlightlessBirds {
+	private String _species;
+
+	public void walking() {
+		throw new UnsupportedOperationException();
+	}
+}]]></programlisting>
+            </para>
+            <para>
+                FlightlessBirds.py:
+                <programlisting language="python"><![CDATA[
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+import Bird
+from typing import List
+
+class FlightlessBirds(Bird):
+	def walking(self) -> None:
+		pass
+
+]]></programlisting>
+            </para>
     </section>                          
     
     <section>
@@ -71,7 +134,7 @@
                 <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_7.pdf">https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_7.pdf (34-47 fólia)</link>  
             </para>
             <para>
-                Megoldás forrása: 
+                Megoldás forrása: <link xlink:href="src/Mandelbrot2/vasarlas.vpp">vasarlas.vpp</link>
             </para> 
             <para>
                 Nem csak UML diagramokat készíthetünk egy feladat modellezésére. Bár a BPMN nem osztálydiagrammok készítésére használatos, mégis hasznos tud lenni akár fejlesztők körében is. A mozaikszó feloldásából (Buseiness Process Model and Notation) könnyen kitalálható, hogy eredetileg üzleti folyamatok ábrázolására hozták létre. Ettől függetlenül kellően sokoldalú és összetett modellező felület ahhoz, hogy szinte bármilyen folyamatot leírjunk vele. 
