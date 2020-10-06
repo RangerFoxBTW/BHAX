@@ -16,10 +16,10 @@
     </section>
 
     <section>
-        <title>OOCWC lexer</title>
+        <title>l334d1c4</title>
         <para>
-            Izzítsuk be az OOCWC-t és vázoljuk a https://github.com/nbatfai/robocar-emulator/blob/master/justine/rcemu/src/carlexer.ll lexert és kapcsolását a programunk OO
-struktúrájába!
+            Írj olyan OO Java vagy C++ osztályt, amely leet cipherként működik, azaz megvalósítja ezt a betű
+            helyettesítést: <link xlink:href="https://simple.wikipedia.org/wiki/Leet">https://simple.wikipedia.org/wiki/Leet</link>
         </para>
     </section>
 
@@ -28,59 +28,8 @@ struktúrájába!
         <para>
             Készítsünk egy teljes képernyős Java programot!
             Tipp: <link xlink:href="https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#labirintus_jatek">https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#labirintus_jatek</link>
-        </para>
-        
+        </para>       
     </section>   
-
-    <section>
-        <title>Paszigráfia Rapszódia OpenGL full screen vizualizáció</title>
-        <para>
-            Lásd vis_prel_para.pdf! Apró módosításokat eszközölj benne, pl. színvilág, textúrázás, a szintek jobb
-            elkülönítése, kézreállóbb irányítás.
-        </para>
-        
-
-    </section>     
-
-    <section>
-        <title>Paszigráfia Rapszódia LuaLaTeX vizualizáció</title>
-        <para>
-            Lásd vis_prel_para.pdf! Apró módosításokat eszközölj benne, pl. színvilág, még erősebb 3D-s hatás.
-        </para> 
-    </section>
-
-    <section>
-        <title>Perceptron osztály</title>
-        <para>
-            Dolgozzuk be egy külön projektbe a projekt Perceptron osztályát! Lásd <link xlink:href="https://youtu.be/XpBnR31BRJY">https://youtu.be/XpBnR31BRJY</link>
-        </para>
-        
-    </section>   
-
-    <section>
-        <title>EPAM: Order of everything</title>
-        <para>
-            Collection-ok rendezése esetén jellemzően futási időben derül ki, ha olyan típusú objektumokat
-próbálunk rendezni, amelyeken az összehasonlítás nem értelmezett (azaz T típus esetén nem
-implementálják a <programlisting language="java"><![CDATA[Comparable<T>]]></programlisting>
- interface-t). Pl. ClassCastException a <link xlink:href="https://docs.oracle.com/javase/7/docs/api/java/util/Collections.html#sort(java.util.List)">Collections.sort()</link> 
-esetében, vagy ClassCastException a <link xlink:href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#sorted--">Stream.sorted()</link> esetében.
-        </para>
-        <para>
-            Írj olyan metódust, amely tetszőleges Collection esetén vissza adja az elemeket egy List-ben
-növekvően rendezve, amennyiben az elemek összehasonlíthatóak velük azonos típusú
-objektumokkal. Ha ez a feltétel nem teljesül, az eredményezzen syntax error-t. Például:
-        </para>
-        <para>  
-            <programlisting language="java"><![CDATA[List<Integer> actualOutput = createOrderedList(input);]]></programlisting>
-        </para>
-        <para>
-            Ahol az input <programlisting language="java"><![CDATA[Collection<Integer>]]></programlisting>
- típusú. Természetesen más típusokkal is működnie
-kell,
-feltéve, hogy implementálják a Comparable interface-t.
-        </para>
-    </section>
 
     <section>
         <title>EPAM: Bináris keresés és Buborék rendezés implementálása</title>
@@ -91,7 +40,7 @@ implementálj), A tárolt elemeket az osztályunk be tudja rendezni és a rendez
 vissza tud térni (ehhez egy buborék rendezőt implementálj)
         </para>
         <para>
-            Megoldás forrása: <link xlink:href="src/Chomsky2/IntegerStorage.java">IntegerStorage.java</link>, <link xlink:href="src/Chomsky2/Main.java">Main.java</link>
+            Megoldás forrásai: <link xlink:href="src/Chomsky2/IntegerStorage.java">IntegerStorage.java</link>, <link xlink:href="src/Chomsky2/Main.java">Main.java</link>
         </para>
         <para>
             Egy klasszikus, kicsit gondolkodtató, de végtelenül élvezetes feladat. Kicsit mindenből kér a feladat, remek gyakorlófeladat azoknak, akik ismerkednek a Java nyelvvel, vagy épp az objektum-orientált programozással. Alább látható a megoldásom:
@@ -245,19 +194,6 @@ public class Main {
                         <imagedata fileref="img/Chomsky2/int.png" scale="70"/>
                 </imageobject>
             </mediaobject>
-        </para>
-    </section>
-
-    <section>
-        <title>EPAM: Saját HashMap implementáció</title>
-        <para>
-            Írj egy saját java.util.Map implementációt, mely nem használja a Java Collection API-t.
-Az implementáció meg kell feleljen az összes megadott unit tesztnek, nem kell tudjon kezelni null
-értékű kulcsokat és a “keySet”, “values”, “entrySet” metódusok nem kell támogassák az elem
-törlést.
-Plusz feladatok:
-1. az implementáció támogat null kulcsokat,
-a “keySet”, “values”, “entrySet” metódusok támogatják az elem törlést.
         </para>
     </section>
 </chapter> 
