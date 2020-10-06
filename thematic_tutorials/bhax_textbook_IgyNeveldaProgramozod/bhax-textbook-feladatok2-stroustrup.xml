@@ -97,6 +97,24 @@ firstMatchesThirdWithEquals értéke true, a
 firstMatchesThirdWithEqualToOperator értéke pedig false legyen. Magyarázd
 meg, mi történik a háttérben.]]></programlisting>
         </para>
+        <para>
+            Változtasd meg a String third = "..."; sort úgy, hogy a firstMatchesSecondWithEqualsfirstMatchesSecond-
+            WithEquals, firstMatchesSecondWithEqualToOperatorfirstMatchesSecondWithEqualToOperator, firstMat-
+            chesThirdWithEquals értéke true, a firstMatchesThirdWithEqualToOperator értéke pedig false legyen. Ma-
+            gyarázd meg, mi történik a háttérben.    
+        </para>
+        <para>
+            A megadott forráskód lényegében annyit csinál, hogy létrehoz 3 Stringet, és a másodikat és harmadikat összehasonlítja az elsővel. Ha lefuttatjuk, akkor láthatjuk, hogy mindkettő összehasonlítás értéke igaz. Ugyan mindhárom változó ugyanazt a Stringet tartalmazza, attól még különálló objektumokról beszélünk. Akkor mégis miért kapunk true-t?                  
+        </para>
+        <para>
+            A kérdésre a válasz a fordítóban keresendő. Optimalizációs célból, ha észreveszi, hogy különböző String típusú változónak ugyanazt a statikus értéket adjuk meg, akkor minden ilyen változót ugyanarra a String referenciára állítja. Ezzel memóriát spórol. És mivel a fenti kódban az „==” összehasonlító operátor csak referencia szerint vizsgál, így igaz értéket fog visszaadni.     
+        </para>
+        <para>
+            A feladat megoldásához nem kell mást tennünk, mint megmondani a fordítónak, hogy a harmadik Stringünk egy új objektum legyen, miközben az értéke ugyanaz marad. Ezt a new kulcsszóval expliciten tehetjük meg. Alább látható a megoldás:    
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[String third = new String(”…”);]]></programlisting>
+        </para>
     </section>
 
     <section>

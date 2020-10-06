@@ -90,6 +90,162 @@ osztálynak az alábbi funkcionalitásokkal kell rendelkeznie: Elem hozzáadása
 implementálj), A tárolt elemeket az osztályunk be tudja rendezni és a rendezett (pl növekvő sorrend) struktúrával
 vissza tud térni (ehhez egy buborék rendezőt implementálj)
         </para>
+        <para>
+            Megoldás forrása: <link xlink:href="src/Chomsky2/IntegerStorage.java">IntegerStorage.java</link>, <link xlink:href="src/Chomsky2/Main.java">Main.java</link>
+        </para>
+        <para>
+            Egy klasszikus, kicsit gondolkodtató, de végtelenül élvezetes feladat. Kicsit mindenből kér a feladat, remek gyakorlófeladat azoknak, akik ismerkednek a Java nyelvvel, vagy épp az objektum-orientált programozással. Alább látható a megoldásom:
+        </para>
+        <para>
+                <programlisting language="java"><![CDATA[
+import java.util.Arrays;
+
+public class IntegerStorage {
+	
+	private int[] s;
+	private int index = 0;
+	private int size;
+	private boolean sorted = true;
+	
+	public IntegerStorage(int size) {
+		this.size = size;
+		this.s = new int[size];
+	}
+	
+	public IntegerStorage(int[] s) {
+		this.size = s.length;
+		this.index = this.size;
+		this.s = s;
+		this.sorted = false;
+	}]]></programlisting>
+        </para>
+        <para>
+            Mivel tömbbel fogunk dolgozni, így a legelején importáljuk a java.util package-ből az Arrays osztályt. Ezután létrehozzuk az IntegerStorage osztályt, amiben dolgozni fogunk. Kezdésként létrehozzuk a használni kívánt attribútumainkat: egy tömböt, amiben tárolni tudjuk az elemeket, a tömb indexét, ami majd az elemek hozzáadásánál kell, kényelmi szempontból a tömb méretét is eltároljuk, illetve egy logikai változót, ami azt mondja majd meg, hogy a tömbünk rendezett-e. Ezek mind privát láthatóságúak az enkapszuláció érdekében. Ezalatt találhatóak a set metódusok, amik emiatt kellenek. Itt lényegében megmondjuk a fordítónak, hogy az osztály objektumaira referálunk a változónevekkel. Ezt a this kulcsszó segítségével tesszük meg.
+        </para>
+        <para>
+                <programlisting language="java"><![CDATA[
+public boolean binary(int number) {
+		
+		if (!sorted)
+			bubble();
+		
+		int l = 0;
+		int r = size - 1;
+		
+		while (l <= r) {
+			int mid = l + (r - l) / 2;
+			if (s[mid] == number)
+				return true;
+			if (s[mid] > number)
+				r = mid -1;
+			else
+				l = mid + 1;
+		}
+		
+		return false;
+	}]]></programlisting>
+        </para>
+        <para>
+            Ezután következik a bináris keresés implemetálása. tavaly tanultuk Adatszerkezetek órán, így nem sokat beszélnék róla. Mivel az adatszerkezetenek rendezettnek kell lennie, hogy bináris keresést hajtsunk végre rajta, így először ezt kell megvizsgálni. Ha nem rendezett, akkor meghívjuk a rendező eljárásunkat. Ezután jön maga a bináris keresés. Én az iteratív verziót írtam le, de van belőle rekurzív mód is. Megnézi, hogy a középső elem egyezik-e a keresett értékkel. ha igen, akkor azzal tér vissza. ha nem, akkor megvizsgálja, hogy a keresett elem nagyobb vagy kisebb-e a középsőnél. Ettől függően a középsőtől vagy balra vagy jobbra található részben keresi tovább az elemet. Ha nem találta meg, akkor hamis értékkel tér vissza.
+        </para>
+        <para>
+                <programlisting language="java"><![CDATA[
+public int[] bubble() {
+		for (int i = 0; i < size; i++) {
+			for (int j = 1; j < (size - i); j++) {
+				if (s[j-1] > s[j]) {
+					int t = s[j-1];
+					s[j-1] = s[j];
+					s[j] = t;
+				}
+			}
+		}
+		sorted = true;
+		
+		return s;
+}
+
+public void add(int number) {
+    s[index++] = number;
+    sorted = false;
+}]]></programlisting>
+        </para>
+        <para>
+            Ezután jön a buborékos rendezés, amiről szintén tanultunk már. Nem ez a leghatékonyabb rendezési algoritmus (sőt), de legalább könnyű implementálni. Egy segédváltozóval oldja meg az elemek cseréjét. Ha végbement, akkor a sorted logikai változó értékét igazra állítja, majd visszatér a rendezett tömbbel. Végül jön az add metódus, ami tömbhöz hozzáadja az elemeket. Nagyon egyszerű. Bővítés után természetesen a rendezettséget jelző logikai változót hamisra állítja.
+        </para>
+        <para>
+                <programlisting language="java"><![CDATA[
+	@Override
+	public String toString() {
+		return "IntegerStorage [s=" + Arrays.toString(s) + ", index=" + index + ", size=" + size + ", sorted=" + sorted
+				+ "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + index;
+		result = prime * result + Arrays.hashCode(s);
+		result = prime * result + size;
+		result = prime * result + (sorted ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		IntegerStorage other = (IntegerStorage) obj;
+		if (index != other.index)
+			return false;
+		if (!Arrays.equals(s, other.s))
+			return false;
+		if (size != other.size)
+			return false;
+		if (sorted != other.sorted)
+			return false;
+		return true;
+	}
+}]]></programlisting>
+        </para>
+        <para>
+            A végén találhatóak az Override metódusok. Ezekről már egy korábbi fejezetben írtam, így nem térnék ki rájuk. Eclipse-ben pár kattintással létre lehet hozni őket, ami elég praktikus.
+        </para>
+        <para>
+                <programlisting language="java"><![CDATA[
+public class Main {
+
+	public static void main(String[] args) {
+		IntegerStorage store = new IntegerStorage(10);
+		for (int i = 6; i < 13; i++) 
+			store.add(i);
+		store.add(5);
+		store.add(3);
+		store.add(1);
+		
+		store.bubble();
+		System.out.println(store);
+		System.out.println(store.binary(2));
+		System.out.println(store.binary(7));
+	}
+
+}]]></programlisting>
+        </para>
+        <para>
+            A Mainben történik a példányosítás, illetve írtam egy kis tesztet, amivel kipróbáltam, hogy minden működik-e. Alul látható a kimenet.
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Chomsky2/int.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>
     </section>
 
     <section>
