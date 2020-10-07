@@ -12,7 +12,22 @@
             fájl nevekben és a forrásokban is meghagyjuk az ékezetes betűket!
             <link xlink:href="https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/adatok.html">https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/adatok.html</link>
         </para>
-        
+		<para>
+			Ebben a feladatban az egyetlen nehézség az volt, hogy meg kellett találni, hogy milyen karakterkódolást használtak a program írásakor, ezután csak a megfelelő kapcsolót kellett megkeresni ahhoz, hogy sikeresen lefordítsuk és futtassuk. 
+		</para>
+		<para>
+			Az első elég könnyű volt, hiszen a legtöbb IDE és komolyabb szövegszerkesztő ezt automatikusan kijelzi nekünk. A második is egyszerű volt az én esetemben, még kapcsoló sem kellett hozzá. Ez úgy lehetséges, hogy az Ubuntu rendszerszinten automatikusan magyar nyelvi beállításokat használ. Vagyis UTF-8 karakterkódolást. Ezt a <command>locale</command> paranccsal könnyen ellenőrizhetjük. Azon ritka pillanatok egyike ez, amikor a egy Linux rendszer nem még egy akadályt gördít a felhasználó elé, hanem segít neki. Öröm volt látni!
+		</para>
+		<para>
+			De ha esetleg nem magyar nyelvi beállításokat használunk, akkor se essünk pánikba! Az -encoding kapcsolóval bármilyen karakterkódolást megadhatunk fordításkor, így biztosan sikerrel járunk. Mivel ez magyar ékezetes latin karaktereket használ, így az ISO8859-2 karakterkódolás jó is lesz nekünk. Ez tartalmazza a legtöbb Közép-Európai nyelv karaktereit (cseh, szlovák, magyar, román stb.). Alább láthatjuk a program kimenetét.
+		</para>
+		<para>
+			<mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Chomsky2/encoding.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+		</para>
     </section>
 
     <section>
