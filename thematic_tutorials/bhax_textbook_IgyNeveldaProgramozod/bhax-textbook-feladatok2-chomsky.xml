@@ -31,10 +31,11 @@
     </section>
 
     <section>
-        <title>l334d1c4</title>
+        <title>l3334d1c4</title>
         <para>
-            Írj olyan OO Java vagy C++ osztályt, amely leet cipherként működik, azaz megvalósítja ezt a betű
-            helyettesítést: <link xlink:href="https://simple.wikipedia.org/wiki/Leet">https://simple.wikipedia.org/wiki/Leet</link>
+            Írj olyan OO Java vagy C++ osztályt, amely leet cipherként működik, azaz megvalósítja ezt a betű he-
+lyettesítést: https://simple.wikipedia.org/wiki/Leet (Ha ez első részben nem tetted meg, akkor írasd ki és
+magyarázd meg a használt struktúratömb memóriafoglalását!)
         </para>
     </section>
 
@@ -43,7 +44,107 @@
         <para>
             Készítsünk egy teljes képernyős Java programot!
             Tipp: <link xlink:href="https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#labirintus_jatek">https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#labirintus_jatek</link>
-        </para>       
+        </para>  
+		<para>
+			Megoldás forrásai: <link xlink:href="src/Chomsky2/Display.java">Display.java</link>, <link xlink:href="src/Chomsky2/Screen.java">Screen.java</link>
+		</para>
+		<para>
+			Ezt a feladatot kicsit megúszósra fogtam, hiszen a programom nem csinál mást, mint kiír egy szöveget teljes képernyős módban. A jövőben, ha lesz kedvem, majd átalakítom kicsit. De addig is nézzük a kódot. Swinget használtam, ami egy rettenetesen outdated tool Application fejlesztéshez, de az alapok megtanítására talán elég…
+		</para>     
+		<para>
+			<programlisting language="java"><![CDATA[
+import java.awt.*;
+import javax.swing.JFrame;
+
+public class Screen {
+	
+	private GraphicsDevice gd;
+	
+	public Screen() {
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		gd = env.getDefaultScreenDevice();
+	}]]></programlisting>
+		</para>
+		<para>
+			A Screen osztály szolgál a teljes képernyős mód megjelenítéséért. Először importáljuk az abstract window toolkitet, valamint a JFrame-t. Ezek standard libraryk windowed/full screenes grafikus programok írásához Javaban. Az osztályon belül létrehozzuk a GraphicsDevice változót, ami lényegében a grafikus megjelenítő lesz. Ezután lekérdezzük a grafikus környezetet, majd az alapértelmezett megjelenítőt eltároljuk a gd-ben. 
+		</para>
+		<para>
+            <programlisting language="java"><![CDATA[
+public void setFullScreen(DisplayMode dm, JFrame window) {
+		
+		window.setUndecorated(true);
+		window.setResizable(false);
+		gd.setFullScreenWindow(window);
+		
+		if (dm != null && gd.isDisplayChangeSupported()) {
+			try {
+				gd.setDisplayMode(dm);
+			}
+			catch (Exception e){}
+		}
+	}
+	
+	public Window getFullScreenWindow() {
+		return gd.getFullScreenWindow();
+	}
+	
+	public void restore() {
+		Window w = gd.getFullScreenWindow();
+		if (w != null)
+			w.dispose();
+		gd.setFullScreenWindow(null);
+	}
+}]]></programlisting>
+		</para>
+		<para>
+			A setFullScreen metódus fogja a proginkat teljes képernyőre rakni. Valójában a benne lévő setUndecorated(true) fogja ténylegesen eltávolítani az ablak kezelősávját felülről, így emiatt lesz full screen. Mellé még adjuk, hogy ne is lehessen átméretezni. Az if-ben azt vizsgáljuk, hogy van-e monitorbeállításunk, és azokat lehet-e állítani. A getFullScreenWindow fogja visszaadni a teljes képernyőt.  A restore metódus fog levenni a full screenről.
+		</para>
+		<para>
+            <programlisting language="java"><![CDATA[
+import java.awt.*;
+import javax.swing.JFrame;
+
+public class Display extends JFrame{
+	
+	public void run(DisplayMode dm) {
+		getContentPane().setBackground(Color.cyan);
+		getContentPane().setForeground(Color.black);
+		getContentPane().setFont(new Font("Calibri", Font.BOLD, 100));
+
+		Screen s = new Screen();
+		try {
+			s.setFullScreen(dm, this);
+			try {
+				Thread.sleep(3000);
+			} catch (Exception e) {}
+		} finally {
+			s.restore();
+		}
+	}
+	
+	public void paint(Graphics g) {
+		super.paint(g);
+		g.drawString("Hello there!", 890, 530);
+	}
+		
+	public static void main(String[] args) {
+		DisplayMode dm = new DisplayMode(800, 600, 16, DisplayMode.REFRESH_RATE_UNKNOWN);	//Linux alatt kell szélesség, magasság, színmélység, képfrissítés
+		Display d = new Display();
+		d.run(dm);
+	}
+	
+}]]></programlisting>
+		</para>
+		<para>
+			A Display osztályunk fog ténylegesen dolgokat megjeleníteni a programban. Importáljuk a szükséges könyvtárakat (ha labeleket is szeretnénk, akkor a swingen belül a JLabel is kell, illetve az egérkattintás támogatásához az awt.event.*). Az osztályt kiterjesztjük a JFrame-re. A run metódusban állítjuk be a hátteret, betűtípust, betűszínt, méretet stb-t. Itt írtam egy try catch blokkot, ami azt szabályozza, hogy meddig maradjon full screenben a program (így kerültem meg, hogy használjam az egeret). A paint metódus segítségével fogunk a képernyőre írni (igazából sok dolgot lehet vele, képet beszúrni, ilyenek). Ezt a drawString-gel tesszük meg. Végül ebben az osztályban található a main, amiben a példányosítás történik. 
+		</para>
+		<para>
+			<mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Chomsky2/Full.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+		</para>
     </section>   
 
     <section>
