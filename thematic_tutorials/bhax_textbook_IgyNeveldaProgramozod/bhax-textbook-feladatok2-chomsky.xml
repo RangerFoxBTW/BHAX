@@ -33,10 +33,121 @@
     <section>
         <title>l3334d1c4</title>
         <para>
-            Írj olyan OO Java vagy C++ osztályt, amely leet cipherként működik, azaz megvalósítja ezt a betű he-
-lyettesítést: https://simple.wikipedia.org/wiki/Leet (Ha ez első részben nem tetted meg, akkor írasd ki és
-magyarázd meg a használt struktúratömb memóriafoglalását!)
+            Írj olyan OO Java vagy C++ osztályt, amely leet cipherként működik, azaz megvalósítja ezt a betű helyettesítést: https://simple.wikipedia.org/wiki/Leet (Ha ez első részben nem tetted meg, akkor írasd ki és
+			magyarázd meg a használt struktúratömb memóriafoglalását!)
         </para>
+		<para>
+			Megoldás forrása: <link xlink:href="src/Chomsky2/Leet.java">Leet.java</link>
+		</para>
+		<para>
+			Az előző félévben már kellett csinálni egy Leeter programot C++-ban, így az alapokról nem beszélnék. Ezt kellett átültetni egy OO programba. Hogy aktuális legyen, Java-ban oldottam meg a feladatot.
+		</para>
+		<para>
+			<programlisting language="java"><![CDATA[
+import java.util.Scanner;
+import java.util.HashMap;
+import java.util.regex.Matcher; 
+import java.util.regex.Pattern;
+
+
+public class Leet {
+	
+	private String toLeet(String str) {
+		Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+		StringBuilder sb = new StringBuilder();
+		HashMap<Character, String> map = new HashMap<Character, String>();
+		
+		map.put('A', "@");
+		map.put('B', "˘A´z");
+		map.put('C', "Â©");
+		map.put('D', "Ä‘");
+		map.put('E', "â");
+		map.put('F', "´C’");
+		map.put('G', "6");
+		map.put('H', "#");
+		map.put('I', "!");
+		map.put('J', "Â˙z");
+		map.put('K', "X");
+		map.put('L', "ÂŁ");
+		map.put('M', "M");
+		map.put('N', "r");
+		map.put('O', "0");
+		map.put('P', "p");
+		map.put('Q', "0");
+		map.put('R', "Â®");
+		map.put('S', "$");
+		map.put('T', "7");
+		map.put('U', "Â$");
+		map.put('V', "v");
+		map.put('W', "w");
+		map.put('X', "%");
+		map.put('Y', "ÂA");
+		map.put('Z', "z");
+		map.put('0', "O");
+		map.put('1', "I");
+		map.put('2',"2");
+		map.put('3',"2");
+		map.put('4',"2");
+		map.put('5',"2");
+		map.put('6',"2");
+		map.put('7',"2");
+		map.put('8',"2");
+		map.put('9',"2");
+		
+		for (int i = 0; i < str.length(); i++) {
+			char key = Character.toUpperCase(str.charAt(i));
+			Matcher matcher = pattern.matcher(Character.toString(key));
+			if (matcher.find()) {
+				sb.append(key);
+				sb.append(' ');
+			} 
+			else {
+				sb.append(map.get(key));
+				sb.append(' ');
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	
+	public static void main(String[] args) {
+		Leet obj = new Leet();
+		Scanner scan = new Scanner(System.in);
+
+		String leetWord;
+		
+		System.out.println("Írd be a szöveget!");
+		leetWord = scan.nextLine();
+		
+		String leet = obj.toLeet(leetWord);
+		System.out.println("Leet: " + leet);
+
+	}
+}]]></programlisting>
+		</para>
+		<para>
+			Reguláris kifejezésekkel és HashMap-pel oldottam meg, így volt szerintem a legtisztább. Létrehozunk egy mintát, amiben kis-és nagybetűk, valamint számok lesznek. StringBuilder segítségével fogjuk tárolni a végeredményt. A HashMap-ben pedig eltároljuk, hogy mit mire fog cserélni a program.
+		</para>
+		<para>
+			Ezután jön a talán a legfontosabb része a programnak, egy for ciklus. A szöveget először nagybetűsre konvertáljuk, mert így nem kell eltárolni a kisbetűkhöz tartozó csereértékeket is. A megkapott szöveg minden karakterén végigmegy és megvizsgálja, hogy az adott karakter szerepel-e a mintában. Ha igen, akkor a mintában szereplő párjára cseréli, ellenkező esetben pedig visszarakja a beolvasott karaktert (hogy ne null értéket adjon vissza). Végül az így lefordított eredményt Stringgé konvertálva visszaadjuk. 
+		</para>
+		<para>
+			A mainben példánoysítunk, illetve a felhasználótól bekérjük a fordítandó szöveget. Ezután az eredményt kiíratjuk. 
+		</para>
+		<para>
+			<mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Chomsky2/leet.png" scale="75"/>
+                </imageobject>
+            </mediaobject>
+		</para>
+		<para>
+			Beszéljünk egy kicsit a HashMap memóriahasználatáról. Ugyan programozóként nem igazán kell ezzel foglalkoznunk (lévén dinamikus adatszerkezet és a memóriaallokálás automatikusan történik), néha nem árt tudni, mik történnek a háttérben. Valójában egy tömb adatszerkezetről van szó, amelynek minden eleme egy linkelt lista. Ezek a listák alkotják a kulcs-érték párokat, amik a HashMap-ben vannak. A memóriahasználatát két tényező befolyásolja: a létrehozáskor meghatározott mérete, valamint a load factor. 
+		</para>
+		<para>
+			Létrehozáskor a zárójelben megadhatjuk, hogy mekkora legyen a kezdeti mérete az adatszerkezetnek. Ha nem adunk meg semmit, akkor automatikusan 16 elemű lesz a tömb. A load factor az az érték, amely meghatározza, hogy mennyire lehet „telített” a tömb, mielőtt megnőne a mérete. Ez alapesetben 0.75, vagyis egy alapértelmezetten 16 elemű HashMap-be 12 kulcs-érték párt helyezhetünk, mielőtt megnőne az adatszerkezet által lefoglalt memória. Ha ennél magasabbra állítjuk a load factor méretét, az ugyan csökkenti az előre lefoglalt memória méretét, de ugyanakkor meghosszabbítja a különböző műveletek (get, put stb) végrehajtási idejét. Ez a legoptimálisabb érték. Miután elértük a load factor értékét, egyszerűen megkétszerezi az aktuális tömb méretét. Ez azt jelenti, hogy egy teljesen új, kétszer akkora tömböt hoz létre, melybe átmásolja (és újrahasheli) az eredeti elemeket. A régi HashMap-ről pedig a GC gondoskodik a későbbiekben.
+		</para>
     </section>
 
     <section>
