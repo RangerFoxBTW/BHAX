@@ -11,39 +11,36 @@
         <para>Írjunk olyan Boost C++ programot (indulj ki például a fénykardból) amely kilistázza a JDK összes
             osztályát (miután kicsomagoltuk az src.zip állományt, arra ráengedve)!
         </para>
-       
-    </section>
-
-    <section>
-        <title>Másoló-mozgató szemantika</title>
-        <para>Kódcsipeteken (copy és move ctor és assign) keresztül vesd össze a C++11 másoló és a mozgató
-                szemantikáját, a mozgató konstruktort alapozd a mozgató értékadásra!
-        </para>
-        
-    </section>   
-
-    <section>
-        <title>Hibásan implementált RSA törése</title>
         <para>
-            Készítsünk betű gyakoriság alapú törést egy hibásan implementált RSA kódoló:
-https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_3.pdf (71-73 fólia) által
-készített titkos szövegen.
+            Habár nem vagyok különösképpen nagy rajongója a boost librarynek, azért el kell ismernem, van néhány hasznos funkciója. Az egyik ilyen, amellyel a feladatot is megoldottam a boost::filesystem::recursive_directory_iterator. Ennek kell megadni zárójelben a vizsgálni kívánt mappa elérési útvonalát. Lényegében a neve mindent elárul, egy iterátor segítségével rekurzívan végigmegy a mappán belül minden almappán, és persze a főmappán is. Ezután már nem kell mást tenni, mint megvizsgálni az adott fájl kiterjesztését, majd ha talált .java kiterjesztésűt, akkor egy számláló változó értékét megnöveli. A kiterjesztés vizsgálatát a path().extension()-nel lehetett megtenni. Nem bonyolult program, úgy gondolom nem szorul extra magyarázatra. Az egyértelműség kedvéért a java jdk-8 src mappáját vizsgáltam meg.
         </para>
-    </section>
-
-    <section>
-        <title>Változó argumentumszámú ctor</title>
-        <para>Készítsünk olyan példát, amely egy képet tesz az alábbi projekt Perceptron osztályának bemenetére
-        és a Perceptron ne egy értéket, hanem egy ugyanakkora méretű „képet” adjon vissza. (Lásd még a 4
-        hét/Perceptron osztály feladatot is.)
-        </para>
-        
-    </section> 
-
-    <section>
-        <title>Összefoglaló</title>
         <para>
-            Az előző 4 feladat egyikéről írj egy 1 oldalas bemutató „”esszé szöveget!
+            <programlisting language="c++"><![CDATA[
+#include <iostream>
+#include <boost/filesystem.hpp>
+
+int main()
+{
+    int count = 0;
+    boost::filesystem::recursive_directory_iterator i("/home/dani/Dokumentumok/lol/");
+    while(i != boost::filesystem::recursive_directory_iterator())
+    {
+        if(i->path().extension() == ".java" && is_regular_file(i->path()))
+            count++;
+        i++;
+    }
+    std::cout << count << std::endl;
+}]]></programlisting>
+        </para>
+        <para>
+            A <command>g++ szamol.cpp -o szamol -lboost_filesystem -lboost_system</command> paranccsal fordítjuk, majd futtatjuk a programot. Alább láthatjuk a kimenetét:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="/img/2/szamol.png" scale="40"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>
 
@@ -72,6 +69,59 @@ writer.close();
         <para>
             Mutass példát arra az esetre, amikor előfordulhat, hogy bár a program futása során meghívtuk a
 writeStuff() metódust, a fájl, amibe írtunk még is üres. Magyarázd meg, miért. Mutass alternatívát.
+        </para>
+        <para>
+            A fent látható példában az osztály az Object osztályban található finalize() metódust használja a fájl bezárásához. Ez akkor fut le, amikor a Garbage Collector felszámolja az elhalt objektumokat a heapben (amikor már nem referál rájuk semmi). Itt olyankor fordulhat elő hiba, a a FileWriter lezárását a GC-re bízzuk. Általában azoknál az objektumoknál fordul elő hiba, amikkel socketeket vagy streameket kezelünk (szofisztikáltabb megfogalmazásban a Closable/AutoClosable interfacet implementáló objektumok esetében). Az alábbi példaprogramban viszont nem mindig fog lefutni a finalize() metódus, így üres fájlt hagyva maga után. 
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+public static void main(String[] args) throws IOException {
+	BugosStuffProducer writer = new BugosStuffProducer((”D:\\Dokumentumok\vmi.txt”);
+	for(int i = 0; i < 10; i++)
+		writer.writeStuff();
+}]]></programlisting>
+        </para>
+        <para>
+            Ennek megoldására explicit módon meghívhatjuk a close() metódust az erőforrások felszabadítására. Bónuszként a standard error kimenetre kiírhatjuk, ha nem lett felszabadítva az erőforrás. Java 7-től továbbá lehetőség van használni try-with-resourcest, ami automatikusan bezárja a fájlt és felszabadítja a lefoglalt memóriaterületet, amint a program kiért a blokkból (olyan, mint Pythonban a try with). Az eredeti kódban van még egy kis bug, mégpedig, hogy ha a finalize kivételt dob, akkor az objektum további GC-je ignorálva lesz, ami miatt memóriaszivárgás léphet fel.
+        </para>
+        <para>
+            Szóval a hibát azzal tudjuk orvosolni, ha egy try-ba tesszük a fent megírt kódrészletet, illetve kijavítjuk a finalize kivételkezelését.
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+
+public class EPAMFinalize {
+    public static void main(String[] args) throws IOException {
+        try(BugousStuffProducer writer = new BugousStuffProducer("F:\\asd.txt") ;) {
+            for(int i = 0; i<100; i++)
+                writer.writeStuff();
+        }
+    }
+}
+
+class BugousStuffProducer {
+    private final Writer writer;
+
+    public BugousStuffProducer(String outputFileName) throws IOException {
+        writer = new FileWriter(outputFileName);
+    }
+
+public void writeStuff () throws IOException {
+    writer.write("Stuff");
+}
+
+@Override
+public void finalize () throws IOException {
+    try{writer.close();} catch (Exception e) {e.printStackTrace();}
+}
+
+public void close() throws IOException {
+    writer.close();
+}
+}]]></programlisting>
         </para>
     </section>
 
@@ -125,6 +175,39 @@ OutOfMemoryError kezelése, ha igen milyen esetekben?
         </para>
         <para>
             Források: <link xlink:href="https://medium.com/@hasithalgamge/seven-types-of-java-garbage-collectors-6297a1418e82">1</link>, <link xlink:href="https://stackoverflow.com/questions/2679330/catching-java-lang-outofmemoryerror">2</link>
+        </para>
+        <para>
+            Azt már tudjuk, hogy a Java rendelkezik Garbage Collectorral, és hogy ez mennyire jó nekünk. Segítségével a nyelv automatikus memóriamenedzsmentet hajt végre, így nagy terhet levéve a programozók válláról. Viszont nem árt tudni, hogy nagyvonalakban, hogy is működik, hiszen a programunk futási teljesítménye nagymértékben függ ettől. Valamint mégiscsak programtervező informatikusok leszünk, nekünk az ilyenekkel tisztában kell lenni… :) 
+        </para>
+        <para>
+            Ami egyből meglepett az az, hogy többféle GC létezik (szám szerint 7). Különböző célú programokhoz különböző GC-t praktikus használni. A használni kívánt GC-t JVM argumentumként tudjuk átadni a programnak. 
+        </para>
+        <para>
+            <command>Serial Garbage Collector:</command> Ez a legegyszerűbb GC mind közül. Egyszálas környezetre lett kitalálva, egyetlen szálat használ szemtégyűjtögetésre. Miközben fut, „befagyasztja” az összes alkalmazás szálat. (Egy process futása alatt több szálon (thread) folyhatnak számítások, egymástól függetlenül. A thread a legkisebb része egy programozott utasításnak, melyek egy processen belül egymástól függetlenek, erőforrásokat és információkat oszthatnak meg egymással, de különböző processek nem osztoznak ezeken a threadeken.)
+        </para>
+        <para>
+            <command>Parallel Garbage Collector:</command> Ahogy a neve is sugallja, ez már több szálon dolgozik párhuzamosan. Ahogy a Serial GC, úgy ez is befagyasztja az összes alkalmazás threadet, amíg fut. Ezt a GC-t olyan alkalmazásokhoz célszerű használni, amelyek bírják a szüneteltetést. Különféle paramétereket adhatunk meg a GC-nek, mint például a max szálak számát, a max szüneteltetési időt, valamint a max lefoglalható memória mennyiségét a heap-en.
+        </para>
+        <para>
+            <command>CMS Garbage Collector:</command> A CMS Concurrent Mark Sweep-et jelent. Több GC szálat használ a szemétgyűjtögetéshez. Végig vizsgálja a heapet felszabadítandó memória után keresve, ezeket a területeket kijelöli, majd a kijelölt területeket felszabadítja. Ezt a GC-t olyan alkalmazásokhoz ajánlott használni, amelyek a rövidebb szüneteltetést részesítik előnyben, és képesek a processzor erőforrásain osztozni a GC-vel futási idő alatt. A Parallel GC-hez képest több processzor erőforrást igényel, cserébe nagyobb hatékonysággal dolgozik. Épp emiatt, ha lehetőségünk van több CPU erőforrást igénybe venni, akkor a CMS GC-t használjuk a Parallel GC helyett. 
+        </para>
+        <para>
+            <command>G1 Garbage Collector:</command> A Java 7-tel jött be ez a fajta GC, ami olyan alkalmazások mellé lett kifejlesztve, amelyek többprocesszoros rendszeren futnak hatalmas memóriahozzáféréssel. A működése is kicsit eltér a többi GC-től. Egyenlő méretű területekre bontja a heapet, és ezeken párhuzamosan dolgozik egyidőben. Konkurens módon megjelöli az elhalt objektumokat (amikre már nem referál semmmi) az egész heapen. A GC tudja, hogy melyek azok a területek, ahol a legtöbb ilyen objektum van, és ezeket távolítja el elsőként, mert így rövid idő alatt nagy mennyiségű memória szabadul fel. Ezért hívják Garbage First metódusnak.
+        </para>
+        <para>
+            <command>Epsilon Garbage Collector:</command> Szokás passzív GC-nek is nevezni, ugyanis nem végez hagyományos értelemben vett szemétgyűjtögetést. Csupán annyit tesz, hogy megjelöli az elhalt objektumokat a heap-ben, majd, ha túlcsordul a memória, akkor leáll a program. Akkor mi a lényege? Segít vizualizálni és számszerűsíteni az alkalmazásunk memóriahasználatát. Egy hagyományos GC a JVM-en belül, az alkalmazással párhuzamosan fut és végzi a munkáját. Ez erőforrást vesz el az alkalmazástól. Ha ezt az erőforrást az alkalmazásnak adnánk, akkor használhatjuk ezt a GC-t, hiszen ilyenkor az alkalmazás izolálva fut. Ha pontosan tisztában vagyunk az alkalmazás memóriahasználatával, és tudjuk, hogy mennyi erőforrást igényel, vagy éppenséggel semmilyen (vagy nagyon kevés) szemetet termel, akkor használhatjuk ezt a fajta GC-t is.
+        </para>
+        <para>
+            <command>Z Garbage Collector:</command> A Java 11-ben jött be ez a fajta GC, de még mindig kísérleti fázisban van, és csak 64 bites Linux rendszerek alatt érhető el. Különlegessége, hogy úgy végzi a feladatát, hogy közben 10ms-nél rövidebb ideg szünetelteti az alkalmazás folyamatait. Ez különösen jó olyan alkalmazásokhoz, amelyek megkövetelik az alacsony késleltetést. A Java 12-ben még ezen az értéken is javítottak.: átlagban 1ms-ig szünetelteti így az alkalmazásfolyamatokat, ami egészen elképesztő. Viszonyításként a G1 és Parallel GC-k átlagosan 200ms-ig szüneteltetik ezeket. Egy különleges technológiát használ ehhez a nagyfokú időcsökkenéshez, a pointer coloringot (Java alatt nyilván referenciáról beszélünk).
+        </para>
+        <para>
+            <command>Shenandoah:</command> Ez egy ultra alacsony szüneteltetésű GC, ami úgy csökkenti az időt, hogy egyidőben több szemétgyűjtést hajt végre konkurensen az applikéció futása közben. A CMS és a G1 is konkurensen keresi és jelöli meg az elhalt objektumokat, viszont ez eggyel magasabb szintre emeli mindezt azáltal, hogy a memóriatömörítést is konkurensen végzi (miután az elhalt objektumokat eltüntette, a fennmaradókat egymás utáni memóriablokkokba helyezi át). Ezen felül létrehoz egy mutatót minden következő heapben található objektumra. Ennek segítségével könnyíti meg az életben maradt objektumok mozgatását. Viszont ebből következik, hogy több memóriát és párhuzamos munkát igényel, mint a többi GC, viszont ezt a megnövekedett erőforrásigényét kárpótolja azzal, hogy drasztikusan lerövidíti az alkalmazás szünetidejét.
+        </para>
+        <para>
+            A feladat másik része az volt, hogy megnézzük, lehetséges-e az OutOfMemoryError kezelése. Nos, a válasz igen. Habár az egyetlen kézenfekvő ok, amiért ilyet akarnánk tenni az az, hogy tisztán felszabadítsuk a memóriát, és a lehető legjobban naplózzuk a hiba okát (feltéve persze, ha lehetséges). Az OutOfMemoryError hibaüzenetet akkor kapunk, amikor a heapen nincs elég szabad hely egy process memória allokálásához.  Ilyenkor eldobja a használt referenciákat és a még élő objektumok által lefoglalt területeket is törli, hogy még több memória szabadulhasson fel. Ilyenkor viszont lehetséges, hogy még működőképes állapotban van a JVM, hiszen az nem feltétlen futott ki a memóriából, viszont így nem jó ötlet folytatni, hiszen sose lehetünk teljesen biztosak abban, hogy a JVM visszaállítható állapotban van. És az is lehetséges, hogy a hiba akkor keletkezett, amikor a programunk egy inkonzisztens állapotban állt, így szintén nem célszerű folytatni. Viszont a legrosszabb esetben is csak a JVM meghal, és felszabadulnak a lefoglalt memóriahelyek, ha el szeretnénk kapni az errort.
+        </para>
+        <para>
+            Szóval nem baj, hogy elkapjuk ezt a hibaüzenetet, de sokszor nem tudjuk helyreállítani a JVM-et. Vagy ha mégis, akkor a programunk inkonzisztens állapotba kerülhet, vagy teljesen leállhat. És ha a JVM-et sikerülne is visszaállítani, 	az a későbbiekben heap starvation-től szenvedne, ami miatt szintén nem funkcionálna a program. Ezért a best practice outOfMemoryError esetén, ha hagyjuk, hogy a JVM leálljon és felszabaduljon a memória. 
         </para>
     </section>
             
