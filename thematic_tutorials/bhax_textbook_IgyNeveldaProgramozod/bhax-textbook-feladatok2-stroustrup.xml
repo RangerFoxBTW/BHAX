@@ -204,10 +204,26 @@ OutOfMemoryError kezelése, ha igen milyen esetekben?
             <command>Shenandoah:</command> Ez egy ultra alacsony szüneteltetésű GC, ami úgy csökkenti az időt, hogy egyidőben több szemétgyűjtést hajt végre konkurensen az applikéció futása közben. A CMS és a G1 is konkurensen keresi és jelöli meg az elhalt objektumokat, viszont ez eggyel magasabb szintre emeli mindezt azáltal, hogy a memóriatömörítést is konkurensen végzi (miután az elhalt objektumokat eltüntette, a fennmaradókat egymás utáni memóriablokkokba helyezi át). Ezen felül létrehoz egy mutatót minden következő heapben található objektumra. Ennek segítségével könnyíti meg az életben maradt objektumok mozgatását. Viszont ebből következik, hogy több memóriát és párhuzamos munkát igényel, mint a többi GC, viszont ezt a megnövekedett erőforrásigényét kárpótolja azzal, hogy drasztikusan lerövidíti az alkalmazás szünetidejét.
         </para>
         <para>
-            A feladat másik része az volt, hogy megnézzük, lehetséges-e az OutOfMemoryError kezelése. Nos, a válasz igen. Habár az egyetlen kézenfekvő ok, amiért ilyet akarnánk tenni az az, hogy tisztán felszabadítsuk a memóriát, és a lehető legjobban naplózzuk a hiba okát (feltéve persze, ha lehetséges). Az OutOfMemoryError hibaüzenetet akkor kapunk, amikor a heapen nincs elég szabad hely egy process memória allokálásához.  Ilyenkor eldobja a használt referenciákat és a még élő objektumok által lefoglalt területeket is törli, hogy még több memória szabadulhasson fel. Ilyenkor viszont lehetséges, hogy még működőképes állapotban van a JVM, hiszen az nem feltétlen futott ki a memóriából, viszont így nem jó ötlet folytatni, hiszen sose lehetünk teljesen biztosak abban, hogy a JVM visszaállítható állapotban van. És az is lehetséges, hogy a hiba akkor keletkezett, amikor a programunk egy inkonzisztens állapotban állt, így szintén nem célszerű folytatni. Viszont a legrosszabb esetben is csak a JVM meghal, és felszabadulnak a lefoglalt memóriahelyek, ha el szeretnénk kapni az errort.
+            A feladat másik része az volt, hogy megnézzük, lehetséges-e az OutOfMemoryError kezelése. Nos, a válasz igen. Találtam is egy nagyon jó példát rá:
         </para>
         <para>
-            Szóval nem baj, hogy elkapjuk ezt a hibaüzenetet, de sokszor nem tudjuk helyreállítani a JVM-et. Vagy ha mégis, akkor a programunk inkonzisztens állapotba kerülhet, vagy teljesen leállhat. És ha a JVM-et sikerülne is visszaállítani, 	az a későbbiekben heap starvation-től szenvedne, ami miatt szintén nem funkcionálna a program. Ezért a best practice outOfMemoryError esetén, ha hagyjuk, hogy a JVM leálljon és felszabaduljon a memória. 
+            <programlisting language="java"><![CDATA[
+try {
+   // tragic logic created OOME, but we can blame it on lack of memory
+} catch(OutOfMemoryError e) {
+   // but what the hell will you do here :)
+} finally {
+   // get ready to be fired by your boss
+}]]></programlisting>
+        </para>
+        <para>
+            Szerintem nagyon személetes a kód, hiszen kiderül belőle, hogy Java-ban képesek vagyunk elkapni az OOME-t, ugyanakkor az is látszik, hogy nincs sok értelme. Vagyis nagyon kevés és nagyon specifikus helyzetek léteznek, amikor valóban célszerű kezelni. Ez a hiba akkor keletkezik, amikor egy process több memóriát akar allokálni, mint amennyi a heapen elérhető. Ezután a program összeomlik, és vele együtt a JVM is. Léteznek megoldások a JVM helyreállítására ilyenkor, viszont ez legtöbbször nem ajánlott, mert inkonzisztens állapotba kerülhet miatta a programunk, memóriaszivárgás léphet fel.
+        </para>
+        <para>
+            Az egyetlen helyzet, amit találtam és akár megfelelő is lehet: Egy több szálon futtatott programban egy felhasználó túl nagy képet akar kiválasztani. Ilyenkor a kép méretével megegyező memóriát szeretne lefoglalni a process, viszont a heapen nincs ennyi. Ettől függetlenül viszont a JVM nem futott ki a memóriából, csupán a kép tárolásához szükséges memóriamennyiséggel nem rendelkezik. Így a többi szálon nem okoz inkonzisztenciát ez, és a sikertelen allokálást követően a JVM-et helyre lehet állítani. 
+        </para>
+        <para>
+            Amint láthatjuk, kicsit nyakatekert és nem is feltétlen életszerű a fenti példa. Viszont az tagadhatatlan, hogy a nyelv lehetőséget ad az OOME elkapására, ami cool, de nem túl hasznos feature ilyen szempontból. Kijelenthetjük tehát, hogy a best practise az, hogy nem kapjuk el az OutOfMemoryErrort, hanem hagyjuk, hogy meghaljon a JVM, hisz ezt a hibát legtöbbször rossz tervezés/programozói hiba okozza.
         </para>
     </section>
             
