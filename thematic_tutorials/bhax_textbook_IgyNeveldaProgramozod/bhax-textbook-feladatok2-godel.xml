@@ -5,51 +5,98 @@
             <keyword/>
         </keywordset>
     </info>
-    
-    <section>
-        <title>Gengszterek</title>
-        <para>
-            Gengszterek rendezése lambdával a Robotautó Világbajnokságban
-            <link xlink:href="https://youtu.be/DL6iQwPx1Yw">https://youtu.be/DL6iQwPx1Yw</link>(8:05-től)
-        </para>
-        
-    </section>
-
-    <section>
-        <title>C++11 Custom Allocator</title>
-        <para>
-            <link xlink:href="https://prezi.com/jvvbytkwgsxj/high-level-programming-languages-2-c11-allocators/">https://prezi.com/jvvbytkwgsxj/high-level-programming-languages-2-c11-allocators/</link> a
-            CustomAlloc-os példa, lásd C forrást az UDPROG repóban!
-        </para>
-        
-    </section>
 
     <section>
         <title>STL map érték szerinti rendezése</title>
         <para>
                 Például: <link xlink:href="https://github.com/nbatfai/future/blob/master/cs/F9F2/fenykard.cpp#L180">https://github.com/nbatfai/future/blob/master/cs/F9F2/fenykard.cpp#L180</link>
         </para>
-        
-       
-    </section>
-
-    <section>
-        <title>
-            Alternatív Tabella rendezése
-        </title>
         <para>
-            Mutassuk be a <link xlink:href="https://progpater.blog.hu/2011/03/11/alternativ_tabella">https://progpater.blog.hu/2011/03/11/alternativ_tabella</link> a programban a java.lang
-            Interface Comparable<![CDATA[ <T> ]]> szerepét!
+            A feladat szövege egyértelmű, szerintem nem szorul különösebb magyarázatra. Mivel a példakód C++ nyelven íródott, így feltételeztem, hogy a feladatot is ebben kell megoldani. A map egy collection, egy heterogén adatszerkezet. Kulcs-értékpárokat tudunk benne tárolni. Alább látható, hogy lehet létrehozni egyet C++-ban, illetve feltölteni azt. (Videojáték címeket adtam meg, amik ugye string típusúak, melléjük pedig rangsoroltam őket 1-től 10-ig, ami nyilván int típusú). 
         </para>
-        
-        
-    </section>
-
-    <section>
-        <title>Prolog családfa</title>
         <para>
-            Ágyazd be a Prolog családfa programot C++ vagy Java programba! Lásd para_prog_guide.pdf!
+            <programlisting language="c++"><![CDATA[
+    map<string, int> gamesMap;
+    gamesMap.insert(make_pair("Red Dead Redemption 2", 10));
+    gamesMap.insert(make_pair("Detroit Become Human", 5));
+    gamesMap.insert(make_pair("Persona 5 Royal", 8));
+    gamesMap.insert(make_pair("God of War", 3));
+    gamesMap.insert(make_pair("The Witcher 3: Wild Hunt", 9));
+    gamesMap.insert(make_pair("Uncharted 4: A Thief's End", 2));
+    gamesMap.insert(make_pair("Ghost of Tsushima", 7));
+    gamesMap.insert(make_pair("The Last of Us Part II", 1));
+    gamesMap.insert(make_pair("Spider-Man", 6));
+    gamesMap.insert(make_pair("Death Stranding", 4));]]></programlisting>
         </para>
+        <para>
+            Amint látható, a létrehozáskor meg kell adnunk a kulcsok, illetve a hozzájuk tartozó értékek típusát, illetve a map nevét. Ezután az insert beépített metódusával tudunk hozzá értékeket felvenni, illetve a make_par-rel tudunk belőlük kulcs-érték párokat képezni. Hogy leellenőrizzük magunkat, kiírathatjuk a felvett értékeket. Ezt egy iterátor segítségével tudjuk praktikus megtenni, amelyet ráállítunk a map elejére (gamesMap.begin()). Ezután már csak egy while ciklusra van szükségünk, ami a map végéig megy, és közben kiíratjuk kulcsot (first), illetve az értéket (second) egymás mellé.
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+    map<string, int>::iterator it = gamesMap.begin();
+
+    while (it != gamesMap.end())
+    {
+        cout << it->first << " - " << it->second << endl;
+        it++;
+    }]]></programlisting>
+        </para>
+        <para>
+            A feladatunk az, hogy a felvett értékek alapján rendezzük a mapünket. Ehhez egy külön metódust írtam:
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+vector<pair<string, int>> sortMap(map <string, int>& rank)
+{
+    vector<pair<string, int>> sorted;
+
+    for (auto& i : rank) 
+    {
+        if (i.second) 
+        {
+            pair<string, int> p{ i.first, i.second };
+            sorted.push_back(p);
+        }
+    };
+
+    sort(
+        begin(sorted), end(sorted),
+        [=](auto&& p1, auto&& p2) {
+
+            return p1.second > p2.second;
+        }
+    );
+
+    return sorted;
+}]]></programlisting>
+        </para>
+        <para>
+            A függvény megkapja paraméterként a még rendezetlen vektort. Itt fontos megjegyezni, hogy ezt a vektort referenciaként kellene átadni, ha magán a vektoron végeznénk módosításokat. Viszont mivel a példában egy új, sorted nevű mapet hozok létre, így az eredetin nem végzek módosítást.  Szóval létrehozunk egy segédvektort, amely stringek és intek kombinációjából fog állni. Ezt a pair segítségével valósítjuk meg. 
+        </para>
+        <para>
+            Ezután egy range-based for ciklussal (foreach) bejárjuk a map-et, és az elemeit hozzáadjuk az újonnan létrehozott vektorunkhoz. Ezután következik a rendezés, amelyet lambdakifejezéssel valósítunk meg. Végigmegyünk a vektoron és megnézzük, hogy a p1 nagyobb-e, mint p2. Ha nem akkor elkezdünk végig menni az értékeken hátulról és a megfelelő helyre beszúrjuk. Mindig csak két rekordot vizsgálunk egyszerre, és amelyiknek nagyobb a kulcsa, az kerül hátra. Ugyebár két változót kap paraméterként a lambdakifejezés, mégpedig a két összehasonlítandó elemet. Ezután egy bool-lal fog visszatérni, ami azt takarja, hogy rendezve van-e az adatszerkezet. Ez a rendezés n*log(n) hatékonysággal működik. 
+        </para>
+        <para>
+            Lehetőségünk van referenciaként, vagy másolatként is elkapni a külső változókat. Mi itt a [=]-vel expliciten megmondjuk, hogy az összes változót szeretnénk felhasználni a lambdakifejezésben, de csak mint másolatot. Végül pedig visszatérünk a rendezett mappel. Ezután a mainben meghívjuk a függvényt, majd utána kiíratjuk a már rendezett mapet.
+        </para>
+        <para>
+            <programlisting language="c++"><![CDATA[
+    cout << "---------------------------------" << endl;
+    vector<pair<string, int>> sorted = sortMap(gamesMap);
+    cout << "Rendezes utan:" << endl;
+    for (auto& i : sorted)
+        cout << i.first << " - " << i.second << endl;]]></programlisting>
+        </para>
+        <para>
+            Apró érdekesség, hogy a program írása közben jöttem rá, hogy a Visual Studioban is lehet C++ kódot írni. Ugyan kicsit lassabb, mint Linuxon a VS Code + Terminal, de így eggyel kevesebb okom van arra, hogy átbootoljak Linuxra. Nice! Alább látható a program kimenete:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Godel/stlmap.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>   
     </section>
 
     <section>
@@ -244,18 +291,114 @@ dobozosat) akkor itt az alkalom!
     </section>
 
     <section>
-        <title>EPAM: Mátrix szorzás Stream API-val</title>
-        <para>
-            Implementáld le a mátrix szorzást Java-ban for és while ciklusok használata nélkül.
-        </para>
-    </section>
-
-    <section>
         <title>EPAM: LinkedList vs ArrayList</title>
         <para>
             Mutass rá konkrét esetekre amikor a Java-beli LinkedList és ArrayList rosszabb performanciát
 eredményezhet a másikhoz képest. (Lásd még LinkedList és ArrayList forráskódja). Végezz
 méréseket is. (mit csinál az ArrayList amikor megtelik)
+        </para>
+        <para>
+             Feladat megoldása: <link xlink:href="src/Godel/ArrayListVsLinkedList.java"></link>
+        </para>
+        <para>
+            Javaban az ArrayList egy tömb (pontosabban vektor) megfelelője, míg a LinkedList egy kétirányból láncolt listáé. Adatszerkezetek és Algoritmusok tárgyból megtanultuk, hogy a tömb indexekkel dolgozik, ezek segítségével a benne tárolt elemek elérése közvetlen, egész pontosan O(1) idő (vagyis az elemek elérési ideje nem függ az elemek számától). Ezzel ellentétben egy lista elemének elérése O(n), mert egy elem eléréséhez mindenképp végig kell menni a listán egészen addig, amíg a kívánt elemhez nem értünk. Szofisztikáltabban az elemek elérésének ideje egyenesen arányos a tárolt elemek számával. A két irányba láncolt lista úgy működik, hogy két pointert (referenciát) tart karban, amelyek segítségével a lista elejéhez és végéhez is fűzhetünk új elemet.
+        </para>
+        <para>
+            Ez alapján könnyű megállapítani, hogy az ArrayList elemeinek elérése gyorsabb, mint a LinkedList-é, hiszen ahogy írtam, indexekkel dolgozik, vagyis az elemeinek elérése közvetlen. A törlés már egy más történet. Itt ugyanis figyelembe kell venni, hogy melyik elemet szeretnénk törölni. A láncolt lista esetén az idő O(1), mert egy adott elem törlése után csupán a törölt elem előtti elem mutatóját kell átállítani úgy, hogy a törölt elem utánira mutasson, így megőrizve a lista folytonosságát. 
+        </para>
+        <para>
+            Ezzel szemben egy tömb esetén legjobb esetben szintén O(1) idő szükséges egy elem törléséhez, ha az az elem a legutolsó. Innen könnyen kilogikázható, hogy legrosszabb esetben ez az időmennyiség O(N). Mégpedig akkor, ha a tömb legelső elemét szeretnénk törölni. Ez azért van, mert ebben az esetben a tömb összes maradék elemét újra kell indexelni. Így kijelenthető, ha sok törlést fogunk végrehajtani az adatszerkezetünkön, akkor ajánlottabb listát használnunk.
+        </para>
+        <para>
+            A beszúrás hasonló elven működik, így ezt nem is részletezném. A memóriahasználat egy fokkal érdekesebb. Egy tömb amellett, hogy az elemeket tárolja, tárolja melléjük az elemek indexét is. Egy lista viszont a tárolt elemeken kívül minden elemhez külön tárol két pointert is, aminek így magasabb a memóriaköltsége, mint a tömb indexének. 
+        </para>
+        <para>
+            Java 8 óta az ArrayList létrehozáskor a kapacitása 0. Akkor kezd el terjeszkedni, amint hozzáadtunk egy elemet. Ilyenkor automatikusan megnöveli a kapacitását 10-re. Ezután akkor fog újra növekedni, ha elértük a 10. elemet, és ezután egy újabb elemet szeretnénk elhelyezni benne. Ilyenkor alapértelmezetten lefoglal 20 elem (a kétszeresének) elegendő memóriát, majd ide másolja az eredeti tömb tartalmát, majd a +1-edik elemet is. Ezen értékek persze változtathatóak az ensureCapacity segítségével. 
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+public class ArrayListVsLinkedList {
+	
+	public static void main(String[] args) {
+		
+		ArrayList arraylist = new ArrayList();
+        LinkedList linkedlist = new LinkedList();
+
+        
+		//Arraylist Add
+        long start = System.nanoTime();
+        for (int i = 0; i < 10000; i++)
+            arraylist.add(i);
+        long end = System.nanoTime();
+        long duration = end - start;
+        System.out.println("ArrayList Add time: " + duration);
+
+        //LinkedList Add
+        start = System.nanoTime();
+        for (int i = 0; i < 10000; i++)
+            linkedlist.add(i);
+        end = System.nanoTime();
+        duration = end - start;
+        System.out.println("LinkedList Add time: " + duration);
+        
+        
+        System.out.println("-----------------------------------------------------------");
+        
+        
+        //ArrayList Get
+        start = System.nanoTime();
+        for (int i = 0; i < 10000; i++)
+            arraylist.get(i);
+        end = System.nanoTime();
+        duration = end - start;
+        System.out.println("ArrayList Get time: " + duration);
+
+        //LinkedList Get
+        start = System.nanoTime();
+        for (int i = 0; i < 10000; i++)
+            linkedlist.get(i);
+        end = System.nanoTime();
+        duration = end - start;
+        System.out.println("LinkedList Get time: " + duration);
+         
+         
+        System.out.println("-----------------------------------------------------------");
+         
+         
+        //ArrayList Remove
+        start = System.nanoTime();
+        for (int i = 0; i < 10000; i++)
+            arraylist.remove(i);
+        end = System.nanoTime();
+        duration = end - start;
+        System.out.println("ArrayList Remove time: " + duration);
+
+
+        //LinkedList Remove
+        start = System.nanoTime();
+        for (int i = 0; i < 10000; i++)
+            linkedlist.remove(i);
+        end = System.nanoTime();
+        duration = end - start;
+        System.out.println("LinkedList Remove time: " + duration);
+
+         
+	}
+
+}]]></programlisting>
+        </para>
+        <para>
+            Alább látható a kimenete (nanosecondban mérve):
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Godel/arrayvslinked.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>
 
@@ -266,7 +409,205 @@ méréseket is. (mit csinál az ArrayList amikor megtelik)
 feltételes kifejezések. Ebben a feladatban ezt a “legacy” kódot szeretnénk átírni lambda kifejezések
 segítségével (metódus referencia használata előnyt jelent!)
         </para>
-    </section>
+        <para>
+            Feladat forrásai:   <link xlink:href="src/Godel/Exercise/Calculator.java">Calculator.java</link>, 
+                                <link xlink:href="src/Godel/Exercise/Formatter.java">Formatter.java</link>, 
+                                <link xlink:href="src/Godel/Exercise/LegacyRefactoring.java">LegacyRefactoring.java</link>, 
+                                <link xlink:href="src/Godel/Solution/Refactored.java">Refactored.java</link>
+        </para>
+        <para>
+            A refactoring (ne akarjuk lefordítani, bután hangzik) egy, a szakmában széles körben elterjedt és használt eljárás egy meglévő forráskód tervezésének javítására. Lényegében olyan – a program működését/viselkedését nem befolyásoló – módosításokat eszközölünk a kódon, melynek következtében az jobban olvashatóbb lesz, illetve megkönnyíti a későbbiek során a kód bővítését, átalakítását, karbantartását is.
+        </para>
+        <para>
+            A feladat megoldásához az EPAM-os repóban található forráskódokat vettem alapul, ezeket fogom bemutatni.
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+package com.epam.training.exercise;
 
-            
+public interface Calculator {
+
+    Integer calculate(Integer number);
+
+}]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+package com.epam.training.exercise;
+
+import java.util.List;
+
+public interface Formatter {
+
+    String format(List<Integer> numbers);
+
+}]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+package com.epam.training.exercise;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
+/**
+ * Adott egy “legacy” kód mely tartalmaz anonymus interface implementációkat, ciklusokat és feltételes kifejezések.
+ * Ebben a feladatban ezt a “legacy” kódot szeretnénk átírni lambda kifejezések segítségével (metódus referencia használata előnyt jelent).
+ *
+ * A program jelenlegi kimenete:
+ *  Runnable!
+ *  Calculation result: 9
+ *  Result numbers:
+ *  1
+ *  9
+ *  25
+ *  Formatted numbers: 1925
+ */
+public class LegacyRefactoring {
+
+    public void legacy() {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Runnable!");
+            }
+        };
+        runnable.run();
+
+        Calculator calculator = new Calculator() {
+            @Override
+            public Integer calculate(Integer number) {
+                return number * number;
+            }
+        };
+
+        Integer result = calculator.calculate(3);
+        System.out.println("Calculation result: " + result);
+
+        List<Integer> inputNumbers = Arrays.asList(1, null, 3, null, 5);
+        List<Integer> resultNumbers = new ArrayList<>();
+        for (Integer number : inputNumbers) {
+            if (number != null) {
+                Integer calculationResult = calculator.calculate(number);
+                resultNumbers.add(calculationResult);
+            }
+        }
+
+        Consumer<Integer> method = new Consumer<Integer>() {
+            @Override
+            public void accept(Integer integer) {
+                System.out.println(integer);
+            }
+        };
+        System.out.println("Result numbers: ");
+        resultNumbers.forEach(method);
+
+        Formatter formatter = new Formatter() {
+            @Override
+            public String format(List<Integer> numbers) {
+                StringBuilder sb = new StringBuilder();
+                for (Integer number : numbers) {
+                    String stringValueOfNumber = String.valueOf(number);
+                    sb.append(stringValueOfNumber);
+                }
+                return sb.toString();
+            }
+        };
+        System.out.println("Formatted numbers: " + formatter.format(resultNumbers));
+    }
+
+}]]></programlisting>
+        </para>
+        <para>
+            Van két interfészünk, mindkettő egy-egy absztrakt függvényt tartalmaz. A Calculatorban lévő egy Integert, míg a Formatterben egy inteket tartalmazó listát vár paraméterként. 
+        </para>
+        <para>
+           Ezután jön a főprogram, ami már izgalmasabb. Itt a LegacyRefactoring osztályon belül található egy legacy nevű metódus, amin belül példányosítjuk a Runnable osztályt, ezzel létrehozva a runnable objektumot. Ezután felüldefiniáljuk az osztályon belül található run() metódust, aminek eredményeként kiírja a „Runnable!” szöveget. Ezután meghívjuk a run függvényt. 
+        </para>
+        <para>
+            Majd létrehozunk egy példányt a fentebb említett Calculator interfészből, ls a benne található függvényt felüldefiniáljuk, melynek hatására a paraméterként kapott int négyzetét fogja visszaadni. Ennek tesztelésére létrehozunk egy változót, melybe elmentjük az eredményt (paraméterként a 3-at kapja meg), végül ezt kiíratjuk.
+        </para>
+        <para>
+            Ezután létrehozunk egy inputNumbers, illetve egy resultNumbers egészeket tartalmazó listát, előbbit feltöljük pár számmal és null értékkel. Ezután egy foreach-csel végigmegyünk a feltöltött listán, és ha az adott elem nem null érték, akkor meghívjuk rá a fentebb említett calculate() függvényt, majd a kapott eredményt feltöltjük a resultNumbers listába. Majd létrehozunk egy Consumer(Integer) típusú method nevű objektumot, amiben override-oljuk az accept metódust: ennek következtében nem csinál mást, csak kiíratja a paraméterként kapott értéket. Ezután végigmegyünk a nemrég létrehozott és feltöltött resultNumbers listán és kiíratjuk az elemeit.
+        </para>
+        <para>
+            A végén létrehozunk egy formatter nevű objektumot, amin belül felüldefiniáljuk a format metódusát. Ez nem csinál mást, mint StringBuilder segítségével a numbers-ben lévő értékeket egymáshoz fűzzük, majd visszaadja az eredményt Stringként. A végén kiíratjuk a resultNumbers-ben szereplő értékeket ilyen módon. 
+        </para>
+        <para>
+            Na most következik a tényleg izgalmas feladat, illetve hát maga a feladat: a refactored kód:
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+package com.epam.training.solution;
+
+import com.epam.training.exercise.Calculator;
+import com.epam.training.exercise.Formatter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+/**
+ * Egy lehetséges megoldás!
+ */
+public class Refactored {
+
+    public void refactored() {
+        Runnable runnable = createRunnable();
+        runnable.run();
+
+        Calculator calculator = createCalculator();
+        System.out.println("Calculation result: " + calculator.calculate(3));
+
+        List<Integer> inputNumbers = Arrays.asList(1, null, 3, null, 5);
+        List<Integer> resultNumbers = inputNumbers
+                .stream()
+                .filter(Objects::nonNull)       // number -> number != null
+                .map(calculator::calculate)     // number -> calculator.calculate(number)
+                .collect(Collectors.toList());
+
+        Consumer<Integer> consumerMethod = createConsumerMethod();
+        System.out.println("Result numbers: ");
+        resultNumbers.forEach(consumerMethod);
+
+        Formatter formatter = createFormatter();
+        System.out.println("Formatted numbers: " + formatter.format(resultNumbers));
+    }
+
+    private Runnable createRunnable() {
+        return () -> System.out.println("Runnable!");
+    }
+
+    private Formatter createFormatter() {
+        return numbers -> numbers.stream()
+                .map(String::valueOf)           // number -> String.valueOf(number)
+                .collect(Collectors.joining());
+    }
+
+    private Consumer<Integer> createConsumerMethod() {
+        return System.out::println;             // number -> System.out.println(number);
+    }
+
+    private Calculator createCalculator() {
+        return number -> number * number;
+    }
+
+}]]></programlisting>
+        </para>
+        <para>
+            Ebben a Refactored osztályon belül létrehozunk egy refactored() nevű metódust, amiben létrehozzuk a Runnable egy példányát, melynek értéke a createRunnable() függvény visszatérési értéke lesz (azért elég beszédes a neve). Majd az objektumra meghívjuk a run() metódust.
+        </para>
+        <para>
+            Ezután jön a lényeges változtatás: egy privát láthatóságú függvényt hozunk létre, amelyet a Calculator osztály egy objektumára lehet majd meghívni. Ez pedig visszaadja ugyanúgy a paraméterül kapott szám négyzetét, de már lambdakifejezéssel írjuk ezt le. (Ezt nem igazán tudom, hogy mit kell ezen magyarázni, a lambdakifejezések alakja ilyen: (nulla vagy több paraméter) -> {egy vagy több utasítás}). Például (a,b) -> a + b kifejezés visszaadja a paraméterül kapott a és b változó összegét. Itt meg paraméterül a numbert kapta, és visszaadja a number négyzetét. Ezután létrehozzuk a calculator objektumot, majd meghívjuk rá ezt a függvényt (paraméterül ugyancsak a 3-at kapja meg), illetve ezt az eredményt ki is íratjuk.
+        </para>
+        <para>
+            Ezután jön a két lista, viszont a másodikban ugyancsak bűvészkedtünk a lambdakifejezésekkel. Az itt látott mutatványhoz importálni kell a java.util.Objects-et, különben besírna az IDE, szakszóval élve. A .stream()-mel jelezzük, hogy streamet használunk, a .filter()-ben adhatjuk meg a kifejezéseket (jelen esetben nonNull kifejezést), a .map()-ben soroljuk fel az elvégzendő műveleteket/függvényhívásokat, a .collect()-tel pedig jelen esetben egy listát hozunk létre. 
+        </para>
+        <para>
+            Végül létrehozunk egy privát metódust, ami majd a sysout-ra fog írni. Példányosítjuk a Consumer(Integer) egy objektumát, majd a resultNumbers minden elemére meghívjuk ezt a .forEach segítségével. Magyarul az elemeit kiíratjuk. Ezután a createFormatter()-ben ugyancsak lambdakifejezést használunk. A numbers értékeit stringkként összefűzzük, majd ezután a frissen létrehozott formatter objektumra meghívva kiíratjuk ezt.
+        </para>
+    </section>
 </chapter>
