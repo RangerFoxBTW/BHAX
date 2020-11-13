@@ -5,72 +5,71 @@
             <keyword/>
         </keywordset>
     </info>
-    
-    <section>
-        <title>FUTURE tevékenység editor</title>        
-        <para>
-            Javítsunk valamit a ActivityEditor.java JavaFX programon!
-            <link xlink:href="https://github.com/nbatfai/future/tree/master/cs/F6">https://github.com/nbatfai/future/tree/master/cs/F6</link>
-            Itt láthatjuk működésben az alapot: <link xlink:href="https://www.twitch.tv/videos/222879467">https://www.twitch.tv/videos/222879467</link>
-        </para>
-        
-    </section>
 
     <section>
         <title>OOCWC Boost ASIO hálózatkezelése</title>   
         <para>
-            Javítsunk valamit a ActivityEditor.java JavaFX programon!
+            Mutassunk rá a scanf szerepére és használatára! <link xlink:href="https://github.com/nbatfai/robocar-emulator/blob/master/justine/rcemu/src/carlexer.ll">https://github.com/nbatfai/robocar-emulator/blob/master/justine/rcemu/src/carlexer.ll</link>
         </para>     
         <para>
-            <link xlink:href="https://github.com/nbatfai/robocar-emulator/blob/master/justine/rcemu/src/carlexer.ll">carlexerl.ll</link>                
+            Az Asio egy nyílt forrású library C++-hoz, mely elsősorban hálózati/socket programozáshoz használhatunk. A scanf-fel ellentétben az sscanf nem a standard inputról, hanem egy formázott stringből olvas. A belinkelt forrásban az alábbi részletben találkozhatunk vele:
         </para>
         <para>
-            Itt láthatjuk működésben az alapot: https://www.twitch.tv/videos/222879467
+            <programlisting language="c++"><![CDATA[std::sscanf ( data+nn, "<OK %d %u %u %u>%n", &idd, &f, &t, &s, &n )]]></programlisting>
         </para>
-        
+        <para>
+            A dokumentációban kotorászva rátalálhatunk arra, mik is ezek a %karakterek. Szofisztikáltan megfogalmazva a % jelek konverziós specifikátorok, a mögöttük lévő karakterek mindegyike pedig mást jelent: A %d azt mondja, hogy egyezik egy tizedes egész számmal, a %u pedig egy alá nem írt tizedes egész számmal egyezik meg. A %s egy nem whitespace karaktert jelöl, a a %c pedig azokat az értékeket jelöli, amik megegyeznek egy karakterrel vagy karakterkészlettel. Ami még fontos, az a %n, ami az olvasott karakterek számát rögzíti. Ez valójában egy mutató, amibe a függvény a legutóbb beolvasott bájtok számát fogja rakni. Ez különösen hasznos dolog, hiszen Sockettel dolgozunk, nem tudjuk, hogy mennyi adatot fogunk fogadni.  A függvény visszatérési értéke azt fogja megmondani, hogy eltudtuk-e látni értékekkel az argumentumként megadott változókat a beolvasás során.
+        </para>
     </section>
 
-        <section>
+    <section>
         <title>SamuCam</title>        
         <para>
             Mutassunk rá a webcam (pl. Androidos mobilod) kezelésére ebben a projektben:
             <link xlink:href="https://github.com/nbatfai/SamuCam">SamuCam</link>
         </para>
-    
-        
-    </section>
-
-        <section>
-        <title>BrainB</title>        
-        
         <para>
-            Mutassuk be a Qt slot-signal mechanizmust ebben a projektben: <link xlink:href="https://github.com/nbatfai/esport-
-talent-search">BrainB</link>
+            A jobb áttekinthetőség érdekében kiírtam az erre vonatkozó kódrészletet a felesleges sallangok nélkül:
         </para>
-        
-    </section>
-
-    <section>
-        <title>OSM térképre rajzolása 7</title>
         <para>
-            Debrecen térképre dobjunk rá cuccokat, ennek mintájára, ahol én az országba helyeztem el a DEAC
-hekkereket: https://www.twitch.tv/videos/182262537 (de az OOCWC Java Swinges
-megjelenítőjéből:
-https://github.com/nbatfai/robocar-emulator/tree/master/justine/rcwin
-is
-kiindulhatsz, mondjuk az komplexebb, mert ott időfejlődés is van...)
+            <programlisting language="c++"><![CDATA[
+SamuCam::SamuCam ( std::string videoStream, int width = 176, int height = 144 )
+    : videoStream ( videoStream ), width ( width ), height ( height )
+{
+    openVideoStream();
+}
+
+...
+
+void SamuCam::openVideoStream()
+{
+    videoCapture.open ( videoStream );
+    videoCapture.set ( CV_CAP_PROP_FRAME_WIDTH, width );
+    videoCapture.set ( CV_CAP_PROP_FRAME_HEIGHT, height );
+    videoCapture.set ( CV_CAP_PROP_FPS, 10 );
+}
+
+void SamuCam::run()
+{
+    ...
+    cv::Mat frame;
+    while ( videoCapture.isOpened() )
+    {
+        QThread::msleep ( 50 );
+        while ( videoCapture.read ( frame ) )
+        {
+            ...   
+        }
+
+        if ( ! videoCapture.isOpened() )
+        {
+            openVideoStream();
+        }
+    }
+}]]></programlisting>
         </para>
-    </section>
-
-    <section>
-        <title>EPAM: XML feldolgozás</title>
         <para>
-            Adott egy koordinátákat és államokat tartalmazó XML (kb 210ezer sor), ezt az XML-t feldolgozva
-szeretnék létrehozni egy SVG fájlt, melyben minden város megjelenik egy pont formájában az adott
-koordináták alapján (tetszőleges színnel)
-Plusz feladat: A városokat csoportosíthatjuk államok szerint, és minden állam külön színnel jelenjen
-meg a térképen, így látszódni fognak a határok is.
-Elvárt eredmény:
+            A kód nagyon beszédes, nem is nagyon részletezném. Az OpenCV-ből a VideoCapture osztályt használjuk a kamera kezelésére. Beállíthatjuk a felvételi módot, a felbontást, a képkockaszámot stb. Az openVideoStreamben inicializáljuk a felvételi módot, ezután már tudjuk is használni. A magas erőforrásigény miatt kellett ezeket korlátozni a fent látható számokra. Maga a program egyébiránt egy arcfelismerő. Úgy működik, hogy amíg van adatfolyam, addig a bemenetet egy mátrixba olvassa, majd előállít egy normalizált képet ebből. Erre azért van szükség, mert gépi tanulás esetén a gép az ilyen képekkel könnyebben tud dolgozni. Magát az arcfelismerést a detectMultiScale függvény végzi, ami a talált arcobjektumokat visszaadja a faces vektornak. Ezt a program ezután kirajzolja a rectangle függvénnyel. Itt a kamera kezeléséért felelős részhez tartozó hivatalos dokumentációhoz egy link: <link xlink:href="https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html">link</link>
         </para>
     </section>
 
@@ -79,6 +78,78 @@ Elvárt eredmény:
         <para>
             ASCII Art in Java! Implementálj egy Java parancssori programot, ami beo
         </para>
+        <para>
+            Feladat forrása (a könyv nem tudja megjeleníteni a speciális Ascii karaktereket): <link xlink:href="src/Calvin/EpamAscii.java">EpamAscii.java</link>
+        </para>
+        <para>
+            A feladat megoldásához bőszen használtam a StackOverflow-t, illetve Yt tutoriálokat. Mivel nem volt pontosan definiálva, milyen Ascii rajzoló program kell, ezért a legyegyszerűbbnél maradtam. Lássuk a kódot:
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class EpamAscii {
+
+	public static void paint(String path) throws IOException {
+		BufferedImage img = null;
+		img = ImageIO.read(new File(path));
+		
+		try(BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"))) {
+			for (int y = 0; y < img.getHeight(); y++)
+			{
+				for(int x = 0; x < img.getWidth(); x++)
+				{
+					float[] rgb = new float[4];
+					img.getRaster().getPixel(x,y,rgb);
+					float r = rgb[0] / 255;
+
+					if(r > 0.75) {
+						System.out.print("▓");
+						writer.write("▓");
+					}
+					else if(r > 0.50) {
+						System.out.print("▒");
+						writer.write("▒");
+					}
+					else if(r > 0.25) {
+						System.out.print("░");
+						writer.write("░");
+					}
+					else {
+						System.out.print(" ");
+						writer.write(" ");
+					}
+				}
+				System.out.println();
+				writer.write("\n");
+			}
+		} catch (IOException e)  {
+			System.err.println("An error has occured!");
+		}
+
+	}
+	
+	public static void main(String[] args) throws IOException {
+		paint("D:\\Dokumentumok\\Képek\\sp.jpg");
+	}
+	
+}]]></programlisting>
+        </para>
+        <para>
+            A feladat megoldásához Az image.BufferedImage, illetve az ImageIO libraryra volt szükség. Valójában a program annyit tesz, hogy a kapott képen pixelenként végigmegy, és a 8 bites képből 2 bitest készít. Inicializáljuk a képet, majd egy try-with-resources blokkban végigmegyünk minden sor minden pixelén (a sorok és oszlopok metszetein, ezért beágyazott for), és megvizsgáljuk, hogy az adott pixel az rgb skála mely felén helyezkedik el (az egyszerűség kedvéért én 4 részre osztottam fel a tartományt). Majd ez alapján az adott pixel helyére az output fájlba, illetve a standard outputra is behelyezi az adott régióhoz tartozó Ascii karaktert (amiket úgy válogattam ki, hogy eltérő intenzitással/telítettséggel rendelkezzenek). Ezt persze lehetne finomítani úgy, hogy a képet kisebb egységekre bontjuk, majd megvizsgáljuk, hogy melyik Ascii karakter passzol a legjobban az adott pixelhez (nem csak színtelítettség, de alak szerint is). Alább látható a kimenete. Félelmetes…
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Calvin/sp.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
+        </para>
     </section>
 
     <section>
@@ -86,6 +157,62 @@ Elvárt eredmény:
         <para>
             Implementájl egy olyan parancssori alkalmazást, amely a billentyűzetről olvas soronként ASCII
 karakterekből álló sorokat, és a beolvasott szöveget Caesar kódolással egy txt fájlba írja soronként.
+        </para>
+        <para>
+            Feladat forrása: <link xlink:href="src/Calvin/Caesar.java">Caesar.java</link>
+        </para>
+        <para>
+            Ehhez hasonló feladtaot már kellett C++-ban készítenünk, lássuk a Java-s megoldást:
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+import java.io.File;
+import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedWriter;
+
+
+public class Caesar {
+	
+	public static void caesar(String input, int shift) {
+		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true))) {
+			for(char c : input.toCharArray()) {
+				writer.write((char) ((c + shift) % 128)); //a shift-el eltoljuk a karaktert, és modulózzuk, hogy körbe menjen
+			}
+			writer.write("\n");
+			
+		} catch (IOException e) {
+			System.err.println("An error has occured!");
+		}
+	}
+	
+	public static void main(String[] args) {
+		File output = new File("output.txt");
+		Scanner scan = new Scanner(System.in);
+		
+		if (output.exists())
+			output.delete();
+		
+		while (scan.hasNext()) {
+			caesar(scan.nextLine(), 5);
+		}
+
+	}
+	
+	
+}]]></programlisting>
+        </para>
+        <para>
+            A metódusban egy try-with-resources blokkban végigmegyünk a standard inputról beolvasott sorok karakterein és a kívánt értékkel shifteljük őket, majd a kapott értéket egy fájlba írjuk. Ahhoz, hogy a shiftelés cirkuláris legyen (tehát az utolsó ascii karaktereket a lista elején lévőkre cserélje) modulot használunk.  A feladat megoldása során 2 apróbb nehézségbe ütköztem: az egyik, hogy el kellett érni, hogy sorról-sorra írja bele a fájlba a tartalmat, vagyis, hogy ne mindig újat hozzon létre. Ezt a try blokk fejében egy true-val oldottam meg. Ez ellenőrzi, hogy létezik-e a fájl. Ha igen, akkor abba ír bele, ha nem, akkor létrehozza. A másik pedig az volt, hogy alapjáraton így minden indításkor ebbe az output.txt-be dolgozna, ami nem túl szerencsés. Így a maint azzal kezdem, hogy ellenőrzöm, létezik-e a fájl. Ha igen, akkor törli azt. Ehhez importálni kellett a java.io.File libraryt. Alább látható a program kimenete:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Calvin/out.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>
 
