@@ -12,23 +12,43 @@
             Mutassunk rá ebben a port szkennelő forrásban a kivételkezelés szerepére!
             <link xlink:href="https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/ch01.html#id527287">https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/ch01.html#id527287</link>                 
         </para>
-        
-    </section>
-
-    <section>
-        <title>AOP</title>
         <para>
-            Szőj bele egy átszövő vonatkozást az első védési programod Java átiratába! (Sztenderd védési
-feladat volt korábban.)
+            Feladat forrása: <link xlink:href="src/Calvin/Kapuszkenner.java">Kapuszkenner.java</link>
         </para>
-    </section>
-
-    <section>
-        <title>Android Játék</title>        
         <para>
-            Írjunk egy egyszerű Androidos „játékot”! Építkezzünk például a 2. hét „Helló, Android!” feladatára!                
+            Itt van Bátfai Tanár Úr kódja:
         </para>
-        
+        <para>
+            <programlisting language="java"><![CDATA[
+public class Kapuszkenner {
+
+	public static void main(String[] args) {
+		
+		for(int i = 0; i < 1024; i++)
+            
+            try {
+                
+                java.net.Socket socket = new java.net.Socket(args[0], i);
+                
+                System.out.println(i + " figyeli");
+                
+                socket.close();
+                
+            } catch (Exception e) {
+                
+                System.out.println(i + " nem figyeli");
+                
+            }
+	}
+
+}]]></programlisting>
+        </para>
+        <para>
+            Maga a program nem túl bonyolult, kiírja az éppen használatban lévő portokat az alapértelmezett kimenetre. Ehhez a java.net.Socket osztályt vesszük igénybe. Egy for ciklussal végigmegyünk az első 1024 porton és mindegyikkel megpróbálunk egy TCP kapcsolatot kiépíteni. Ezzel ellenőrizzük, hogy az adott port nyitott-e. Ha ez sikeresen megtörtént, akkor kiírjha, hogy figyeli az adott portot, majd bezárja a korábban létrehozott socket objektumot. Ha nem sikerült TCP kapcsolatot kiépíteni az adott porttal, akkor egy kivételt eredményez, amit úgy kezelünk, hogy kiírjuk, hogy a kivételt generáló portot nem figyeli a gép. 
+        </para>
+        <para>
+            Ebben a konkrét példában minden kivételt elkapunk így, de természetesen a catch zárójeleiben specifikálhatjuk ezt (pl. IOException, NullPointerException stb.). A try-catchnek van egy finally ága is, amit nem muszáj kiírni. Ez a rész minden esetben lefut (ez alól kivétel, ha expliciten megtiltjuk ezt, vagy épp a JVM meghalt, mielőtt lefuthatott volna), ami sok esetben hasznos tulajdonságnak számít. 
+        </para>
     </section>
 
     <section>
@@ -38,31 +58,62 @@ feladat volt korábban.)
             poszt kézzel számított mélységét és szórását dolgozd be egy Junit tesztbe (sztenderd védési feladat
             volt korábban).    
         </para>
-        
-    </section>
-
-    <section>
-        <title>OSCI</title>
         <para>
-            Készíts egyszerű C++/OpenGL-es megjelenítőt, amiben egy kocsit irányítasz az úton.
+            Feladat forrásai: <link xlink:href="src/Lauda/LZWBinFa.java">LZWBinFa.java</link>, <link xlink:href="src/Lauda/LZWBinFaTest.java">LZWBinFaTest.java</link>
         </para>
-    </section>
-
-    <section>
-        <title>EPAM: DI</title>
         <para>
-            Implementálj egy alap DI (Dependency Injection) keretrendszert Java-ban annotációk és reflexió
-használatával megvalósítva az IoC-t (Inversion Of Control).
+            A feladatunk annyi volt, hogy a Bátfai Tanár Úr által kiszámolt binfa szórását és mérését ellenőrizzük egy JUnit teszttel, hogy a program helyes eredményt ad-e. JUnit teszteket már volt alkalmam írni az Epamos gyakorlatok alatt, így nem volt különösebben nehéz dolgom. Ez az eljárás a tesztvezérelt szoftverfejlesztés egyik legfontosabb alapköve. Lehetőségünk van a komplex és bonyolult programokat építőköveire bontani, és ezeket külön tesztelni. 
         </para>
-    </section>
-
-    <section>
-        <title>EPAM: JSON szerializáció</title>
         <para>
-            Implementálj egy JSON szerializációs könyvtárat, mely képes kezelni sztringeket, számokat, listákat
-és beágyazott objektumokat. A megoldás meg kell feleljen az összes adott unit tesztnek.
-Plusz feladat:
- 1. a könyvtár tudjon deszerializálni
+            <programlisting language="java"><![CDATA[
+import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+public class LZWBinFaTest {
+
+	LZWBinFa binfa = new LZWBinFa();
+	String str = "01111001001001000111";
+	
+	@Test
+	public void testIfAtlagIsGivingTheCorrectResult() {
+		for(int i = 0; i < str.length(); i++)
+			binfa.push_back(str.charAt(i));
+		
+		double atlag = binfa.getAtlag();
+		assertEquals(2.75, atlag, 0.001);
+	}
+	
+	@Test
+	public void testIfSzorasIsGivingTheCorrectResult() {
+		for(int i = 0; i < str.length(); i++)
+			binfa.push_back(str.charAt(i));
+
+		double szoras = binfa.getSzoras();
+		assertEquals(0.9574271077563381, szoras, 0.0001);
+	}
+	
+	@Test
+	public void testIfMelysegIsGivingTheCorrectResult() {
+		for(int i = 0; i < str.length(); i++)
+			binfa.push_back(str.charAt(i));
+		
+		double melyseg = binfa.getMelyseg();
+		assertEquals(4, melyseg, 0.0);
+	}
+}]]></programlisting>
+        </para>
+        <para>
+            A binfa forráskódját nem másolom be, hisz a feladatnak nem ez a lényegi része (egyébként a Bátfai tanár Úr által jóváhagyott stock Javas binfa kódját használtam). Az osztályon belül példányosítjuk a binfát, és Stringként eltároljuk a bemenő adatokat. Ezután minden egyes kívánt feature-re írunk egy külön tesztet, lehetőleg minél beszédesebb névvel. Mindegyikben egy for ciklussal végigmegyek a létrehozott String karakterein, és az adott karakterekkel feltöltöm a binfát. 
+        </para>
+        <para>
+            Ezután egy változóban elátroljuk a program által számolt értékeket, majd ezt az assertEquals() segítségével leellenőrizzük, hogy helyes eredményt adott-e. Az első paramétere a helyes válasz, második a változóban tárolt kiszámolt érték, a harmadik pedig a hibatűrés. Ahhoz, hogy ilyen testeket írjunk, valamint használjuk az assertEquals-t, importálnunk kell az org.junit megfelelő library-jeit, máskülönben kiabálna az IDE, hogy nem jó valami. Mivel ezeket pár kattintással meg lehet valósítani Eclipse-ben, így nem térnék ki részletesebben erre. A lényeg, hogy a JUnit egy egységes keretrendszer, ami ilyen tesztek írásában nyújt segítséget. Alább látható a kimenet, miszerint helyes eredményeket adott a kód:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Lauda/binfa.png" scale="50"/>
+                </imageobject>
+            </mediaobject>
         </para>
     </section>
 
@@ -78,6 +129,100 @@ e minden esetben a finally ág? Válaszod indokold!
                         <imagedata fileref="img/2/epamfeladat.png" scale="50"/>
                 </imageobject>
             </mediaobject>
+        </para>
+        <para>
+            Feladat forrásai: <link xlink:href="src/Lauda/ExceptionHandling.java">ExceptionHandling.java</link>, <link xlink:href="src/Lauda/ChildException.java">ChildException.java</link>, <link xlink:href="src/Lauda/ParentException.java">ParentException.java</link>
+        </para>
+        <para>
+            Ezt a feladatot a githubos repóban található megoldás alapján készítettem el, bemásolom ide a forráskódot, hogy könnyebben lehessen magyarázni.
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+package com.epam.training;
+
+public class ExceptionHandling {
+	
+	public static void main(String[] args) {
+        System.out.println("Test case when input is null!");
+        test(null);
+
+        try {
+            System.out.println("Test case when input is float!");
+            test(1F);
+        } catch (Exception ignored) {
+            // Ide miért kerül a vezérlés!?
+        }
+
+        System.out.println("Test case when input is String!");
+        test("string");
+    }
+
+    private static void test(Object input) {
+        try {
+            System.out.println("Try!");
+            if (input instanceof Float) {
+                throw new ChildException();
+            } else if (input instanceof String) {
+                throw new ParentException();
+            } else {
+                throw new RuntimeException();
+            }
+        } catch (ChildException e) {
+            System.out.println("Child Exception is caught!");
+            if (e instanceof ParentException) {
+                throw new ParentException();
+            }
+        } catch (ParentException e) {
+            System.out.println("Parent Exception is caught!");
+            System.exit(1);
+        } catch (Exception e) {
+            System.out.println("Exception is caught!");
+        } finally {
+            System.out.println("Finally!\n");
+        }
+    }
+}]]></programlisting>
+        </para>
+        <para>
+            A fent láthatón kívül van még két osztály másik forrásban, az egyik a ChildException, ami a ParentException-ből származtatunk, a másik pedig, a ParentException a RuntimeException-ből származik. 
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+package com.epam.training;
+
+public class ParentException extends RuntimeException {
+	
+}]]></programlisting>
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+package com.epam.training;
+
+public class ChildException extends ParentException {
+	
+}]]></programlisting>
+        </para>
+        <para>
+            A fő forrásban láthatjuk magát a test függvényt, valamint a Maint, amiben a különböző tesztesetekre hívjuk meg őt. Először nullra, majd floatra, végül string típusra. Itt érdemes figyelni arra, hogy a float-os tesztet egy try-catch blokkba raktuk, melynek a catch részében egy ignorált kivételt kap el. Erre hamarosan kitérek.
+        </para>
+        <para>
+            A test függvény egy kicsivel csúnyább, de nem vészes. Belépünk egy try blokkba, kiírjuk, hogy „Try!” és megnézzük, hogy a paraméterül bekapott objektum Float-e. Ha igen, akkor dobunk egy ChildExceptiont, ha String, akkor egy ParentExceptiont, különben pedig egy Runtime Exceptiont. Ezután a catch részekben először lekezeljük a ChildExceptiont, mégpedig úgy, hogy kiírjuk ezt a terminalra, majd megnézzük, hogy ez a kivétel a ParentException-ből származik-e. Ha igen, akkor egy ParentExceptiont dobunk. A következő catch-ben elkapjuk a ParnetExceptiont, lekommunikáljuk a terminalra, majd kilépünk a System.exit()-tel. Fun fact, hogy a zárójelbe nem muszáj 1-et írni, igazából bármilyen int mehet oda. A rákövetkező catchben az addig kezeletlen kivételeket kezeljük, mégpedig úgy, hogy kiírjuk a terminalra az „Exception is caught!” szöveget. Végül a finally blokkban is kiírunk a terminalra egy infót, hogy lefutott ez az ág is. Alább látható a program kimenete, azután pedig jön a magyarázat:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Lauda/error.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            Először nullra hívjuk meg a test()-et, ezt kiírjuk. A test()-en belül kiírjuk a „Try!”-t, majd mivel a null se nem float, se nem string, így az else ág fog lefutni, vagyis egy  RuntimeException-t generálunk. Mivel ezt külön nem kezeljük, ezért a catch(Exception e) fog lefutni, amit kiíratunk, majd a finally ág is le fog futni, amit szintén lekommunikálunk.
+        </para>
+        <para>
+            Ezután következik a float. Mivel ezt az egészet a mainen belül egy try-catch blokkba tettük, így már sejthetjük, hogy – klasszikust idézve – „This is where the fun begins!”. Kiírjuk, hogy float-ra tesztelünk, majd meghívjuk a függvényt. A függvényen belül kiíratódik, hogy „Try!”, majd mivel az 1F a Float osztályból származik, így meghívódik az if blokknak ez a része. Itt generálunk egy ChildExceptiont. A catch résznél ezt el is kapjuk, kiírjuk a terminalra, és mivel az if feltétele teljesül (hiszen a ParentException-ből származik a ChildException), így dobunk egy ParentExceptiont is. DE! Ebben az esetben nem a közvetlen alatta lévő catch ág fog végrehajtódni, hiszen amely kivételt egy catch-ben dobunk, azt ugyanabban a try-catch hierarchiában nem kaphatunk el! Viszont jó hír, hogy alapból a mainen belül egy try-catch blokkban hívtuk meg a függvényt, így annak a catch része kezeli a kivételt. A neve beszédes, ignorálva lesz ez a kivétel. Ne felejkezzünk el a finally blokkról, mivel az szintén le fog futni, amit ki is írunk a terminalra. 
+        </para>
+        <para>
+            És végül nézzük stringre kapott eredményt. Kiírjuk a test case-t, a függvényen belül kiíratódik a „Try!” szöveg. Mivel string típusú paramétert kapott a függvény, ezért ez az if ág fog végrehajtódni, vagyis generálunk egy ParentExceptiont. Ezt a megfelelő catch ágban lekezeljük, kiírjuk a képernyőre és kilépünk a programból. Ebben az esetben a finally ág nem fog végrehajtódni, mivel a programot leállítottuk, így a JVM is feltakarít maga után, és az utána lévő kód ignorálva lesz. A finally ág csak akkor nem fut le, ha ezt expliciten megtiltjuk neki, vagy a JVM crashel, vagy épp ez, amikor leállítjuk a programot, vele együtt a JVM-et is. Ezt viszont orvosolhatnánk azzal, ha a System.exit() dobna egy SecurityExceptiont, akkor a finally ág is végrehajtódna, mielőtt leáll a program.
         </para>
     </section>
 </chapter>

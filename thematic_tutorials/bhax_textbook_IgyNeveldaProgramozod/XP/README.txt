@@ -6,4 +6,6 @@ benne lévő tartalmat. (Ez leellenőrizhető a szerkesztési előzményekben).
 Az Íriszes XP-s feladathoz beküldtem egy eljárásorientált programot (Reader.java), mely 50XP-t ért.
 Mellette elkezdtem átírni OOP-be, de még nincs kész, így az nem számít plusz pontnak.
 
-Így összesen eddig 308XP-m van
+Így összesen eddig 308XP-m van. 
+Ebből 150XP-t felhasználnék a jegynövelőre, illetve ugyanennyit felhasznélnék a Lauda fejeztből egy feladat skipelésére. 
+A fennmaradó XP-ket jótékony célokra szertném felajánlani!

@@ -13,7 +13,180 @@
             <link xlink:href="https://progpater.blog.hu/2016/11/13/hello_samu_a_tensorflow-bol">Tensorflow</link> Háttérként ezt vetítsük le:
             <link xlink:href="https://prezi.com/0u8ncvvoabcr/no-programming-programming/">Prezi</link>"
         </para>
-        
+        <para>
+            Feladat forrása: <link xlink:href="src/Calvin/mnist.py">mnist.py</link>
+        </para>
+        <para>
+            És végül elérkeztünk a könyv utolsó fejezetéhez…. Ez már érezhetően nehezebb témát dolgoz fel, illetőleg nincs is benne a tantárgyi követelményben az, amit itt számonkérnek… Esetleg az lehetett a célja a Tanár Úrnak ezzel a résszel, hogy kinyissa azokat a bizonyos kapukat a hallgató előtt, és érdeklődni kezdjen a mesterséges intelligencia iránt. Nos, nálam az ellenkezőjét sikerült elérnie. Egyrészt nagyon nehéz a téma, nagyon sok utánajárást igényel, valamint az alapvető tudással sem rendelkezek még, hogy ilyen komplex dolgokat megértsek és leprogramozzak. Szerencsére Bátfai Tanár Úr adott egy kis segítséget a progpater oldalán, illetve a Tensorflow tutoriáljait felhasználva valahogy sikerült abszolválni a feladatokat.
+        </para>
+        <para>
+            Az első feladatunk az volt, hogy a tensorflowos MNIST példát alakítsuk át úgy, hogy a saját kézzel írt számjegyeket is ismerje fel. Mi is az az MNIST? Az MNIST egy adatbázis, ami olyan számjegyekről tartalmaz képeket, amik kézzel íródtak, ezt pedig fel tudjuk használni a programunk betanítására, aminek szintén az lesz a feladata, hogy számokat ismerjen fel. Tulajdonképpen egy neurális hálót hozunk létre, amit a megadott adatbázis segítségével betanítunk számok felismerésére. 
+        </para>
+        <para>
+            Nagyvonalakban egy neurális háló több bemeneti rétegből, több rejtett rétegből és egy kimeneti rétegből épül fel. A bemeneti rétegen keresztül adjuk be neki a felismerni kívánt képet. Minden pixelhez egy-egy bemeneti rétegbeli neuront rendelünk. Ez a réteg valamilyen formájúra alakítja át a képet, majd tovább küldi a rejtett rétegeknek. Itt történik a varázslat, ami alapján előállítja a kimenetet, amit a kimeneti rétegre küld tovább. A különböző bemenetek különböző súlyokkal rendelkeznek, ezek befolyásolják a kimenetet. A hálót be kell tanítanunk, hogy viszonylag magas pontossággal jó eredményt adjon ki végül. Ehhez hatalmas adatbázisra van szükségünk, és még több időre.
+        </para>
+        <para>
+            Ehhez a feladathoz szükségünk lesz néhány előkészületre. Ha Linux alól dolgozunk, akkor érdemes kiadni az alábbi parancsokat:
+        </para>
+        <para>
+            <programlisting language="java"><![CDATA[
+$ sudo apt update
+$ sudo apt install python3-dev python3-pip
+$ sudo apt-get install python3-matplotlib
+$ sudo pip3 tensorflow]]></programlisting>
+        </para>
+        <para>
+            Ezután pedig lássuk a példaprogramot:
+        </para>
+        <para>
+            <programlisting language="python"><![CDATA[
+# Copyright 2015 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+
+# Norbert Batfai, 27 Nov 2016
+# Some modifications and additions to the original code:
+# https://github.com/tensorflow/tensorflow/blob/r0.11/tensorflow/examples/tutorials/mnist/mnist_softmax.py
+# See also http://progpater.blog.hu/2016/11/13/hello_samu_a_tensorflow-bol
+# ==============================================================================
+
+"""A very simple MNIST classifier.
+
+See extensive documentation at
+http://tensorflow.org/tutorials/mnist/beginners/index.md
+"""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import argparse
+
+# Import data
+from tensorflow.examples.tutorials.mnist import input_data
+
+import tensorflow as tf
+
+import matplotlib.pyplot
+
+
+FLAGS = None
+
+
+def readimg():
+    file = tf.read_file("sajat.png")
+    img = tf.image.decode_png(file, 1)
+    return img
+
+def main(_):
+  mnist = input_data.read_data_sets(FLAGS.data_dir, one_hot=True)
+
+  # Create the model
+  x = tf.placeholder(tf.float32, [None, 784])
+  W = tf.Variable(tf.zeros([784, 10]))
+  b = tf.Variable(tf.zeros([10]))
+  y = tf.matmul(x, W) + b
+
+  # Define loss and optimizer
+  y_ = tf.placeholder(tf.float32, [None, 10])
+
+  # The raw formulation of cross-entropy,
+  #
+  #   tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(tf.nn.softmax(y)),
+  #                                 reduction_indices=[1]))
+  #
+  # can be numerically unstable.
+  #
+  # So here we use tf.nn.softmax_cross_entropy_with_logits on the raw
+  # outputs of 'y', and then average across the batch.
+  cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y, y_))
+  train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+
+  sess = tf.InteractiveSession()
+  # Train
+  tf.initialize_all_variables().run()
+  print("-- A halozat tanitasa")  
+  for i in range(1000):
+    batch_xs, batch_ys = mnist.train.next_batch(100)
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    if i % 100 == 0:
+      print(i/10, "%")
+  print("----------------------------------------------------------")
+
+  # Test trained model
+  print("-- A halozat tesztelese")  
+  correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+  accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))  
+  print("-- Pontossag: ", sess.run(accuracy, feed_dict={x: mnist.test.images,
+                                      y_: mnist.test.labels}))
+  print("----------------------------------------------------------")
+  
+  print("-- A MNIST 42. tesztkepenek felismerese, mutatom a szamot, a tovabblepeshez csukd be az ablakat")
+  
+  img = mnist.test.images[42]
+  image = img
+
+  matplotlib.pyplot.imshow(image.reshape(28, 28), cmap=matplotlib.pyplot.cm.binary)
+  matplotlib.pyplot.savefig("4.png")  
+  matplotlib.pyplot.show()
+
+  classification = sess.run(tf.argmax(y, 1), feed_dict={x: [image]})
+
+  print("-- Ezt a halozat ennek ismeri fel: ", classification[0])
+  print("----------------------------------------------------------")
+
+  print("-- A sajat kezi 4-esem felismerese, mutatom a szamot, a tovabblepeshez csukd be az ablakat")
+
+  img = readimg()
+  image = img.eval()
+  image = image.reshape(28*28)
+
+  matplotlib.pyplot.imshow(image.reshape(28, 28), cmap=matplotlib.pyplot.cm.binary)
+  matplotlib.pyplot.savefig("8.png")  
+  matplotlib.pyplot.show()
+
+  classification = sess.run(tf.argmax(y, 1), feed_dict={x: [image]})
+
+  print("-- Ezt a halozat ennek ismeri fel: ", classification[0])
+  print("----------------------------------------------------------")
+
+if __name__ == '__main__':
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--data_dir', type=str, default='/tmp/tensorflow/mnist/input_data',
+                      help='Directory for storing input data')
+  FLAGS = parser.parse_args()
+  tf.app.run()]]></programlisting>
+        </para>
+        <para>
+            Az eredeti kódot ki kellett egészíteni a readimg() metódussal, amiben beolvassuk a fájlt, valamint a decode-dal pedig 1 csatornás színskálára (szürkeskálára) alakítjuk azt. Erre azért van szükség, mert a neurális háló így könnyebben tud dolgozni a képpel. Ezután veszi kezdetét a háló betanítása. Itt található néhány változó (az x egy placeholder, a w tartalmazza a súlyokat, a b pedig eltolási értéket, az y pedig az x és w szorzata, amihez hozzá van adva a b.) Ezeket arra használjuk, hogy gradient algoritmusban való felhasználásával a veszteséget optimalizáljuk. Ezután jön a tényleges tanítás, amit 1000 iterációval végzünk. Láthatóak a W_0 súlyok is, amik meghatározzák, hogy az adott kép mekkora eséllyel ábrázol 0-t. 
+        </para>
+        <para>
+            Ezután teszteljük a programot, először a Tensorflow stock adatbázisából a 42-es képet (ez egy négyest ábrázol) ismertetjük fel vele, majd egy saját kézzel rajzoltat. Ez egy picit trükkös volt, mert valami miatt a papírra kézzel írt, majd beszkennelt számot nem volt hajlandó felismerni, illetve paintben is sokáig kellett küszködni, míg kellő vastagsággal tudtam megfelelő számot rajzolni. Innen is látszik, hogy ez egy nagyon kezdetleges program. Alább látható a kimenet, illetve a szám.
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Calvin/mnist1.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Calvin/sajat.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>
     </section>
 
     <section>
@@ -23,7 +196,74 @@
         <para>Mint az előző, de a mély változattal. Segítő ábra, vesd össze a forráskóddal a
             <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/NEMESPOR/DE/denbatfai2.pdf">DEEP MNIST</link> 8. fóliáját!
         </para>
-        
+        <para>
+            Feladat forrása: <link xlink:href="src/Calvin/deepAF.py">deepAF.py</link>
+        </para>
+        <para>
+            Feladatunk ugyanaz volt, mint az előzőben, viszont itt a deep MNSIT-es példát kellett feldolgozni. Ez annyiban tér el az előzőtől, hogy itt több köztes rétegen megy keresztül az adat, ami mégnagyobb (akár 99%) pontossággal határozza meg a képen szereplő számot. Itt van Bátfai Tanár Úr segítő ábrája:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Calvin/abra.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            Először is ugyanúgy bele kellett tenni, hogy a saját képünket is be tudja olvasni, itt még sok különbség nincs a két kód között.
+        </para>
+        <para>
+            <programlisting language="python"><![CDATA[
+def readimg():
+file = tf.read_file("sajat.png")
+img = tf.image.decode_png(file, 1)
+return img
+
+img = readimg()
+image = img.eval()
+image = image.reshape(28*28)
+matplotlib.pyplot.imshow(image.reshape(28, 28), cmap=matplotlib.pyplot.cm.binary)
+matplotlib.pyplot.savefig("sajat4.png")
+matplotlib.pyplot.show()
+classification = sess.run(tf.argmax(y_conv, 1), feed_dict={x: [image], keep_prob: 1.0})]]></programlisting>
+        </para>
+        <para>
+            Mivel ez deep eljárás, így a modellünk is máshogy épül fel (bonyolultabb). Ezúttal több súlyra és biasra van szükségünk. A bias azt adja meg, hogy a megkapott értékünk mennyivel tér el a várt értéktől. A weight_variable és bias_variable fügvényekkel fogjuk ezeket feltölteni ezekkel a tensorokat.
+        </para>
+        <para>
+            <programlisting language="python"><![CDATA[
+def weight_variable(shape):
+"""weight_variable generates a weight variable of a given shape."""
+initial = tf.truncated_normal(shape, stddev=0.1)
+return tf.Variable(initial)
+
+def bias_variable(shape):
+"""bias_variable generates a bias variable of a given shape."""
+initial = tf.constant(0.1, shape=shape)
+return tf.Variable(initial)]]></programlisting>
+        </para>
+        <para>
+            Ezúttal a betanítási időt is meg kellett hosszabbítani, ezúttal 20000 iterációban végezzük el. Ez persze azt is maga után vonzza, hogy meghosszabbodik a futási idő is. Ebben persze közrejátszik az is, hogy az előző feladatban látottnál sokkal bonyolultabb a háló felépítése, többször kell a kalkulált adatot megszűrni, így nyilván a futási idő is kitolódik. A notebookomat közel egy órán keresztül izzasztotta, ami egy jobb benchmarkkal is felérne…
+        </para>
+        <para>
+            <programlisting language="python"><![CDATA[
+for i in range(20000):
+batch = mnist.train.next_batch(50)
+if i % 100 == 0:
+train_accuracy = accuracy.eval(feed_dict = {x: batch[0], y_: batch[1], keep_prob: 1.0})
+print(’step %d, training accuracy %g’ % (i, train_accuracy))
+train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})]]></programlisting>
+        </para>
+        <para>
+            Alább látható a kimenete:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="img/Calvin/mnist2.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>
     </section>
 
     <section>
