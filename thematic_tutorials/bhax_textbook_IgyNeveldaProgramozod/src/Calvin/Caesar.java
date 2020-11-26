@@ -11,7 +11,14 @@ public class Caesar {
 		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true))) {
 			for(char c : input.toCharArray()) {
-				writer.write((char) ((c + shift) % 128)); //a shift-el eltoljuk a karaktert, és modulózzuk, hogy körbe menjen
+				if (Character.isUpperCase(c))
+					writer.write((char) ((c + shift - 65) % 26 + 65)); //a shift-el eltoljuk a karaktert, és modulózzuk, hogy körbe menjen
+				else if (Character.isLowerCase(c))
+                    writer.write((char) ((c + shift - 97) % 26 + 97));
+                else if (Character.isDigit(c))
+                    writer.write((char) ((c + shift - 48) % 10 + 48));
+				else
+					writer.write(c);
 			}
 			writer.write("\n");
 			

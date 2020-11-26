@@ -2,68 +2,68 @@ import java.util.Arrays;
 
 public class IntegerStorage {
 	
-	private int[] s;
+	private int[] storage;
 	private int index = 0;
 	private int size;
 	private boolean sorted = true;
 	
 	public IntegerStorage(int size) {
 		this.size = size;
-		this.s = new int[size];
+		this.storage = new int[size];
 	}
 	
 	public IntegerStorage(int[] s) {
 		this.size = s.length;
 		this.index = this.size;
-		this.s = s;
+		this.storage = s;
 		this.sorted = false;
 	}
 	
-	public boolean binary(int number) {
+	public boolean search(int number) {
 		
 		if (!sorted)
-			bubble();
+			sort();
 		
-		int l = 0;
-		int r = size - 1;
+		int left = 0;
+		int right = size - 1;
 		
-		while (l <= r) {
-			int mid = l + (r - l) / 2;
-			if (s[mid] == number)
+		while (left <= right) {
+			int mid = left + (right - left) / 2;
+			if (storage[mid] == number)
 				return true;
-			if (s[mid] > number)
-				r = mid -1;
+			if (storage[mid] > number)
+				right = mid -1;
 			else
-				l = mid + 1;
+				left = mid + 1;
 		}
 		
 		return false;
 	}
 	
-	public int[] bubble() {
+	public int[] sort() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 1; j < (size - i); j++) {
-				if (s[j-1] > s[j]) {
-					int t = s[j-1];
-					s[j-1] = s[j];
-					s[j] = t;
+				if (storage[j-1] > storage[j]) {
+					int t = storage[j-1];
+					storage[j-1] = storage[j];
+					storage[j] = t;
 				}
 			}
 		}
 		sorted = true;
 		
-		return s;
+		return storage;
 	}
 
 public void add(int number) {
-s[index++] = number;
+storage[index++] = number;
 sorted = false;
 	}
 
 
 	@Override
 	public String toString() {
-		return "IntegerStorage [s=" + Arrays.toString(s) + ", index=" + index + ", size=" + size + ", sorted=" + sorted
+		return "IntegerStorage [s=" + Arrays.toString(storage) + ", index=" + index + ", size=" + size + ", sorted=" + sorted
 				+ "]";
 	}
 
@@ -72,7 +72,7 @@ sorted = false;
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + index;
-		result = prime * result + Arrays.hashCode(s);
+		result = prime * result + Arrays.hashCode(storage);
 		result = prime * result + size;
 		result = prime * result + (sorted ? 1231 : 1237);
 		return result;
@@ -89,7 +89,7 @@ sorted = false;
 		IntegerStorage other = (IntegerStorage) obj;
 		if (index != other.index)
 			return false;
-		if (!Arrays.equals(s, other.s))
+		if (!Arrays.equals(storage, other.storage))
 			return false;
 		if (size != other.size)
 			return false;

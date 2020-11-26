@@ -115,8 +115,7 @@ Program program;
         </para>
         <para>
             Lényegében elég hasonló a Java kódhoz. Két publikus osztályt hozunk létre, egy Madar és egy Program nevűt. Előbbiben létrehoztunk egy virtuális függvényt, mely „repültetné” a madarat, utóbbiban pedig ezt a függvényt felhasználva létrehoztunk egy eljárást erre, amit a mainben is használni fogunk. Ezután létrehozunk két alosztályt a Madar osztályból, egy Sast és egy Pingvint. A lényeg az, hogy a sas tud repülni, de a pingvinek röpképtelen madarak. Ez azért baj, mert így ugyan a program lefut, miután a repülés metódust meghívtuk a pingvinre, de ez a való életben nem történhet meg, így ugyancsak megszegtük a Liskov elvet.
-        </para>
-        
+        </para>     
     </section>
 
     <section>
@@ -129,59 +128,95 @@ Program program;
             Lásd fóliák! <link xlink:href="https://arato.inf.unideb.hu/batfai.norbert/PROG2/Prog2_1.pdf">98. fólia</link>
         </para>
         <para>
+            Feladat forrásai: <link xlink:href="src/Liskov/Family.java">Family.java</link>, <link xlink:href="src/Liskov/Family.cpp">Family.cpp</link>
+        </para>
+        <para>
             Az öröklődés lényege, hogy egy gyermek örökli a szülő attribútumait és metódusait, ha azok nem private láthatóságúak. Viszont a szülő nem fér hozzá a gyermek metódusaihoz és tulajdonságaihoz. Ahhoz csak maga a gyerek, illetve a gyermek alosztályai férnek hozzá (láthatóságtól függően persze). Ez a feladat ennek a bizonyítását szolgálja.
         </para>
         <para>
             <programlisting language="java"><![CDATA[
-public class Szulo_gyerek {
-	
-	class Szulo {
-		
-	}
-	
-	class Gyerek extends Szulo {
-		public void viselkedes() {
-			System.out.println("Vajon ki ér el engem?");
-		}
-	}
+class Szulo{
 
-	public static void main(String[] args) {
-		Szulo_gyerek szgy = new Szulo_gyerek();
-		Szulo szulo = szgy.new Szulo_gyerek();
-		Gyerek gyerek = szgy.new Szulo_gyerek();
-		
-		gyerek.viselkedes();  		 	//Lefut
-		szulo.viselkedes();				//nem fut le
-		
+    void message() {
+        System.out.println("Szülő üzenete.");
+    }
+}
 
-	}
+class Gyerek extends Szulo{
 
-}]]></programlisting>
+    void message2() {
+        System.out.println("Gyerek üzenete");
+    }
+}
+
+class Family{
+    public static void main(String[] args) {
+
+        Szulo szulo = new Szulo();
+        Szulo gyerek = new Gyerek();
+
+        szulo.message();    //Lefut
+        gyerek.message2();  //Nem fut le
+
+    }
+}
+]]></programlisting>
         </para>
         <para>
-            Elég egyszerű kód, létrehoztunk egy Szulo osztályt, valamint annak a gyermekét, a Gyereket. Utóbbiban írtunk egy metódust, ami a konzolra kiír egy szöveget. Ezután a mainen belül történik a példányosítás. Először az szgy objektumot példányosítjuk, ezzel tudatjuk, hogy mindkét osztály a Szulo_gyerek osztályon belül található. Ennek a segítségével példányosítjuk ezután a szulo és gyerek objektumokat. Ha csak a gyerek objektumra hívjuk meg a viselkedes() metódust, akkor probléma nélkül lefut a program, de ha a szulo-re szeretnénk, akkor hibát írna ki, hiszen a szülő nem fér hozzá a gyermek metódusaihoz.
+            Létrehotunk egy Szulo osztályt, aminek van egy message nevű metódusa. Ezután létrehozunk egy gyerek osztályt, ami a Szulo-ből származik. Ennek van egy message2 nevű metódusa. Ezután a Family osztályon belül készítettem egy main metódust, amiben megtörténik a példányosítás. 
+            Az figyelhető meg ezután, hogy a szulo gond nélkül hozzáfér a message metódushoz, viszont a gyerek nem fér hozzá a message2-höz, hiszen a Szulo osztályon keresztül példányosítottuk, és a Szulo osztálynak ez a metódus nincs a hatókörében. Ha a Gyereken keresztül hoznánk létre az objektumot, akkor persze minden további probléma nélkül hozzáférne a message2 metódushoz.
         </para>
         <para>
             Mivel a C++-os változat működése megegyezik a Java-s változattal, és mivel a szintaktikai különbségekről már írtam az előző fejezetekben, így csak bemásolnám az osztálydefiníciót:
         </para>
         <para>
             <programlisting language="c++"><![CDATA[
-class Szulo {};
+#include <iostream>
+#include <string>
 
-class Gyerek : public Szulo {
-    public:
-        void viselkedes() {
-            std::cout << "Vajon ki lát engem?" << std::endl;
+
+class Szulo
+{
+	public:
+        void message()
+        {
+            std::cout << "Uzenet" << std::endl;
         }
 };
 
-int main(int argc, char **argv)
+class Gyerek : public Szulo
 {
-    viselkedes(szulo);
-    viselkedes(gyerek);
-}]]></programlisting>
+	public:
+        void message2()
+        {
+            std::cout << "Gyerek uzenet" << std::endl;
+        }
+};
+
+
+int main()
+{
+	Szulo* szulo = new Szulo();
+	Szulo* gyerek = new Gyerek();
+
+    szulo->message();   //Lefut
+	gyerek->message2(); //Nem fut le
+	delete szulo;
+	delete gyerek;
+
+}
+]]></programlisting>
         </para>
-        
+        <para>
+            Egyébként erre már a fordítás során is felhívja a figyelmünket a fordító:
+        </para>
+        <para>
+            <mediaobject>
+                <imageobject>
+                        <imagedata fileref="/img/Liskov/szulo.png" scale="70"/>
+                </imageobject>
+            </mediaobject>
+        </para>
     </section> 
 
     <section>
@@ -251,7 +286,7 @@ int main(int argc, char **argv)
             Szóval mire való egy interface, illetve mit jelent az az abstract kulcsszó az osztály előtt?
         </para>
         <para>
-            Lényegében mindkettő arra való, hogy sima osztályokat készítsünk a segítségükkel. Az absztrakt osztályok és az interfészek sem példányosíthatóak. Absztrakt osztályokat akkor használunk, ha bizonyos metódusoknak csak a specifikációját szeretnénk megadni, az implementációját nem. Az absztrakt osztályok segítenek megszervezni egy osztályt, hogy annak milyen metódusai, attribútumai legyenek. Az interfészek hasonló célt szolgálnak, csak egy picit másként. Egy interfészben csak absztrakt (implementáció nélküli) metódusok vannak, az abstract kulcsszó nem is kell eléjük. Az interfészeket egy sima osztály implementálni tud, ilyenkor pedig az össze metódust, amit az interfész magába foglal felül kell definiálni az osztályban. 
+            Lényegében mindkettő arra való, hogy sima osztályokat készítsünk a segítségükkel. Az absztrakt osztályok és az interfészek sem példányosíthatóak. Absztrakt osztályokat akkor használunk, ha bizonyos metódusoknak csak a specifikációját szeretnénk megadni, az implementációját nem. Az absztrakt osztályok segítenek megszervezni egy osztályt, hogy annak milyen metódusai, attribútumai legyenek. Az interfészek hasonló célt szolgálnak, csak egy picit másként. Egy interfészben csak absztrakt (implementáció nélküli), default és statikus metódusok vannak, az abstract kulcsszó nem is kell az abstract metódusok elé. Az interfészeket egy sima osztály implementálni tud, ilyenkor pedig az össze metódust, amit az interfész magába foglal felül kell definiálni az osztályban. 
         </para>
         <para>
             Egy szóval mindkét módszer technikailag ugyanazt a célt szolgálja, csak kicsit másként. Absztrakt osztályt akkor érdemes használni, ha nem csak absztrakt metódusokat szeretnénk használni benne, esetleg definiálnánk néhány változót, melyet egy metódus használna. Egy absztrakt osztály tartalmazhat absztrakt és normál metódusokat is, míg egy interfész csak absztraktat. Ha csak általánosságban szeretnénk megalkotni egy osztályt, kvázi egy blueprintet készíteni, akkor interfészt használjunk. Ilyenkor olyan metódusokra kell gondolni, amiket minden osztálynál más implementációval rendelkeznek majd. Egy kicsit nehéz általánosságban beszélni ezekről, így inkább nézzük a példámat.

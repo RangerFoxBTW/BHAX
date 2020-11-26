@@ -1,6 +1,6 @@
 public class Polargen {
     
-    boolean notStored = true;
+    boolean notStored;
     double stored;
     
     public Polargen() {
@@ -28,12 +28,12 @@ public class Polargen {
             double r = Math.sqrt((-2*Math.log(w))/w);
             
             stored = r*v2;
-            notStored = !notStored;
+            notStored = false;
             
             return r*v1;
             
         } else {
-            notStored = !notStored;
+            notStored = false;
             return stored;
         }
     }

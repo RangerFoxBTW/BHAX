@@ -8,10 +8,10 @@ public class Main {
 		store.add(3);
 		store.add(1);
 		
-		store.bubble();
+		store.sort();
 		System.out.println(store);
-		System.out.println(store.binary(2));
-		System.out.println(store.binary(7));
+		System.out.println(store.search(2));
+		System.out.println(store.search(7));
 	}
 
 }

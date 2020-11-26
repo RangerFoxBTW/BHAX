@@ -45,7 +45,7 @@ az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
         </para>
         <para>
             Az OOP alapelvei közé tartozik, hogy a felhasználó csak annyi adathoz férjen hozzá, amennyihez feltétlen szükséges. Veszélyes lenne, ha mindenkinek látható és módosítható (!) 
-            lenne minden adat. Alapvetően 3 féle láthatóság létezik: public, private és protected. A Public egyértelmű, mindenki számára látható. A Private csak az osztályon belül látható, a 
+            lenne minden adat. Alapvetően 4 féle láthatóság létezik Java-ban: public, private, protected, illetve a csomagszintű láthatóság. A Public egyértelmű, mindenki számára látható. A Private csak az osztályon belül látható, a 
             származtatott osztályok számára nem látható és nem is módosítható. A Protected majdnem ugyanaz, mint a Private annyi különbséggel, hogy itt már a leszármazott osztályok is 
             hozzáférnek az adatokhoz. C++ban alapértelmezetten minden private. 
         </para>
@@ -116,13 +116,13 @@ double PolarGen::kovetkezo()
         } while (w > 1);
         double r = std::sqrt ((-2 * std::log (w)) / w);
         tarolt = r * v2;
-        nincsTarolt = !nincsTarolt;
+        nincsTarolt = false;
 
         return r * v1;
     }
     else
     {
-         nincsTarolt = !nincsTarolt;
+         nincsTarolt = false;
 
          return tarolt;
     }
@@ -164,7 +164,7 @@ int main(int argc, char **argv)
 <programlisting language="java"><![CDATA[
 public class Polargen {
     
-    boolean notStored = true;
+    boolean notStored;
     double stored;
     
     public Polargen() {
@@ -192,12 +192,12 @@ public class Polargen {
             double r = Math.sqrt((-2*Math.log(w))/w);
             
             stored = r*v2;
-            notStored = !notStored;
+            notStored = false;
             
             return r*v1;
             
         } else {
-            notStored = !notStored;
+            notStored = false;
             return stored;
         }
     }
@@ -380,7 +380,7 @@ public String toString() {
         hashCode():
     </para>
     <para>
-        Minden objektumnak a JVM egy egyedi számot generál. Ez a hash kód. Ezt egy hashelő algoritmus segítségével teszi meg. Azért célszerű az objektumokat valamilyen hash adatszerkezetben (HashSet, HashMap, HashTable) eltárolni, mert sokkal könnyebben lehet visszakeresni őket. Felül kell írni minden egyes objektumhoz a hashCode() metódust, hiszen minden  objektumhoz egyedi számot rendelünk. Illetve ha az equals() metódust is felüldefiniáltuk, hiszen az egyenlő értékű objektumoknak azonos hashcode-ot kell tartalmazniuk. 
+        Minden objektumnak a JVM egy egyedi számot generál. Ez a hash kód. Ezt egy hashelő algoritmus segítségével teszi meg. Akkor célszerű felüldefiniálni, ha az equals() metódust is felüldefiniáltuk, hiszen az egyenlő értékű objektumoknak azonos hashcode-ot kell tartalmazniuk. 
     </para>
     <para>
         equals(Object obj):
@@ -398,13 +398,13 @@ public String toString() {
         finalize():
     </para>
     <para>
-        Ez a metódus egyszer hívódik meg egy adott objektumra, mielőtt a GC eltakarítja. A Garbage Collector hívja meg, amikor eldönti egy adott objektumról, hogy van-e rá hivatkozó referencia. Felüldefiniálhatjuk, hogy rendszer erőforrásokat szabadítsunk fel vele, illetve csökkentsük a memóriaszivárgás esélyét. 
+        Ez a metódus egyszer hívódik meg egy adott objektumra, mielőtt a GC eltakarítja. A Garbage Collector hívja meg, amikor eldönti egy adott objektumról, hogy van-e rá hivatkozó referencia. A metódus célja az, hogy felszabadítson olyan objektumok által használt erőforrásokat, amik még nem lettek eltávolítva a memóriából. Viszont a finalize() használata ellen számos érv hozható fel. Először is nem tudjuk, hogy a finalizer pontosan mikor fut le, hiszen a garbage collection bármikor bekövetkezhet. Ez alapból nem lenne gond, hisz előbb-utóbb le fog futni, viszont előfordulhat, hogy gyorsabban fogyunk ki az erőforrásokból, mint mielőtt a takarítás megtörténne, amitől a program padlót fogna. Továbbá a finalizer befolyásolja a program hordozhatóságát. Mivel a GC algoritmus JVM implementáció független, így előfordulhat, hogy a program egy adott rendszeren gond nélkül funkcionál, míg egy másikon anomáliákat okozhat. Egy másik hátulütője a finalizernek a teljesítmény. A JVM-nek több műveletet kell végrehajtania, vagyis több erőforrásra van szüksége olyan objektumok létrehozásakor/törlésekor, amik nem üres finalizert tartalmaznak. Végül pedig - talán a legnagyobb probléma - a kivételkezelés hiánya. Ha a finalizer kivételt dob, akkor a finalize folyamat nem fog végbemenni, vagyis az adott objektum sérült állapotban fog maradni, és minderről nem kapunk semmiféle értesítést. Pont ezen hibák miatta a Java 9 óta ez a metódus deprecated, így ellenjavallott a használata. Egyébként a metódus használata elkerülhető, vagy expliciten megmondjuk, hogy takarítsa el a már nem használt erőforrásokat a dispose() vagy close() metódusok meghívásával, vagy egy ennél szofisztikáltabb megoldás lehet az AutoClosable osztály implementálása, illetve a try-with-resources használata.
     </para>
     <para>
          clone():
     </para>
     <para>
-        Egy olyan új objektummal tér vissza, amely teljesen megegyezik azzal az objektummal, amelyet a zárójelek közé írtunk. Nem definiálhatjuk felül.
+        Ez a metódus egy másolatot készít az adott objektumról. Két fajta klónozás létezik: Shallow Copy, illetve Deep Copy. Az előbbi (sekély másolás) kevesebb erőforrásigényű, hiszen csak az objektum (pl. egy Map) struktúráját másolja le, az eredeti objektumban szereplő elemeket nem másolja át, csak refernciával hivatkozik az eredetiekre. A Deep Copy viszont minden elemről másolatot készít. Ahhoz, hogy mélymásolást hajtsunk végre, felül kell definiálnunk a clone() metódust. Továbbá, mivel alapból protected az Object osztályon belül, így mindenképpen felül kell definiálnunk ahhoz, hogy láthatóvá tegyük a külvilág számára. Ha az adott osztály nem implementálja a Cloneable interfacet, és úgy szeretnénk használni a metódust, akkor egy CloneNotSupportedEceptiont dobna. Amely osztályok viszont implementálják ezt, azokban felül kell definiálni, hogy látható legyen.
     </para>
     <para>
         wait(): 
