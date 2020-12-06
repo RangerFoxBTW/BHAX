@@ -228,7 +228,7 @@ matplotlib.pyplot.show()
 classification = sess.run(tf.argmax(y_conv, 1), feed_dict={x: [image], keep_prob: 1.0})]]></programlisting>
         </para>
         <para>
-            Mivel ez deep eljárás, így a modellünk is máshogy épül fel (bonyolultabb). Ezúttal több súlyra és biasra van szükségünk. A bias azt adja meg, hogy a megkapott értékünk mennyivel tér el a várt értéktől. A weight_variable és bias_variable fügvényekkel fogjuk ezeket feltölteni ezekkel a tensorokat.
+            Mivel ez deep eljárás, így a modellünk is máshogy épül fel (bonyolultabb). Ezúttal több súlyra és biasra van szükségünk. A bias egy speciális súly, amely a perceptron decision boundary-ját mozgatja ki az origóból. A weight_variable és bias_variable fügvényekkel fogjuk ezeket feltölteni ezekkel a tensorokat.
         </para>
         <para>
             <programlisting language="python"><![CDATA[
