@@ -8,4 +8,4 @@ Mellette elkezdtem átírni OOP-be, de még nincs kész, így az nem számít pl
 
 Így összesen eddig 308XP-m van. 
 Ebből 150XP-t felhasználnék a jegynövelőre, illetve ugyanennyit felhasznélnék a Lauda fejeztből egy feladat skipelésére. 
-A fennmaradó XP-ket jótékony célokra szertném felajánlani!
+A fennmaradó XP-ket jótékony célokra szertném felajánlani! 
