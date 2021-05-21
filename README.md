@@ -1,2 +1,2 @@
-# Open the pdf in BHAX/thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/
+# Open the pdf in thematic_tutorials/bhax_textbook_IgyNeveldaProgramozod/
 
